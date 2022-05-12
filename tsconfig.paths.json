@@ -2,13 +2,14 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "@assets/*": ["./assets/*"],
-      "@components/*": ["./components/*"],
-      "@elements/*": ["./elements/*"],
-      "@pages/*": ["./pages/*"],
-      "@redux/*": ["./redux/*"],
-      "@shared/*": ["./shared/*"],
-      "@types/*": ["./types/*"]
+      "@elements": ["elements"],
+      
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"],
+      "@redux/*": ["redux/*"],
+      "@shared/*": ["shared/*"],
+      "@types/*": ["types/*"]
     }
   }
 }

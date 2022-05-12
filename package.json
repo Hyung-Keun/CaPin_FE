@@ -8,11 +8,6 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.1",
-    "@types/node": "^16.7.13",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "@types/react-router-dom": "^5.3.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.1",
@@ -25,8 +20,12 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "env-cmd -f .env.${REACT_APP_ENV} craco start",
+    "start:dev": "REACT_APP_ENV=development yarn start",
+    "start:prod": "REACT_APP_ENV=production yarn start",
+    "build": "env-cmd -f .env.${REACT_APP_ENV} craco build",
+    "build:dev": "REACT_APP_ENV=development yarn build",
+    "build:prod": "REACT_APP_ENV=production yarn build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
@@ -50,10 +49,16 @@
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^3.2.0",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.13",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@types/react-router-dom": "^5.3.3",
     "@types/react-redux": "^7.1.24",
     "@types/redux-logger": "^3.0.9",
     "@types/styled-components": "^5.1.25",
     "craco-alias": "^3.0.1",
+    "env-cmd": "^10.1.0",
     "prettier": "^2.6.2"
   }
 }
