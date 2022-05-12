@@ -1,0 +1,23 @@
+{
+  "singleQuote": false,
+  "semi": true,
+  "useTabs": false,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "printWidth": 80,
+  "importOrder": [
+    "^react",
+    "^[a-zA-Z/-]+$",
+    "^@types/(.*)$",
+    "^@pages/(.*)$",
+    "^@elements/(.*)$",
+    "^@components/(.*)$",
+    "^@redux/(.*)$",
+    "^@shared/(.*)$",
+    "^@asset/(.*)$",
+    "^[./]",
+    ".*"
+  ],
+  "importOrderSeparation": true,
+  "importOrderCaseInsensitive": true
+}
