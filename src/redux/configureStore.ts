@@ -1,16 +1,10 @@
 import { createLogger } from "redux-logger";
 
-import { apiSlice } from "./api/apiSlice";
-import userSlice from "./modules/userSlice";
-
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 const loggerMiddleware = createLogger();
 
-const rootReducer = combineReducers({
-  user: userSlice,
-  [apiSlice.reducerPath]: apiSlice.reducer,
-});
+const rootReducer = combineReducers({});
 
 const initialState = {};
 
