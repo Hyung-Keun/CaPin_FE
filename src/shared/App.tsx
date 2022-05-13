@@ -5,6 +5,8 @@ import Login from "@pages/Auth/Login";
 import NotFound from "@pages/Error/NotFound";
 import Home from "@pages/Home";
 
+import OAuth from "./OAuth";
+
 const App = () => {
   return (
     <React.Fragment>
@@ -13,6 +15,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/notfound" element={<NotFound />} />
+          <Route path="/oauth" element={<OAuth />} />
           <Route path="*" element={<Navigate to="/notfound" replace />} />
         </Routes>
       </BrowserRouter>
