@@ -5,11 +5,13 @@ import Login from "@pages/Auth/Login";
 import NotFound from "@pages/Error/NotFound";
 import Home from "@pages/Home";
 
+import GlobalStyles from "./GlobalStyles";
 import OAuth from "./OAuth";
 
 const App = () => {
   return (
     <React.Fragment>
+      <GlobalStyles />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
