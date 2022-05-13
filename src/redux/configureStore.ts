@@ -1,6 +1,6 @@
 import { createLogger } from "redux-logger";
 
-import { apiSlice } from "./api/apiSlice";
+import { authApi } from "./api/authApi";
 import userSlice from "./modules/userSlice";
 
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
@@ -9,7 +9,7 @@ const loggerMiddleware = createLogger();
 
 const rootReducer = combineReducers({
   user: userSlice,
-  [apiSlice.reducerPath]: apiSlice.reducer,
+  [authApi.reducerPath]: authApi.reducer,
 });
 
 const initialState = {};
@@ -20,7 +20,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       immutableCheck: { ignoredPaths: ["some.nested.path"] },
       serializableCheck: { ignoredPaths: ["some.nested.path"] },
-    }).concat(apiSlice.middleware, loggerMiddleware),
+    }).concat(loggerMiddleware),
 
   devTools: process.env.NODE_ENV !== "production",
   preloadedState: initialState,

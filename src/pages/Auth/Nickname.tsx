@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 
-import { useAppDispatch } from "@redux/hooks";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import { setUser } from "@redux/modules/userSlice";
 
 export const NicknamePage = () => {
   const [nickname, setNickname] = useState<string>("");
-
+  const name = useAppSelector((state) => state.user.value);
   const dispatch = useAppDispatch();
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
+    console.log(name);
     setNickname(event.target.value);
   };
   const onClick = () => {
     console.log("서버에 닉네임보내기");
-    console.log(nickname);
+
     dispatch(setUser(nickname));
   };
+
   return (
     <React.Fragment>
       <h1>테스트페이지</h1>
