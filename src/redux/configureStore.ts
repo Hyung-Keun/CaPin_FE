@@ -5,7 +5,7 @@ import userSlice from "./modules/userSlice";
 
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
-const logger = createLogger();
+const loggerMiddleware = createLogger();
 
 const rootReducer = combineReducers({
   user: userSlice,
@@ -16,7 +16,12 @@ const initialState = {};
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: { ignoredPaths: ["some.nested.path"] },
+      serializableCheck: { ignoredPaths: ["some.nested.path"] },
+    }).concat(apiSlice.middleware, loggerMiddleware),
+
   devTools: process.env.NODE_ENV !== "production",
   preloadedState: initialState,
   enhancers: (defaultEnhancers) => [...defaultEnhancers],
