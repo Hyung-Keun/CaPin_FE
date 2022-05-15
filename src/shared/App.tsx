@@ -3,11 +3,11 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "@pages/Auth/Login";
 import { NicknamePage } from "@pages/Auth/Nickname";
+import OAuth from "@pages/Auth/OAuth";
 import NotFound from "@pages/Error/NotFound";
 import Home from "@pages/Home";
 
 import GlobalStyles from "./GlobalStyles";
-import OAuth from "./OAuth";
 
 const App = () => {
   return (

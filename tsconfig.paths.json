@@ -6,10 +6,12 @@
       
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
+      "@hooks/*": ["hooks/*"],
       "@pages/*": ["pages/*"],
       "@redux/*": ["redux/*"],
       "@shared/*": ["shared/*"],
-      "@types/*": ["types/*"]
+      "@type/*": ["@type/*"],
+      "@utils/*": ["utils/*"],
     }
   }
 }

@@ -9,6 +9,7 @@
     "^react",
     "^[a-zA-Z/-]+$",
     "^@types/(.*)$",
+    "^@type/(.*)$",
     "^@pages/(.*)$",
     "^@elements/(.*)$",
     "^@components/(.*)$",
