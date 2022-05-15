@@ -1,15 +1,15 @@
 import React from "react";
 
-import { KAKAO_AUTH_URL } from "@shared/const";
-
 import googleLogo from "@assets/logo/btn_google_signin_light_normal_web@2x.png";
 import kakaoLogo from "@assets/logo/kakao_login_medium_wide.png";
 import { Button, Text, Grid, Image } from "@elements";
+import { KAKAO_AUTH_URL } from "@utils/const";
 
 const Login = () => {
   const kauthClick = () => {
     window.location.href = KAKAO_AUTH_URL ?? "/";
   };
+
   return (
     <React.Fragment>
       <Grid
