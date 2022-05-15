@@ -1,14 +1,16 @@
 import { createLogger } from "redux-logger";
 
 import { authApi } from "./api/authApi";
-import userSlice from "./modules/userSlice";
+import authReducer from "./modules/authSlice";
+import userReducer from "./modules/userSlice";
 
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 const loggerMiddleware = createLogger();
 
 const rootReducer = combineReducers({
-  user: userSlice,
+  user: userReducer,
+  auth: authReducer,
   [authApi.reducerPath]: authApi.reducer,
 });
 
