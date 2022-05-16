@@ -3,7 +3,6 @@
     "baseUrl": "./src",
     "paths": {
       "@elements": ["elements"],
-      
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
@@ -11,7 +10,7 @@
       "@redux/*": ["redux/*"],
       "@shared/*": ["shared/*"],
       "@type/*": ["@type/*"],
-      "@utils/*": ["utils/*"],
+      "@utils/*": ["utils/*"]
     }
   }
 }

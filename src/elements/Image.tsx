@@ -8,6 +8,7 @@ interface IImage {
   size?: string;
   inlineStyles?: string;
   src?: string;
+  children?: React.ReactNode;
 }
 const Image = ({ src, shape, size, inlineStyles }: IImage) => {
   const styles: IImage = { src, size, inlineStyles };
@@ -57,7 +58,7 @@ const AspectInner = styled.div<IImage>`
 `;
 
 const ImageCircle = styled.div<IImage>`
-  --size: ${(props) => props.size}px;
+  --size: ${(props) => props.size};
   width: var(--size);
   height: var(--size);
   border-radius: var(--size);

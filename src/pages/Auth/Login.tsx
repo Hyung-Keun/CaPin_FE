@@ -12,22 +12,17 @@ const Login = () => {
 
   return (
     <React.Fragment>
-      <Grid
-        inlineStyles="
-        width: 375px;
-        height: 812px;
-        border: solid 10px blue;
-      "
-      >
+      <Grid>
         <Text
-          inlineStyles="position: absolute;
-width: 252px;
-height: 80px;
-font-weight: 400;
-left: 20px;
-margin: 129px 103px 603px 20px;
-font-size: 32px;
-line-height: 40px;"
+          inlineStyles="
+          position: absolute;
+          width: 252px;
+          height: 80px;
+          font-weight: 500;
+          left: 20px;
+          margin: 129px 103px 603px 20px;
+          font-size: 32px;
+          line-height: 40px;"
         >
           합리적인 위치에서 <b>모임</b>을 잡아보세요.
         </Text>

@@ -52,5 +52,14 @@ const Wrapper = styled.div<IGrid>`
   ${(props) => (props.alignItems ? `align-items: ${props.alignItems}` : "")};
   ${(props) => (props.direction ? `flex-direction: ${props.direction}` : "")};
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
+  position: relative;
+  max-width: 428px;
+  width: 100%;
+  min-height: 100vh;
+  margin: auto;
+  box-sizing: border-box;
+  border: 5px solid #000080;
+  border-radius: 20px;
 `;
+
 export default Grid;
