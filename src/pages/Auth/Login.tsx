@@ -18,7 +18,7 @@ const Login = () => {
           position: absolute;
           width: 252px;
           height: 80px;
-          font-weight: 400;
+          font-weight: 500;
           left: 20px;
           margin: 129px 103px 603px 20px;
           font-size: 32px;

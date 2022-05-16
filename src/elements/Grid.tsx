@@ -58,7 +58,6 @@ const Wrapper = styled.div<IGrid>`
   min-height: 100vh;
   margin: auto;
   box-sizing: border-box;
-  background: #cccccc;
   border: 5px solid #000080;
   border-radius: 20px;
 `;

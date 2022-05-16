@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { Text, Grid } from "./index";
 
-interface IInput {
+interface IInput<T> {
   inlineStyles?: string;
   type?: string;
   placeholder?: string;
@@ -12,12 +12,8 @@ interface IInput {
   label?: string;
   multiLine?: boolean;
   rows?: number;
-  onSubmit?: React.FormEventHandler<HTMLInputElement>;
-  onChange?: (
-    event?:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>,
-  ) => void;
+  onSubmit?: React.FormEventHandler<T>;
+  onChange?: React.ChangeEventHandler<T>;
 }
 
 const Input = ({
@@ -27,10 +23,9 @@ const Input = ({
   value,
   label,
   multiLine,
-
   onSubmit,
   onChange,
-}: IInput) => {
+}: IInput<HTMLTextAreaElement | HTMLInputElement>) => {
   if (multiLine) {
     return (
       <Grid>
@@ -48,7 +43,7 @@ const Input = ({
   return (
     <React.Fragment>
       <ElInput
-        inlineStyles=""
+        inlineStyles={inlineStyles}
         type={type}
         placeholder={placeholder}
         onChange={onChange}
@@ -58,18 +53,16 @@ const Input = ({
   );
 };
 
-const ElInput = styled.input<IInput>`
+const ElInput = styled.input<IInput<HTMLInputElement>>`
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
   border: 1px solid #212121;
-  width: 100%;
   padding: 12px 4px;
   box-sizing: border-box;
 `;
 
-const ElTextarea = styled.textarea<IInput>`
+const ElTextarea = styled.textarea<IInput<HTMLTextAreaElement>>`
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
   border: 1px solid #212121;
-  width: 100%;
   padding: 12px 4px;
   box-sizing: border-box;
 `;
