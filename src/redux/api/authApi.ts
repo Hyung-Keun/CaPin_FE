@@ -1,10 +1,21 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getAccessTokenLS } from "@utils/auth";
+import { BASE_API_URL } from "@utils/const";
 
 export const authApi = createApi({
   reducerPath: "authApi",
 
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://3.34.91.80",
+    baseUrl: BASE_API_URL,
+    prepareHeaders: (headers) => {
+      const accessToken = getAccessTokenLS();
+
+      if (accessToken) {
+        headers.set("Authorization", accessToken);
+      }
+
+      return headers;
+    },
   }),
 
   endpoints: (builder) => ({
@@ -16,11 +27,11 @@ export const authApi = createApi({
     }),
     logOut: builder.query({
       query: () => ({
-        url: `/api/logout}`,
+        url: `/api/logout`,
         method: "GET",
       }),
     }),
   }),
 });
 
-export const { useGetAuthQuery } = authApi;
+export const { useGetAuthQuery, useLogOutQuery } = authApi;

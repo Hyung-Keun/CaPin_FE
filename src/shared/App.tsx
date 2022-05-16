@@ -2,22 +2,24 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "@pages/Auth/Login";
-import Profile from "@pages/Auth/Profile";
+import { NicknamePage } from "@pages/Auth/Nickname";
+import OAuth from "@pages/Auth/OAuth";
 import NotFound from "@pages/Error/NotFound";
 import Home from "@pages/Home";
 
-import OAuth from "./OAuth";
+import GlobalStyles from "./GlobalStyles";
 
 const App = () => {
   return (
     <React.Fragment>
+      <GlobalStyles />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/notfound" element={<NotFound />} />
           <Route path="/oauth" element={<OAuth />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/nickname" element={<NicknamePage />} />
           <Route path="*" element={<Navigate to="/notfound" replace />} />
         </Routes>
       </BrowserRouter>

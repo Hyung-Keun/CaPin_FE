@@ -20,7 +20,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "typeRoots": ["./types"]
+    "typeRoots": ["./node_modules/@types", "./src/@type"]
   },
   "include": [
     "src"
