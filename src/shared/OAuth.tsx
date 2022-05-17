@@ -1,8 +1,9 @@
 import React from "react";
 
 import { authApi, useGetAuthQuery } from "@redux/api/authApi";
-import { useAppDispatch } from "@redux/hooks";
 import { authSlice } from "@redux/modules/authSlice";
+
+import { useAppDispatch } from "@hooks/auth";
 
 interface IOAuth {
   children?: React.ReactNode;

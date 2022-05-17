@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "@pages/Auth/Login";
 import OAuth from "@pages/Auth/OAuth";
-import { Profile } from "@pages/Auth/Profile";
+import Profile from "@pages/Auth/Profile";
 import NotFound from "@pages/Error/NotFound";
 import Home from "@pages/Home";
 
