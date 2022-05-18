@@ -1,15 +1,13 @@
-import { ReactElement } from "react";
+import { IIconType } from "@type/asset";
 
 import icons from "@assets/icons";
 
-type IIconKey = keyof typeof icons;
-
 interface IIcon {
-  name: IIconKey;
+  type: IIconType;
 }
 
-const Icon = ({ name }: IIcon): ReactElement => {
-  const SVGIcon = icons[name];
+const Icon = ({ type }: IIcon) => {
+  const SVGIcon = icons[type];
   return <SVGIcon />;
 };
 
