@@ -2,7 +2,7 @@ import React from "react";
 
 import styled from "styled-components";
 
-import { Text, Grid } from "./index";
+import { Text, BlankBox } from "./index";
 
 interface IInput<T> {
   inlineStyles?: string;
@@ -28,16 +28,18 @@ const Input = ({
 }: IInput<HTMLTextAreaElement | HTMLInputElement>) => {
   if (multiLine) {
     return (
-      <Grid>
-        {label && <Text margin="0px">{label}</Text>}
-        <ElTextarea
-          inlineStyles={inlineStyles}
-          rows={10}
-          value={value}
-          placeholder={placeholder}
-          onChange={onChange}
-        />
-      </Grid>
+      <React.Fragment>
+        <BlankBox>
+          {label && <Text margin="0px">{label}</Text>}
+          <ElTextarea
+            inlineStyles={inlineStyles}
+            rows={10}
+            value={value}
+            placeholder={placeholder}
+            onChange={onChange}
+          />
+        </BlankBox>
+      </React.Fragment>
     );
   }
   return (
@@ -45,6 +47,7 @@ const Input = ({
       <ElInput
         inlineStyles={inlineStyles}
         type={type}
+        value={value}
         placeholder={placeholder}
         onChange={onChange}
         onSubmit={onSubmit}
@@ -55,6 +58,7 @@ const Input = ({
 
 const ElInput = styled.input<IInput<HTMLInputElement>>`
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
+  // ${(props) => (props.value ? `${props.value};` : "")};
   border: 1px solid #212121;
   padding: 12px 4px;
   box-sizing: border-box;
