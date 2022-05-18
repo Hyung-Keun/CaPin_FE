@@ -7,6 +7,7 @@ import Profile from "@pages/Auth/Profile";
 import NotFound from "@pages/Error/NotFound";
 import Home from "@pages/Home";
 import KakaoMap from "@pages/KakaoMap";
+import StudyOpen from "@pages/StudyOpen";
 
 import GlobalStyles from "./GlobalStyles";
 
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/oauth" element={<OAuth />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/map" element={<KakaoMap />} />
+          <Route path="/studyopen" element={<StudyOpen />} />
           <Route path="*" element={<Navigate to="/notfound" replace />} />
         </Routes>
       </BrowserRouter>
