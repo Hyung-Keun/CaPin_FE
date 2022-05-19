@@ -26,14 +26,14 @@ const SimpleHeader = ({ children }: React.PropsWithChildren<ISimpleHeader>) => {
 };
 
 const Container = styled.header`
-  width: 100vw;
+  width: 100%;
   padding: 1.5em;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   display: flex;
   justify-content: space-between;
-  background-color: ${palette.white};
+  background-color: ${palette.grey050};
 
   & > button {
     background-color: inherit;
