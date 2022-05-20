@@ -1,12 +1,9 @@
 {
   "extends": "./tsconfig.paths.json",
   "compilerOptions": {
+    "types": ["kakao.maps.d.ts"],
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -22,7 +19,5 @@
     "strict": true,
     "typeRoots": ["./node_modules/@types", "./src/@type"]
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

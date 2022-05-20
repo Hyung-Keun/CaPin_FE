@@ -2,24 +2,31 @@ import React from "react";
 
 import styled from "styled-components";
 
-interface IButton {
+interface IButton<T> {
   inlineStyles?: string;
   children?: React.ReactNode;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onChange?: React.ChangeEventHandler<T>;
+  onClick?: React.MouseEventHandler<T>;
 }
 
-const Button = ({ children, onClick, inlineStyles }: IButton) => {
-  const styles: IButton = { inlineStyles };
+const Button = ({
+  children,
+  onChange,
+  onClick,
+  inlineStyles,
+}: IButton<HTMLButtonElement & HTMLInputElement>) => {
   return (
     <React.Fragment>
-      <Btn {...styles} onClick={onClick}>
+      <Btn inlineStyles={inlineStyles} onChange={onChange} onClick={onClick}>
         {children}
       </Btn>
     </React.Fragment>
   );
 };
 
-const Btn = styled.button<IButton>`
+const Btn = styled.button<
+  IButton<string | HTMLButtonElement | HTMLInputElement>
+>`
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
 `;
 
