@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 import { setUser } from "@redux/modules/userSlice";
 
-import gamst from "@assets/gamst.jpeg";
+import gamst from "@assets/images/gamst.jpeg";
 import { Button, Grid, Text, Image, Input } from "@elements";
-import { useAppDispatch, useAppSelector } from "@hooks/auth";
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
 
 const Profile = () => {
   const [nickname, setNickname] = useState<string>("");
@@ -65,7 +65,7 @@ font-weight: 500px
   top: 217px;
   left: 23px;
   text-align: center;
-  vertical-align: middle;
+  column-align: middle;
   border: none;
   border-radius: 50px;"
         >

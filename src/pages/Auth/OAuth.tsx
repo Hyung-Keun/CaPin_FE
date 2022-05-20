@@ -7,7 +7,7 @@ import {
   updateRefreshToken,
 } from "@redux/modules/authSlice";
 
-import { useAppDispatch } from "@hooks/auth";
+import { useAppDispatch } from "@hooks/redux";
 import { setAccessTokenLS, setRefreshTokenLS } from "@utils/auth";
 
 const OAuth = () => {

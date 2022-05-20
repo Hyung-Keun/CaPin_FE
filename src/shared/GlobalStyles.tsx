@@ -1,7 +1,7 @@
-import * as styled from "styled-components";
+import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
-const GlobalStyles = styled.createGlobalStyle`
+const GlobalStyles = createGlobalStyle`
   ${reset}
   * {
     box-sizing: border-box;
@@ -11,8 +11,9 @@ const GlobalStyles = styled.createGlobalStyle`
     color: inherit;
   }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
     font-size: 16px;
   }
 `;

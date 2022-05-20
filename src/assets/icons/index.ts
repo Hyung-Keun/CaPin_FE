@@ -3,6 +3,7 @@ import { ReactComponent as ArrowLeft } from "./arrowLeft.svg";
 import { ReactComponent as ArrowRight } from "./arrowRight.svg";
 import { ReactComponent as Search } from "./search.svg";
 import { ReactComponent as Setting } from "./setting.svg";
+import { ReactComponent as Star } from "./star.svg";
 
-const icons = { ArrowLeft, ArrowRight, Alarm, Search, Setting };
+const icons = { ArrowLeft, ArrowRight, Alarm, Search, Setting, Star };
 export default icons;
