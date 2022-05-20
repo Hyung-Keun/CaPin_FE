@@ -6,6 +6,8 @@ import OAuth from "@pages/Auth/OAuth";
 import Profile from "@pages/Auth/Profile";
 import NotFound from "@pages/Error/NotFound";
 import GroupList from "@pages/GroupList";
+import KakaoMap from "@pages/KakaoMap";
+import PlaceSearch from "@pages/PlaceSearch";
 import StudyOpen from "@pages/StudyOpen";
 
 import Frame from "./Frame";
@@ -25,6 +27,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/map" element={<KakaoMap />} />
           <Route path="/studyopen" element={<StudyOpen />} />
+          <Route path="/placesearch" element={<PlaceSearch />} />
           <Route path="*" element={<Navigate to="/notfound" replace />} />
         </Routes>
       </BrowserRouter>
