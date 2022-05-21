@@ -56,40 +56,44 @@ const tempStudyData = [
 
 const tempCafeData = [
   {
-    id: 1,
+    id: "1",
     imgSrc: defaultImg,
     name: "노량진 카페맛집",
     addr: "서울특별시 서초구 서초동",
     hours: "10:00 ~ 20: 00",
     rate: 4.8,
     reviewCnt: 13,
+    position: { lat: 123.1234, lng: 123.1234 },
   },
   {
-    id: 2,
+    id: "2",
     imgSrc: defaultImg,
     name: "노량진 카페맛집",
     addr: "서울특별시 서초구 서초동",
     hours: "10:00 ~ 20: 00",
     rate: 4.8,
     reviewCnt: 13,
+    position: { lat: 123.1234, lng: 123.1234 },
   },
   {
-    id: 3,
+    id: "3",
     imgSrc: defaultImg,
     name: "노량진 카페맛집",
     addr: "서울특별시 서초구 서초동",
     hours: "10:00 ~ 20: 00",
     rate: 4.8,
     reviewCnt: 13,
+    position: { lat: 123.1234, lng: 123.1234 },
   },
   {
-    id: 4,
+    id: "4",
     imgSrc: defaultImg,
     name: "노량진 카페맛집",
     addr: "서울특별시 서초구 서초동",
     hours: "11:00 ~ 21:00",
     rate: 4.8,
     reviewCnt: 13,
+    position: { lat: 123.1234, lng: 123.1234 },
   },
 ];
 

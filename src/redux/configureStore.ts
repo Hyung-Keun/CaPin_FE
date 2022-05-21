@@ -3,6 +3,7 @@ import { createLogger } from "redux-logger";
 import { authApi } from "./api/authApi";
 import authReducer from "./modules/authSlice";
 import initReducer from "./modules/initSlice";
+import mapReducer from "./modules/mapSlice";
 import userReducer from "./modules/userSlice";
 
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
@@ -10,9 +11,10 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 const loggerMiddleware = createLogger();
 
 const rootReducer = combineReducers({
-  init: initReducer,
-  user: userReducer,
   auth: authReducer,
+  init: initReducer,
+  map: mapReducer,
+  user: userReducer,
   [authApi.reducerPath]: authApi.reducer,
 });
 
