@@ -12,11 +12,13 @@ interface IInput<T> {
   label?: string;
   multiLine?: boolean;
   rows?: number;
+  children?: React.ReactNode;
   onSubmit?: React.FormEventHandler<T>;
   onChange?: React.ChangeEventHandler<T>;
 }
 
 const Input = ({
+  children,
   inlineStyles,
   type,
   placeholder,
@@ -38,6 +40,7 @@ const Input = ({
             placeholder={placeholder}
             onChange={onChange}
           />
+          {children}
         </BlankBox>
       </React.Fragment>
     );
@@ -52,6 +55,7 @@ const Input = ({
         onChange={onChange}
         onSubmit={onSubmit}
       />
+      {children}
     </React.Fragment>
   );
 };

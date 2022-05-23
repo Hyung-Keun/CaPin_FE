@@ -8,6 +8,7 @@ import NotFound from "@pages/Error/NotFound";
 import GroupList from "@pages/GroupList";
 import KakaoMap from "@pages/KakaoMap";
 import PlaceSearch from "@pages/PlaceSearch";
+import PostCode from "@pages/PostCode";
 import StudyOpen from "@pages/StudyOpen";
 
 import Frame from "./Frame";
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/map" element={<KakaoMap />} />
           <Route path="/studyopen" element={<StudyOpen />} />
           <Route path="/placesearch" element={<PlaceSearch />} />
+          <Route path="/postcode" element={<PostCode />} />
           <Route path="*" element={<Navigate to="/notfound" replace />} />
         </Routes>
       </BrowserRouter>
