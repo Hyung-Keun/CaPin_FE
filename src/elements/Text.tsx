@@ -9,13 +9,30 @@ interface IText {
   size?: number;
   inlineStyles?: string;
   margin?: string;
+  key?: string | number;
 }
 
-const Text = ({ children, bold, color, size, inlineStyles, margin }: IText) => {
-  const styles: IText = { bold, color, size, inlineStyles, margin };
+const Text = ({
+  children,
+  bold,
+  color,
+  size,
+  inlineStyles,
+  margin,
+  key,
+}: IText) => {
+  const styles: IText = {
+    bold,
+    color,
+    size,
+    inlineStyles,
+    margin,
+  };
   return (
     <React.Fragment>
-      <Sentence {...styles}>{children}</Sentence>
+      <Sentence {...styles} key={key}>
+        {children}
+      </Sentence>
     </React.Fragment>
   );
 };
@@ -26,5 +43,6 @@ const Sentence = styled.p<IText>`
   ${(props) => (props.bold ? `${props.bold};` : "")};
   ${(props) => (props.margin ? `${props.margin};` : "")};
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
+  ${(props) => (props.key ? `${props.key}` : "")}
 `;
 export default Text;
