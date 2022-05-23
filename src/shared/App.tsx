@@ -6,13 +6,9 @@ import OAuth from "@pages/Auth/OAuth";
 import Profile from "@pages/Auth/Profile";
 import NotFound from "@pages/Error/NotFound";
 import GroupList from "@pages/GroupList";
-<<<<<<< HEAD
-import KakaoMap from "@pages/KakaoMap";
 import PlaceSearch from "@pages/PlaceSearch";
 import PostCode from "@pages/PostCode";
-=======
 import Recommend from "@pages/Recommend";
->>>>>>> 3b5abff146e81410ddc7d6e8e815841c26b23cb2
 import StudyOpen from "@pages/StudyOpen";
 
 import Frame from "./Frame";
