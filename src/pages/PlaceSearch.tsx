@@ -1,15 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 
-import cancel2 from "../assets/cancel2.svg";
+import { debounce } from "lodash";
+
+import { useGetAddressQuery } from "@redux/api/placeApi";
+import { placeApi } from "@redux/api/placeApi";
+
 import dummy from "./data.json";
 
 import { BlankBox, Text, Input, Button, Image } from "@elements";
 
-interface IPlaceSearch {
-  children?: React.ReactNode;
-}
-const PlaceSearch = ({ children }: IPlaceSearch) => {
-  console.log(dummy);
+const PlaceSearch = () => {
+  const [searchTxt, setSearchTxt] = useState("");
+
+  const { data } = useGetAddressQuery(searchTxt);
+
+  const searchAddress = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setSearchTxt(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const searchResult: any[] = [];
+  const addressData = data?.documents;
+  if (addressData !== undefined && addressData != null) {
+    for (let idx = 0; idx < addressData.length; idx++) {
+      const result = data?.documents[idx].address.address_name;
+      console.log(`${result} : ${idx}`);
+      searchResult.push(result);
+    }
+  }
+  console.log(searchResult);
   return (
     <React.Fragment>
       <BlankBox
@@ -82,6 +103,7 @@ margin-top: 5px"
               {item.name}
             </Text>
             <Input
+              onChange={debounce(searchAddress, 700)}
               placeholder="출발지를 입력해주세요!"
               inlineStyles="position: relative;
 width: 335px;
@@ -93,7 +115,7 @@ border-radius: 10px;"
             />
           </React.Fragment>
         ))}
-
+        <Input>{searchResult}</Input>
         <Button
           inlineStyles="position: relative;
 width: 335px;
