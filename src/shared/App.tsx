@@ -6,9 +6,13 @@ import OAuth from "@pages/Auth/OAuth";
 import Profile from "@pages/Auth/Profile";
 import NotFound from "@pages/Error/NotFound";
 import GroupList from "@pages/GroupList";
+<<<<<<< HEAD
 import KakaoMap from "@pages/KakaoMap";
 import PlaceSearch from "@pages/PlaceSearch";
 import PostCode from "@pages/PostCode";
+=======
+import Recommend from "@pages/Recommend";
+>>>>>>> 3b5abff146e81410ddc7d6e8e815841c26b23cb2
 import StudyOpen from "@pages/StudyOpen";
 
 import Frame from "./Frame";
@@ -26,7 +30,7 @@ const App = () => {
           <Route path="/notfound" element={<NotFound />} />
           <Route path="/oauth" element={<OAuth />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/map" element={<KakaoMap />} />
+          <Route path="/recommend" element={<Recommend />} />
           <Route path="/studyopen" element={<StudyOpen />} />
           <Route path="/placesearch" element={<PlaceSearch />} />
           <Route path="/postcode" element={<PostCode />} />

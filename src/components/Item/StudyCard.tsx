@@ -3,17 +3,11 @@ import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 
+import { IStudyCard } from "@type/init";
+
 import Icon from "@components/Icon";
 
 import { palette } from "@utils/const";
-
-interface IStudyCard {
-  id: number;
-  name: string;
-  meetArea: string;
-  members: string[];
-  midPoint: string;
-}
 
 const APPEAR_MEMBER_CNT = 2;
 
