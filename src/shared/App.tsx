@@ -6,6 +6,7 @@ import OAuth from "@pages/Auth/OAuth";
 import Profile from "@pages/Auth/Profile";
 import NotFound from "@pages/Error/NotFound";
 import GroupList from "@pages/GroupList";
+import MyPage from "@pages/MyPage";
 import PlaceSearch from "@pages/PlaceSearch";
 import PostCode from "@pages/PostCode";
 import Recommend from "@pages/Recommend";
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/studyopen" element={<StudyOpen />} />
           <Route path="/placesearch" element={<PlaceSearch />} />
           <Route path="/postcode" element={<PostCode />} />
+          <Route path="/mypage" element={<MyPage />} />
           <Route path="/specificstudy" element={<SpecificStudy />} />
           <Route path="*" element={<Navigate to="/notfound" replace />} />
         </Routes>
