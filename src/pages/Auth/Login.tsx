@@ -43,16 +43,6 @@ const Login = () => {
         >
           <Image size="100%" src={kakaoLogo} />
         </Button>
-        <Button
-          inlineStyles="
-          position: absolute; 
-          top: 652px; 
-          width: 317px;
-          margin-left: 20px;
-          "
-        >
-          <Image size="100%" src={googleLogo} />
-        </Button>
       </Grid>
     </React.Fragment>
   );
