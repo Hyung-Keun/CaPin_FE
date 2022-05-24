@@ -115,7 +115,7 @@ border-radius: 10px;"
             />
           </React.Fragment>
         ))}
-        <Input>{searchResult}</Input>
+        <Text>{searchResult}</Text>
         <Button
           inlineStyles="position: relative;
 width: 335px;
