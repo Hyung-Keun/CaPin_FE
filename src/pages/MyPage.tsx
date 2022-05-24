@@ -44,7 +44,15 @@ left: 20px;
 top: 199px;
 border: 1px solid #E1E1E1;"
       />
-      <Text inlineStyles="margin: 23px 0px 0px 20px; color: #626262">
+      <Text
+        inlineStyles="margin: 23px 0px 0px 20px; 
+      
+      
+      
+      
+      
+      or: #626262"
+      >
         회원탈퇴
       </Text>
     </React.Fragment>
