@@ -50,7 +50,7 @@ top: 53px;"
         서울
       </Text>
       <label>
-        <Input
+        <Text
           inlineStyles="position: absolute;
 width: 168px;
 height: 44px;
@@ -58,7 +58,7 @@ left: 20px;
 top: 141px;"
         >
           서초/신사/방배
-        </Input>
+        </Text>
       </label>
       <Text
         inlineStyles="position: absolute;
