@@ -23,6 +23,7 @@ export const authApi = createApi({
       query: (kakao_code) => ({
         url: `/login/oauth2/Kakao?code=${kakao_code}`,
         method: "GET",
+        responseHandler: (response) => response.text(),
       }),
     }),
     logOut: builder.query({
