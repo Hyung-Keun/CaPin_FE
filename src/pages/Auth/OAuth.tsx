@@ -25,11 +25,12 @@ const OAuth = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      console.log("success");
       setAccessTokenLS(accessToken);
       setRefreshTokenLS(refreshToken);
       dispatch(updateAccessToken(accessToken));
       dispatch(updateRefreshToken(refreshToken));
-      navigate("/");
+      navigate("/profile");
     } else if (isError) {
       console.log(error);
       navigate("/");

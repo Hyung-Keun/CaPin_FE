@@ -30,6 +30,7 @@ export const store = configureStore({
       serializableCheck: { ignoredPaths: ["some.nested.path"] },
     })
       .concat(loggerMiddleware)
+      .concat(authApi.middleware)
       .concat(placeApi.middleware),
 
   devTools: process.env.NODE_ENV !== "production",
