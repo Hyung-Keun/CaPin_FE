@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
-import SimpleHeader from "@components/Header/Simple";
+import Header from "@components/Header";
 import Icon from "@components/Icon";
 
 import { setArea } from "@redux/modules/areaSlice";
@@ -42,7 +41,6 @@ const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [selectedRegion, setSelectedRegion] = useState<string>("");
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const checkHandler = ({ target }: any) => {
     if (isSingular) {
@@ -72,13 +70,7 @@ const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
 
   return (
     <React.Fragment>
-      <SimpleHeader
-        onClick={({ target }: any) => {
-          navigate("/studyopen", { state: { area: selectedRegion } });
-        }}
-      >
-        지역설정
-      </SimpleHeader>
+      <Header type="Simple">지역설정</Header>
       <Text inlineStyles="padding:20px 326px 12px 20px;">서울</Text>
       <BlankBox inlineStyles="padding:20px;display: grid; grid-template-columns: 1fr 1fr;">
         {regions.map((item) => (
