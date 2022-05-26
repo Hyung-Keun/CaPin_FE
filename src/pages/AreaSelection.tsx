@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
-import Header from "@components/Header";
+import SimpleHeader from "@components/Header/Simple";
 import Icon from "@components/Icon";
 
+import { setArea } from "@redux/modules/areaSlice";
+
 import { Text, BlankBox } from "@elements";
+import { useAppDispatch } from "@hooks/redux";
 
 interface IAreaSelection {
   isSingular?: boolean;
@@ -36,11 +40,14 @@ const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
   ];
   const [isChecked, setIsChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set());
-  const [selectedRegion, setSelectedRegion] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const checkHandler = ({ target }: any) => {
     if (isSingular) {
       setSelectedRegion(target.value);
+      dispatch(setArea(target.value));
     } else {
       setIsChecked(!isChecked);
       checkedItemHandler(target.parentNode, target.value, target.checked);
@@ -65,7 +72,13 @@ const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
 
   return (
     <React.Fragment>
-      <Header type="Simple">지역설정</Header>
+      <SimpleHeader
+        onClick={({ target }: any) => {
+          navigate("/studyopen", { state: { area: selectedRegion } });
+        }}
+      >
+        지역설정
+      </SimpleHeader>
       <Text inlineStyles="padding:20px 326px 12px 20px;">서울</Text>
       <BlankBox inlineStyles="padding:20px;display: grid; grid-template-columns: 1fr 1fr;">
         {regions.map((item) => (
@@ -80,7 +93,7 @@ const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
             <input
               type="checkbox"
               value={item.region}
-              onChange={(e) => checkHandler(e)}
+              onChange={checkHandler}
               style={{ display: "none" }}
             />
             <div>{item.region}</div>

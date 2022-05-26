@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import defaultImg from "../assets/defaultImg.svg";
 
@@ -6,6 +7,12 @@ import { Grid, Text, Input, Button, BlankBox, Image } from "@elements";
 
 const StudyOpen = () => {
   const [people, setPeople] = React.useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [selection, setSelection] = useState<any>(location.state);
+
+  console.log(location.state);
+
   const onPlus = () => {
     setPeople(people + 1);
   };
@@ -15,6 +22,10 @@ const StudyOpen = () => {
     }
     setPeople(people - 1);
   };
+  const onMovetoAreaSelection = () => {
+    navigate("/areaselection");
+  };
+
   return (
     <React.Fragment>
       <Grid>
@@ -81,7 +92,9 @@ color: #4A4A4A;"
         >
           지역<span style={{ color: "#ff0000" }}>*</span>
         </Text>
+        <Text>{selection?.area}</Text>
         <Button
+          onClick={onMovetoAreaSelection}
           inlineStyles="box-sizing: border-box;
           position: absolute;
           width: 75px;
@@ -92,8 +105,9 @@ color: #4A4A4A;"
           border-radius: 8px;
           background: #F8F8F8;"
         >
-          <Text>선택</Text>
+          선택
         </Button>
+
         <Text
           inlineStyles="position: absolute;
 width: 30px;
@@ -296,13 +310,15 @@ border-radius: 8px;
 resize: none;"
         />
         <Button
-          inlineStyles="position: absolute;
+          inlineStyles="position: relative;
 width: 90%;
 height: 48px;
 left: 20px;
 bottom: 60px;
 background: #4E4E4E;
-border-radius: 10px;"
+border-radius: 10px;
+margin: 100%
+"
         >
           <Text
             inlineStyles="
