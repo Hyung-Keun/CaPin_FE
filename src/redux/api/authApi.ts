@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getAccessTokenLS } from "@utils/auth";
+import { prepareHeaders } from "@utils/auth";
 import { BASE_API_URL } from "@utils/const";
 
 export const authApi = createApi({
@@ -7,15 +7,7 @@ export const authApi = createApi({
 
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_API_URL,
-    prepareHeaders: (headers) => {
-      const accessToken = getAccessTokenLS();
-
-      if (accessToken) {
-        headers.set("Authorization", accessToken);
-      }
-
-      return headers;
-    },
+    prepareHeaders,
   }),
 
   endpoints: (builder) => ({
@@ -23,7 +15,6 @@ export const authApi = createApi({
       query: (kakao_code) => ({
         url: `/login/oauth2/Kakao?code=${kakao_code}`,
         method: "GET",
-        responseHandler: (response) => response.text(),
       }),
     }),
     logOut: builder.query({
@@ -35,4 +26,4 @@ export const authApi = createApi({
   }),
 });
 
-export const { useGetAuthQuery, useLogOutQuery } = authApi;
+export const { useGetAuthQuery, useLazyLogOutQuery } = authApi;

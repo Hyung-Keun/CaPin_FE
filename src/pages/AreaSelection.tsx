@@ -5,7 +5,10 @@ import styled from "styled-components";
 import Header from "@components/Header";
 import Icon from "@components/Icon";
 
+import { setArea } from "@redux/modules/areaSlice";
+
 import { Text, BlankBox } from "@elements";
+import { useAppDispatch } from "@hooks/redux";
 
 interface IAreaSelection {
   isSingular?: boolean;
@@ -36,11 +39,13 @@ const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
   ];
   const [isChecked, setIsChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set());
-  const [selectedRegion, setSelectedRegion] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState<string>("");
+  const dispatch = useAppDispatch();
 
   const checkHandler = ({ target }: any) => {
     if (isSingular) {
       setSelectedRegion(target.value);
+      dispatch(setArea(target.value));
     } else {
       setIsChecked(!isChecked);
       checkedItemHandler(target.parentNode, target.value, target.checked);
@@ -80,7 +85,7 @@ const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
             <input
               type="checkbox"
               value={item.region}
-              onChange={(e) => checkHandler(e)}
+              onChange={checkHandler}
               style={{ display: "none" }}
             />
             <div>{item.region}</div>

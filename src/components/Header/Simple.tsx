@@ -8,16 +8,21 @@ import Icon from "@components/Icon";
 import { Button } from "@elements";
 import { palette } from "@utils/const";
 
-interface ISimpleHeader {}
+interface ISimpleHeader {
+  onClick?: React.MouseEventHandler;
+}
 
-const SimpleHeader = ({ children }: React.PropsWithChildren<ISimpleHeader>) => {
+const SimpleHeader = ({
+  children,
+  onClick,
+}: React.PropsWithChildren<ISimpleHeader>) => {
   const navigate = useNavigate();
 
   const onBackBtnClick = useCallback(() => navigate(-1), []);
 
   return (
     <Container>
-      <Button onClick={onBackBtnClick}>
+      <Button onClick={onClick ?? onBackBtnClick}>
         <Icon type="ArrowLeft" />
       </Button>
       <Header>{children}</Header>

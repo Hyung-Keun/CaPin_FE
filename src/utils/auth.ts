@@ -6,3 +6,13 @@ export const setAccessTokenLS = (token: string) =>
 export const getRefreshTokenLS = () => localStorage.getItem(REFRESH_TOKEN_LS);
 export const setRefreshTokenLS = (token: string) =>
   localStorage.setItem(REFRESH_TOKEN_LS, token);
+
+export const prepareHeaders = (headers: Headers) => {
+  const accessToken = getAccessTokenLS();
+
+  if (accessToken) {
+    headers.set("Authorization", accessToken);
+  }
+
+  return headers;
+};

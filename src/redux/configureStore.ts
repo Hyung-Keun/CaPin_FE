@@ -2,6 +2,7 @@ import { createLogger } from "redux-logger";
 
 import { authApi } from "./api/authApi";
 import { placeApi } from "./api/placeApi";
+import areaReducer from "./modules/areaSlice";
 import authReducer from "./modules/authSlice";
 import initReducer from "./modules/initSlice";
 import mapReducer from "./modules/mapSlice";
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   init: initReducer,
   map: mapReducer,
   user: userReducer,
+  area: areaReducer,
   [authApi.reducerPath]: authApi.reducer,
   [placeApi.reducerPath]: placeApi.reducer,
 });
@@ -28,10 +30,9 @@ export const store = configureStore({
     getDefaultMiddleware({
       immutableCheck: { ignoredPaths: ["some.nested.path"] },
       serializableCheck: { ignoredPaths: ["some.nested.path"] },
-    })
-      .concat(loggerMiddleware)
-      .concat(authApi.middleware)
-      .concat(placeApi.middleware),
+    }).concat(loggerMiddleware),
+  // .concat(authApi.middleware)
+  // .concat(placeApi.middleware),
 
   devTools: process.env.NODE_ENV !== "production",
   preloadedState: initialState,

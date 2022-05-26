@@ -4,6 +4,8 @@ import styled from "styled-components";
 
 import { Text, BlankBox } from "./index";
 
+type HTMLInputBlockType = HTMLTextAreaElement | HTMLInputElement;
+
 interface IInput<T> {
   inlineStyles?: string;
   type?: string;
@@ -16,45 +18,54 @@ interface IInput<T> {
   onChange?: React.ChangeEventHandler<T>;
 }
 
-const Input = ({
-  inlineStyles,
-  type,
-  placeholder,
-  value,
-  label,
-  multiLine,
-  onSubmit,
-  onChange,
-}: IInput<HTMLTextAreaElement | HTMLInputElement>) => {
-  if (multiLine) {
+const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
+  (
+    {
+      inlineStyles,
+      type,
+      placeholder,
+      value,
+      label,
+      multiLine,
+      onSubmit,
+      onChange,
+    },
+    ref,
+  ) => {
+    if (multiLine) {
+      return (
+        <React.Fragment>
+          <BlankBox>
+            {label && <Text margin="0px">{label}</Text>}
+            <ElTextarea
+              inlineStyles={inlineStyles}
+              rows={10}
+              value={value}
+              placeholder={placeholder}
+              onChange={onChange}
+              ref={ref as React.ForwardedRef<HTMLTextAreaElement>}
+            />
+          </BlankBox>
+        </React.Fragment>
+      );
+    }
     return (
       <React.Fragment>
-        <BlankBox>
-          {label && <Text margin="0px">{label}</Text>}
-          <ElTextarea
-            inlineStyles={inlineStyles}
-            rows={10}
-            value={value}
-            placeholder={placeholder}
-            onChange={onChange}
-          />
-        </BlankBox>
+        <ElInput
+          inlineStyles={inlineStyles}
+          type={type}
+          value={value}
+          placeholder={placeholder}
+          onChange={onChange}
+          onSubmit={onSubmit}
+          ref={ref as React.ForwardedRef<HTMLInputElement>}
+        />
       </React.Fragment>
     );
-  }
-  return (
-    <React.Fragment>
-      <ElInput
-        inlineStyles={inlineStyles}
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        onChange={onChange}
-        onSubmit={onSubmit}
-      />
-    </React.Fragment>
-  );
-};
+  },
+);
+
+Input.displayName = "Input";
 
 const ElInput = styled.input<IInput<HTMLInputElement>>`
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
