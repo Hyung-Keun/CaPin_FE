@@ -29,10 +29,7 @@ const Title = styled.h2`
   margin: 0 1.25em;
 `;
 
-const ItemWrap = styled.ul<{
-  gap: IList["gap"];
-  direction: IList["direction"];
-}>`
+const ItemWrap = styled.ul<IList>`
   width: 100%;
   padding: 1em 0;
   display: flex;

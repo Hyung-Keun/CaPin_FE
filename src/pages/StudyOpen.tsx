@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useState, useRef, useCallback, ChangeEvent } from "react";
+
+import styled from "styled-components";
 
 import defaultImg from "../assets/defaultImg.svg";
 
 import { Grid, Text, Input, Button, BlankBox, Image } from "@elements";
+import { File } from "@elements";
+
+const dateRegex = new RegExp(
+  /^\d{4}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[01])$/,
+);
 
 const StudyOpen = () => {
-  const [people, setPeople] = React.useState(0);
+  const [people, setPeople] = useState(0);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const descRef = useRef<HTMLTextAreaElement>(null);
+  const [image, setImage] = useState("");
+  const [roughAddress, setRoughAddress] = useState<string>("");
+  const firstDayRef = useRef<HTMLInputElement>(null);
+  const lastDayRef = useRef<HTMLInputElement>(null);
   const onPlus = () => {
     setPeople(people + 1);
   };
@@ -15,11 +28,63 @@ const StudyOpen = () => {
     }
     setPeople(people - 1);
   };
+
+  const onLoadImage = useCallback((e: ChangeEvent) => {
+    function readImage(input: any) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (loadEvent) => {
+          setImage(loadEvent.target?.result as string);
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+    readImage(e.target);
+  }, []);
+
+  const onCreateStudyBtnClick = () => {
+    const isValidFirstDayForm = dateRegex.test(
+      firstDayRef.current?.value as string,
+    );
+    const isValidLastDayForm = dateRegex.test(
+      lastDayRef.current?.value as string,
+    );
+    if (!(isValidFirstDayForm || isValidLastDayForm)) {
+      alert(
+        `${
+          !isValidFirstDayForm ? "시작" : "종료"
+        } 날짜의 형식이 잘못되었습니다.`,
+      );
+      return;
+    }
+
+    // "시작일 > 종료일" === true 면, return;
+    if (
+      new Date(firstDayRef.current?.value as string).getTime() >
+      new Date(lastDayRef.current?.value as string).getTime()
+    ) {
+      alert("기간이 올바르지 않습니다. 다시 입력해주세요.");
+      return;
+    }
+
+    const data = {
+      groupTitle: nameRef.current,
+      description: descRef.current,
+      maxMemberCount: people,
+      image: "",
+      roughAddress,
+      firstDay: firstDayRef.current?.value.replaceAll(".", "-"),
+      lastDay: lastDayRef.current?.value.replaceAll(".", "-"),
+    };
+
+    console.log(data);
+  };
+
   return (
     <React.Fragment>
-      <Grid>
-        <Text
-          inlineStyles="
+      {/* <Grid> */}
+      <Text
+        inlineStyles="
           width: 100%;
           Height: 27px;
           Top: 53px;
@@ -29,11 +94,11 @@ const StudyOpen = () => {
           text-align: center;
           line-height: 26px;
         "
-        >
-          스터디 그룹 개설
-        </Text>
-        <Text
-          inlineStyles="
+      >
+        스터디 그룹 개설
+      </Text>
+      <Text
+        inlineStyles="
         position: absolute;
         height: 22px;
         left: 20px;
@@ -46,11 +111,12 @@ const StudyOpen = () => {
         letter-spacing: -0.05em;
         color: #4A4A4A;
         "
-        >
-          스터디 이름<span style={{ color: "#ff0000" }}>*</span>
-        </Text>
-        <Input
-          inlineStyles="
+      >
+        스터디 이름<span style={{ color: "#ff0000" }}>*</span>
+      </Text>
+      <Input
+        ref={nameRef}
+        inlineStyles="
           position: absolute;
           width: 90%;
           height: 38px;
@@ -62,9 +128,9 @@ const StudyOpen = () => {
           box-sizing: border-box;
           left: 20px;
         "
-        />
-        <Text
-          inlineStyles="position: absolute;
+      />
+      <Text
+        inlineStyles="position: absolute;
 width: 36px;
 height: 22px;
 left: 20px;
@@ -78,24 +144,25 @@ line-height: 22px;
 letter-spacing: -0.05em;
 
 color: #4A4A4A;"
-        >
-          지역<span style={{ color: "#ff0000" }}>*</span>
-        </Text>
-        <Button
-          inlineStyles="box-sizing: border-box;
-          position: absolute;
-          width: 75px;
-          height: 38px;
-          right: 20px;
-          top: 192px;
-          border: 1px solid;
-          border-radius: 8px;
-          background: #F8F8F8;"
-        >
-          <Text>선택</Text>
-        </Button>
-        <Text
-          inlineStyles="position: absolute;
+      >
+        지역<span style={{ color: "#ff0000" }}>*</span>
+      </Text>
+      <Button
+        inlineStyles="box-sizing: border-box;
+  position: absolute;
+  width: 75px;
+  height: 38px;
+  right: 20px;
+  top: 192px;
+  border: 1px solid;
+  border-radius: 8px;
+  background: #f8f8f8;
+  "
+      >
+        선택
+      </Button>
+      <Text
+        inlineStyles="position: absolute;
 width: 30px;
 height: 22px;
 left: 20px;
@@ -107,11 +174,11 @@ font-size: 15px;
 line-height: 22px;
 letter-spacing: -0.05em;
 color: #4A4A4A;"
-        >
-          기간
-        </Text>
-        <Input
-          inlineStyles="
+      >
+        기간
+      </Text>
+      <Input
+        inlineStyles="
 position: absolute;
 width: 104px;
 height: 38px;
@@ -119,9 +186,10 @@ right: 150px;
 top: 254px;
 background: #F8F8F8;
 border-radius: 8px;"
-        />
-        <Text
-          inlineStyles="position: absolute;
+        ref={firstDayRef}
+      />
+      <Text
+        inlineStyles="position: absolute;
 width: 9px;
 height: 22px;
 right: 131px;
@@ -133,11 +201,11 @@ font-size: 15px;
 line-height: 22px;
 letter-spacing: -0.05em;
 color: #000000;"
-        >
-          ~
-        </Text>
-        <Input
-          inlineStyles="
+      >
+        ~
+      </Text>
+      <Input
+        inlineStyles="
 position: absolute;
 width: 104px;
 height: 38px;
@@ -145,19 +213,20 @@ right: 20px;
 top: 254px;
 background: #F8F8F8;
 border-radius: 8px;"
-        />
-        <Text
-          inlineStyles="position: absolute;
+        ref={lastDayRef}
+      />
+      <Text
+        inlineStyles="position: absolute;
 width: 3px;
 height: 3px;
 left: 21px;
 top: 308px;
 color: #256FFF;"
-        >
-          ◦
-        </Text>
-        <Text
-          inlineStyles="position: absolute;
+      >
+        ◦
+      </Text>
+      <Text
+        inlineStyles="position: absolute;
 width: 154px;
 height: 18px;
 left: 30px;
@@ -170,11 +239,11 @@ line-height: 17px;
 letter-spacing: -0.02em;
 color: #256FFF;
 "
-        >
-          예시: 2022.03.15 ~ 2022.09.23
-        </Text>
-        <Text
-          inlineStyles="position: absolute;
+      >
+        예시: 2022.03.15 ~ 2022.09.23
+      </Text>
+      <Text
+        inlineStyles="position: absolute;
 width: 30px;
 height: 22px;
 left: 20px;
@@ -187,12 +256,12 @@ line-height: 22px;
 letter-spacing: -0.05em;
 color: #4A4A4A;
 "
-        >
-          인원
-        </Text>
-        <Button
-          onClick={onMinus}
-          inlineStyles="width: 30px;
+      >
+        인원
+      </Text>
+      <Button
+        onClick={onMinus}
+        inlineStyles="width: 30px;
           height: 30px;
           background-color: #F2F2F2;
           color: #212121;
@@ -204,12 +273,12 @@ color: #4A4A4A;
           vertical-align: middle;
           border: 1px solid #DEDEDE;
           border-radius: 28px;"
-        >
-          ➖
-        </Button>
-        <BlankBox
-          value={people}
-          inlineStyles="position: absolute;
+      >
+        ➖
+      </Button>
+      <BlankBox
+        value={people}
+        inlineStyles="position: absolute;
 width: 80px;
 height: 38px;
 right: 60px;
@@ -220,12 +289,12 @@ display: flex;
 align-items: center;
 text-align: center;
 display: inline-grid"
-        >
-          {people}
-        </BlankBox>
-        <Button
-          onClick={onPlus}
-          inlineStyles="width: 30px;
+      >
+        {people}
+      </BlankBox>
+      <Button
+        onClick={onPlus}
+        inlineStyles="width: 30px;
           height: 30px;
           background-color: #F2F2F2;
           color: #212121;
@@ -237,11 +306,11 @@ display: inline-grid"
           vertical-align: middle;
           border: 1px solid #DEDEDE;
           border-radius: 28px;"
-        >
-          ➕
-        </Button>
-        <Text
-          inlineStyles="position: absolute;
+      >
+        ➕
+      </Button>
+      <Text
+        inlineStyles="position: absolute;
 width: auto;
 height: 22px;
 left: 20px;
@@ -253,23 +322,32 @@ font-size: 15px;
 line-height: 22px;
 letter-spacing: -0.05em;
 color: #4A4A4A;"
-        >
-          이미지
-        </Text>
-        <BlankBox
-          inlineStyles="
+      >
+        이미지
+      </Text>
+      <BlankBox
+        inlineStyles="
           position: absolute;
-width: 90%;
-height: 64px;
+width: 128px;
+height: 72px;
 left: 20px;
 top: 440px;
 border: 1px dashed #DEDEDE;
 border-radius: 8px;"
-        >
-          <Image size="100%" src={defaultImg} />
-        </BlankBox>
-        <Text
-          inlineStyles="position: absolute;
+      >
+        {!image ? (
+          <File accept="image/*" onChange={onLoadImage}>
+            <Image size="100%" src={defaultImg} />
+          </File>
+        ) : (
+          <div>
+            <Image size="100%" src={image} />
+            <Button onClick={() => setImage("")}>X</Button>
+          </div>
+        )}
+      </BlankBox>
+      <Text
+        inlineStyles="position: absolute;
 width: auto;
 height: 22px;
 left: 21px;
@@ -281,12 +359,12 @@ font-size: 15px;
 line-height: 22px;
 letter-spacing: -0.05em;
 color: #4A4A4A;"
-        >
-          설명
-        </Text>
-        <Input
-          multiLine
-          inlineStyles="position: absolute;
+      >
+        설명
+      </Text>
+      <Input
+        multiLine
+        inlineStyles="position: absolute;
 width: 90%;
 height: 140px;
 left: 21px;
@@ -294,18 +372,20 @@ top: 558px;
 background: #F8F8F8;
 border-radius: 8px;
 resize: none;"
-        />
-        <Button
-          inlineStyles="position: absolute;
+        ref={descRef}
+      />
+      <Button
+        inlineStyles="position: absolute;
 width: 90%;
 height: 48px;
 left: 20px;
 bottom: 60px;
 background: #4E4E4E;
 border-radius: 10px;"
-        >
-          <Text
-            inlineStyles="
+        onClick={onCreateStudyBtnClick}
+      >
+        <Text
+          inlineStyles="
         font-family: 'Noto Sans KR';
         font-style: normal;
         font-weight: 400;
@@ -314,12 +394,13 @@ border-radius: 10px;"
         text-align: center;
         letter-spacing: -0.04em;
         color: #FFFFFF;"
-          >
-            스터디만들기
-          </Text>
-        </Button>
-      </Grid>
+        >
+          스터디만들기
+        </Text>
+      </Button>
+      {/* </Grid> */}
     </React.Fragment>
   );
 };
+
 export default StudyOpen;
