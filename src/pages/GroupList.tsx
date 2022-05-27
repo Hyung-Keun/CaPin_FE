@@ -7,7 +7,6 @@ import List from "@components/List";
 import NavBar from "@components/Navigator/NavBar";
 
 import defaultImg from "@assets//images/default.png";
-import { palette } from "@utils/const";
 
 const tempStudyData = [
   {
@@ -138,7 +137,6 @@ const ContentArea = styled.section`
 
 const Notification = styled.div`
   font-size: 0.8em;
-  color: ${palette.blue};
   text-align: center;
   margin-bottom: 1.5em;
 `;

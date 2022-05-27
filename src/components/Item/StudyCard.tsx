@@ -87,7 +87,6 @@ const Member = styled.li<{ darken?: boolean }>`
 `;
 
 const MidPointArea = styled.div`
-  color: ${palette.blue};
   display: flex;
   justify-content: space-between;
   align-items: center;

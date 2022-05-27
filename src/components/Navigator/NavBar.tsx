@@ -30,7 +30,7 @@ const Container = styled.nav`
   bottom: 0;
   left: 0;
   padding: 0.625em 2.25em 2.375em;
-  background-color: ${palette.white};
+  background-color: ${palette.grey050};
   border-radius: 2em 2em 0 0;
   box-shadow: 0px -4px 14px rgba(0, 0, 0, 0.08);
 `;
