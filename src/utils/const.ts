@@ -118,3 +118,27 @@ export const typography = {
     letter-spacing: -2px;
   `,
 };
+
+export const lineClamp = [
+  css`
+    -webkit-line-clamp: unset;
+  `,
+  css`
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  `,
+  css`
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  `,
+  css`
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  `,
+];
