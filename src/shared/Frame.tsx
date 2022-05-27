@@ -28,7 +28,7 @@ const Outline = styled.div`
 
 const ContentArea = styled.div`
   border-radius: 2em;
-  background-color: ${palette.white};
+  background-color: ${palette.grey050};
   width: 100%;
   height: 100%;
   overflow-y: scroll;
