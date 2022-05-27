@@ -8,7 +8,7 @@ import OAuth from "@pages/Auth/OAuth";
 import Profile from "@pages/Auth/Profile";
 import NotFound from "@pages/Error/NotFound";
 import GroupList from "@pages/GroupList";
-import MyPage from "@pages/MyPage";
+import MyPage from "@pages/MyPage/MyPage";
 import MyStudyGroups from "@pages/MyStudyGroups";
 import PlaceSearch from "@pages/PlaceSearch";
 import PostCode from "@pages/PostCode";
