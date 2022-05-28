@@ -71,7 +71,6 @@ const PlaceSearch = () => {
         >
           출발지를 입력하고 중간장소와 카페를 추천받으세요!
         </Text>
-
         {dummy.nickname.map((item) => (
           <React.Fragment key={item.id}>
             <Text
