@@ -39,6 +39,13 @@ const AlarmSettings = ({ goBack }: ICommonProps) => {
     window.dispatchEvent(nextEvent);
   }, [on]);
 
+  useEffect(() => {
+    window.localStorage.setItem(
+      "capinNotice",
+      on ? "capinNoticeOff" : "capinNoticeOff",
+    );
+  }, [on]);
+
   const handleClick = () => setOn((prev) => !prev);
 
   return (
