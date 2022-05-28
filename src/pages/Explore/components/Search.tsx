@@ -4,20 +4,21 @@ import styled from "styled-components";
 
 import Icon from "@components/Icon";
 
-import { STUDY_CAFE, STUDY_GROUP, TabType } from "../constants";
-
 import { typography, palette } from "@utils/const";
 
 const SearchSection = styled.section`
-  padding: 0 20px;
-  margin-top: 9px;
-  border-bottom: 1px solid ${palette.grey200};
+  position: sticky;
+  top: 0;
+  padding-top: 9px;
+  background: #fff;
+  z-index: 2;
 `;
 
 const InputWithCancelButton = styled.div`
   display: flex;
   align-items: center;
   height: 40px;
+  padding: 0 20px;
   margin-bottom: 8px;
 
   & > div {
@@ -58,6 +59,8 @@ const Tabs = styled.article`
   height: 40px;
   display: flex;
   gap: 0 16px;
+  padding: 0 20px;
+  border-bottom: 1px solid ${palette.grey200};
 `;
 
 const Tab = styled.button<{ active: boolean }>`
@@ -70,8 +73,10 @@ const Tab = styled.button<{ active: boolean }>`
 
 const Search = ({
   onSearchChange,
+  searchFilter,
 }: {
   onSearchChange: (nextSarch: string) => void;
+  searchFilter: React.ReactNode;
 }) => {
   const [inputValue, setInputValue] = useState("");
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,6 +119,7 @@ const Search = ({
           스터디 카페
         </Tab> */}
       </Tabs>
+      {searchFilter}
     </SearchSection>
   );
 };

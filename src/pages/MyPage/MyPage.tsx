@@ -9,7 +9,7 @@ const USER_SETTINGS = 1;
 const USER_STUDY_GROUPS = 2;
 
 const MyPage = () => {
-  const [pageIndex, setPageIndex] = useState(0);
+  const [pageIndex, setPageIndex] = useState(2);
   const goBack = () => setPageIndex(0);
 
   return (
