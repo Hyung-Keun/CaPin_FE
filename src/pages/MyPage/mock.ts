@@ -1,4 +1,4 @@
-import { ICurrentGroups } from "./types";
+import type { GroupInfo } from "@type/group";
 
 function generateUUID() {
   let d = new Date().getTime();
@@ -20,11 +20,12 @@ function generateUUID() {
   });
 }
 
-export default function getMockupCurrentGroups(count = 12): ICurrentGroups {
+export default function getMockupCurrentGroups(count = 12): GroupInfo[] {
   const result = [];
   for (let i = 0; i < count; i++) {
-    const groupId = generateUUID();
+    const groupId = i;
     const groupTitle = "영어 회화 원어민 도전";
+    const imageUrl = generateUUID();
     const description = generateUUID() + generateUUID();
     const memberCount = Math.floor(Math.random() * 20);
     const maxMemberCount = memberCount + Math.floor(Math.random() * 10);
@@ -40,7 +41,9 @@ export default function getMockupCurrentGroups(count = 12): ICurrentGroups {
       roughAddress,
       firstDay,
       lastDay,
+      imageUrl,
     });
   }
+
   return result;
 }
