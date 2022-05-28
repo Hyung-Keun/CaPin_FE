@@ -4,8 +4,8 @@ import StudyGroupCard from "@components/StudyGroupCard";
 import { DefaultStudyGroupListLayout } from "@components/StudyGroupList";
 import TitleWithBackButton from "@components/TitleWithBackButton";
 
-import getMockupCurrentGroups from "./mock";
-import { ICommonProps } from "./types";
+import getMockupCurrentGroups from "../mock";
+import { ICommonProps } from "../types";
 
 const UserStudyGroups = ({ goBack }: ICommonProps) => {
   const navigate = useNavigate();

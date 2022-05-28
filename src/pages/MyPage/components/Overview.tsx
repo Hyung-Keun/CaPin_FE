@@ -5,10 +5,9 @@ import styled from "styled-components";
 import Icon from "@components/Icon";
 import TitleWithBackButton from "@components/TitleWithBackButton";
 
-import gamst from "../../assets/images/gamst.jpeg";
-import { USER_SETTINGS, USER_STUDY_GROUPS } from "./constants";
+import gamst from "../../../assets/images/gamst.jpeg";
+import { USER_SETTINGS, USER_STUDY_GROUPS, ALARM_SETTINGS } from "../constants";
 
-import { Text, Image, BlankBox } from "@elements";
 import { palette, typography } from "@utils/const";
 
 const UserOverviewSection = styled.section`
@@ -77,6 +76,7 @@ const Overview = ({
 }) => {
   const goUserSettings = () => onClick(USER_SETTINGS);
   const goUserStudyGroups = () => onClick(USER_STUDY_GROUPS);
+  const goAlarmSettings = () => onClick(ALARM_SETTINGS);
 
   return (
     <>
@@ -96,7 +96,11 @@ const Overview = ({
         <p>내 스터디 그룹</p>
         <Icon type="ArrowRight" />
       </SubTitleWithIcon>
-      <SubTitleWithIcon role="button" padding="0 20px">
+      <SubTitleWithIcon
+        onClick={goAlarmSettings}
+        role="button"
+        padding="0 20px"
+      >
         <p>알림설정</p>
         <Icon type="ArrowRight" />
       </SubTitleWithIcon>

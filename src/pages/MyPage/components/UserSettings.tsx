@@ -4,8 +4,8 @@ import styled from "styled-components";
 
 import TitleWithBackButton from "@components/TitleWithBackButton";
 
-import gamst from "../../assets/images/gamst.jpeg";
-import { ICommonProps } from "./types";
+import gamst from "../../../assets/images/gamst.jpeg";
+import { ICommonProps } from "../types";
 
 import { Image } from "@elements";
 import useFileLoad from "@hooks/useFileLoad";
@@ -85,7 +85,7 @@ const Section = styled.section`
 `;
 
 const UserSettings = ({ goBack }: ICommonProps) => {
-  const { FileLoader, isLoading } = useFileLoad();
+  const { FileLoader } = useFileLoad();
   const inputRef = React.useRef<HTMLInputElement>(null);
   return (
     <>

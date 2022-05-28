@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 
-import { OVERVIEW, USER_SETTINGS, USER_STUDY_GROUPS } from "./constants";
-import Overview from "./Overview";
-import UserSettings from "./UserSettings";
-import UserStudyGroups from "./UserStudyGroups";
+import {
+  Overview,
+  UserSettings,
+  UserStudyGroups,
+  AlarmSettings,
+} from "./components";
+import {
+  OVERVIEW,
+  USER_SETTINGS,
+  USER_STUDY_GROUPS,
+  ALARM_SETTINGS,
+} from "./constants";
 
 const MyPage = () => {
-  const [pageIndex, setPageIndex] = useState(2);
+  const [pageIndex, setPageIndex] = useState(0);
   const goBack = () => setPageIndex(0);
 
   return (
@@ -14,6 +22,7 @@ const MyPage = () => {
       {pageIndex === OVERVIEW && <Overview onClick={setPageIndex} />}
       {pageIndex === USER_SETTINGS && <UserSettings goBack={goBack} />}
       {pageIndex === USER_STUDY_GROUPS && <UserStudyGroups goBack={goBack} />}
+      {pageIndex === ALARM_SETTINGS && <AlarmSettings goBack={goBack} />}
     </main>
   );
 };
