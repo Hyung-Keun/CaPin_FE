@@ -70,12 +70,8 @@ const Tab = styled.button<{ active: boolean }>`
 
 const Search = ({
   onSearchChange,
-  onTabChange,
-  activeTab,
 }: {
-  activeTab: TabType;
   onSearchChange: (nextSarch: string) => void;
-  onTabChange: (nextTab: TabType) => void;
 }) => {
   const [inputValue, setInputValue] = useState("");
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,10 +85,10 @@ const Search = ({
     onSearchChange("");
   };
 
-  const handleTabClick = (nextTab: TabType) => () => {
-    setInputValue("");
-    onTabChange(nextTab);
-  };
+  // const handleTabClick = (nextTab: TabType) => () => {
+  //   setInputValue("");
+  //   onTabChange(nextTab);
+  // };
 
   return (
     <SearchSection>
@@ -110,18 +106,13 @@ const Search = ({
       </InputWithCancelButton>
 
       <Tabs>
-        <Tab
-          onClick={handleTabClick(STUDY_GROUP)}
-          active={activeTab === STUDY_GROUP}
-        >
-          스터디 그룹
-        </Tab>
-        <Tab
+        <Tab active>스터디 그룹</Tab>
+        {/* <Tab
           onClick={handleTabClick(STUDY_CAFE)}
           active={activeTab === STUDY_CAFE}
         >
           스터디 카페
-        </Tab>
+        </Tab> */}
       </Tabs>
     </SearchSection>
   );

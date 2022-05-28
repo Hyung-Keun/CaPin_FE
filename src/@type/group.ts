@@ -19,10 +19,13 @@ enum MemberAuthority {
   OWNER = "OWNER",
 }
 
-type MemberInfo = {
-  userId: string;
+type UserProfile = {
+  memberId: string;
   userName: string;
   imageUrl: Maybe<string>;
+};
+
+type MemberInfo = UserProfile & {
   authority: MemberAuthority;
 };
 
@@ -57,4 +60,11 @@ type PageMeta = Exact<{
 export type GroupListResponse = { content: Array<GroupInfo> } & PageMeta;
 export type SpecificGroupResponse = GroupInfo & {
   memberList: Array<MemberInfo>;
+};
+
+export type GroupsQueryOption = {
+  page: number;
+  size: number;
+  title: string;
+  roughAddress: string[];
 };
