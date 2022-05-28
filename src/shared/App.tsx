@@ -6,6 +6,7 @@ import Login from "@pages/Auth/Login";
 import OAuth from "@pages/Auth/OAuth";
 import Profile from "@pages/Auth/Profile";
 import NotFound from "@pages/Error/NotFound";
+import Explore from "@pages/Explore/Explore";
 import GroupList from "@pages/GroupList";
 import MyPage from "@pages/MyPage/MyPage";
 import PlaceSearch from "@pages/PlaceSearch";
@@ -25,6 +26,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<GroupList />} />
+          <Route path="/explore" element={<Explore />} />
           <Route path="/login" element={<Login />} />
           <Route path="/notfound" element={<NotFound />} />
           <Route path="/oauth" element={<OAuth />} />
