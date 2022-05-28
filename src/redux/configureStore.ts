@@ -1,6 +1,7 @@
 import { createLogger } from "redux-logger";
 
 import { authApi } from "./api/authApi";
+import { coordinateApi } from "./api/coordinateApi";
 import { placeApi } from "./api/placeApi";
 import areaReducer from "./modules/areaSlice";
 import authReducer from "./modules/authSlice";
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   area: areaReducer,
   [authApi.reducerPath]: authApi.reducer,
   [placeApi.reducerPath]: placeApi.reducer,
+  [coordinateApi.reducerPath]: coordinateApi.reducer,
 });
 
 const initialState = {};

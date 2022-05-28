@@ -3,6 +3,7 @@ import React, { useCallback, useState, useEffect } from "react";
 import { debounce } from "lodash";
 import styled from "styled-components";
 
+import { useLazyPostCoordinateQuery } from "@redux/api/coordinateApi";
 import { useLazyGetAddressQuery } from "@redux/api/placeApi";
 
 import dummy from "./data.json";
@@ -12,9 +13,11 @@ import { BlankBox, Text, Input, Button } from "@elements";
 const PlaceSearch = () => {
   const [searchTxt, setSearchTxt] = useState<string>("");
   const [isShowSearchList, setIsShowSearchList] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState("");
 
   const [trigger, { data, isSuccess }] = useLazyGetAddressQuery();
+  const [selectedAddress, setSelectedAddress] = useState<any>({});
+  const [postTrigger, { error, isError, isSuccess: Success }] =
+    useLazyPostCoordinateQuery();
 
   const debounceOnChange = useCallback(
     debounce((value) => {
@@ -29,6 +32,17 @@ const PlaceSearch = () => {
     console.log(searchTxt);
     setSearchTxt(event.target.value);
     debounceOnChange(event.target.value);
+  };
+
+  console.log(selectedAddress);
+
+  const postCoordinates = () => {
+    postTrigger({
+      groupId: 9,
+      startLocationX: selectedAddress.x,
+      startLocationY: selectedAddress.y,
+      startAddress: selectedAddress.address_name,
+    });
   };
 
   return (
@@ -55,35 +69,7 @@ const PlaceSearch = () => {
         >
           출발지를 입력하고 중간장소와 카페를 추천받으세요!
         </Text>
-        <Text
-          inlineStyles="
-          position: absolute;
-          width: auto;
-          height: 20px;
-          left: 20px;
-          top: 240px;
-          font-family: 'Noto Sans KR';
-          font-style: normal;
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 20px;
-          letter-spacing: -0.03em;
-          color: #4F4F4F;
-          "
-        >
-          방장닉네임1
-        </Text>
-        <Input
-          type="text"
-          placeholder="출발지를 입력해주세요!"
-          inlineStyles="position: absolute;
-width: 335px;
-height: 46px;
-left: 20px;
-top: 265px;
-background: #F7F7F7;
-border-radius: 10px;"
-        />
+
         {dummy.nickname.map((item) => (
           <React.Fragment key={item.id}>
             <Text
@@ -91,7 +77,7 @@ border-radius: 10px;"
 width: 46px;
 height: 20px;
 left: 20px;
-top: 327px;
+top: 238px;
 font-family: 'Noto Sans KR';
 font-style: normal;
 font-weight: 700;
@@ -103,18 +89,18 @@ margin-top: 5px"
             >
               {item.name}
             </Text>
-            {selectedAddress ? (
-              <div>
-                {selectedAddress}
+            {Object.keys(selectedAddress).length ? (
+              <>
+                {selectedAddress.address_name}
                 <Button
                   onClick={() => {
-                    setSelectedAddress("");
+                    setSelectedAddress({});
                     setSearchTxt("");
                   }}
                 >
                   x
                 </Button>
-              </div>
+              </>
             ) : (
               <BlankBox>
                 <Input
@@ -125,7 +111,7 @@ margin-top: 5px"
 width: 335px;
 height: 46px;
 left: 20px;
-top: 330px;
+top: 242px;
 background: #F7F7F7;
 border-radius: 10px;"
                 />
@@ -139,7 +125,7 @@ border-radius: 10px;"
                     <AutoSearchData
                       key={idx}
                       onClick={() => {
-                        setSelectedAddress(item.address_name);
+                        setSelectedAddress(item);
                         setIsShowSearchList(false);
                       }}
                     >
@@ -166,6 +152,7 @@ color: #FFFFFF"
           저장하기
         </Button>
         <Button
+          onClick={postCoordinates}
           inlineStyles="position: relative;
           width: 335px;
           height: 48px;
@@ -195,7 +182,7 @@ const AutoSearchContainer = styled.div`
 
 const AutoSearchWrap = styled.ul``;
 
-const AutoSearchData = styled.li`
+const AutoSearchData = styled.ul`
   padding: 10px 8px;
   width: 100%;
   font-size: 14px;

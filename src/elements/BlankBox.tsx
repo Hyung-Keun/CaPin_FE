@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 interface IBlankBox {
-  children?: React.ReactNode;
+  children?: React.ReactNode | React.ReactNode[];
   value?: string | number;
   inlineStyles?: string;
 }
