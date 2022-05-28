@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import styled from "styled-components";
 
+import Icon from "@components/Icon";
+
 import { STUDY_CAFE, STUDY_GROUP, TabType } from "../constants";
 
 import { typography, palette } from "@utils/const";
@@ -18,18 +20,27 @@ const InputWithCancelButton = styled.div`
   height: 40px;
   margin-bottom: 8px;
 
-  & > input {
+  & > div {
     flex: 1 0 auto;
+    display: inline-flex;
+    align-items: center;
     height: 100%;
-    border: none;
-    border-radius: 10px;
-    background: ${palette.grey050};
-    ${typography.b15r};
-    color: ${palette.grey900};
+    padding-left: 14px;
 
-    &:focus {
-      outline: none;
+    background: ${palette.grey050};
+    color: ${palette.grey900};
+    border-radius: 10px;
+
+    & > input {
+      width: 100%;
+      margin-left: 7.68px;
       border: none;
+      background: inherit;
+      ${typography.b15r};
+      &:focus {
+        outline: none;
+        border: none;
+      }
     }
   }
 
@@ -86,12 +97,15 @@ const Search = ({
   return (
     <SearchSection>
       <InputWithCancelButton>
-        <input
-          placeholder="스터디그룹, 스터디카페"
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-        />
+        <div>
+          <Icon type="Search" />
+          <input
+            placeholder="스터디그룹, 스터디카페"
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+        </div>
         {!!inputValue && <button onClick={handleInputReset}>취소</button>}
       </InputWithCancelButton>
 
