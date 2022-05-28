@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import styled from "styled-components";
 
@@ -15,8 +15,8 @@ const AlarmSection = styled.section`
   align-items: center;
 `;
 
-const ON_EVENT = new CustomEvent("capinNoticeOn");
-const OFF_EVENT = new CustomEvent("capinNoticeOff");
+const ON_EVENT = new CustomEvent("capinNotice", { detail: true });
+const OFF_EVENT = new CustomEvent("capinNotice", { detail: false });
 
 const AlarmSettings = ({ goBack }: ICommonProps) => {
   const [on, setOn] = useState(() => {
@@ -34,17 +34,25 @@ const AlarmSettings = ({ goBack }: ICommonProps) => {
     return false;
   });
 
+  const lastOnRef = useRef(on ? "true" : "false");
+
   useEffect(() => {
     const nextEvent = on ? OFF_EVENT : ON_EVENT;
     window.dispatchEvent(nextEvent);
   }, [on]);
 
   useEffect(() => {
-    window.localStorage.setItem(
-      "capinNotice",
-      on ? "capinNoticeOff" : "capinNoticeOff",
-    );
-  }, [on]);
+    return () => {
+      window.localStorage.setItem(
+        "capinNotice",
+        /**
+         * lastOnRef.current은 단지 값을 가리키고 있기 때문에 클린업 함수에 current property를 바인딩하여 사용해도 무방하다고 생각했습니다.
+         */
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        lastOnRef.current === "true" ? "true" : "false",
+      );
+    };
+  }, []);
 
   const handleClick = () => setOn((prev) => !prev);
 
