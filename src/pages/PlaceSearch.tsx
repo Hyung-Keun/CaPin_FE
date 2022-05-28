@@ -1,36 +1,36 @@
-import React, { useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 
 import { debounce } from "lodash";
+import styled from "styled-components";
 
-import { useGetAddressQuery } from "@redux/api/placeApi";
-import { placeApi } from "@redux/api/placeApi";
+import { useLazyGetAddressQuery } from "@redux/api/placeApi";
 
 import dummy from "./data.json";
 
-import { BlankBox, Text, Input, Button, Image } from "@elements";
+import { BlankBox, Text, Input, Button } from "@elements";
 
 const PlaceSearch = () => {
-  const [searchTxt, setSearchTxt] = useState("");
+  const [searchTxt, setSearchTxt] = useState<string>("");
+  const [isShowSearchList, setIsShowSearchList] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState("");
 
-  const { data } = useGetAddressQuery(searchTxt);
+  const [trigger, { data, isSuccess }] = useLazyGetAddressQuery();
 
-  const searchAddress = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  const debounceOnChange = useCallback(
+    debounce((value) => {
+      console.log("Debounce function");
+      trigger(value);
+      setIsShowSearchList(true);
+    }, 700),
+    [],
+  );
+
+  const searchAddress = (event: any) => {
+    console.log(searchTxt);
     setSearchTxt(event.target.value);
-    console.log(event.target.value);
+    debounceOnChange(event.target.value);
   };
 
-  const searchResult: any[] = [];
-  const addressData = data?.documents;
-  if (addressData !== undefined && addressData != null) {
-    for (let idx = 0; idx < addressData.length; idx++) {
-      const result = data?.documents[idx].address.address_name;
-      console.log(`${result} : ${idx}`);
-      searchResult.push(result);
-    }
-  }
-  console.log(searchResult);
   return (
     <React.Fragment>
       <BlankBox
@@ -74,6 +74,7 @@ const PlaceSearch = () => {
           방장닉네임1
         </Text>
         <Input
+          type="text"
           placeholder="출발지를 입력해주세요!"
           inlineStyles="position: absolute;
 width: 335px;
@@ -102,20 +103,56 @@ margin-top: 5px"
             >
               {item.name}
             </Text>
-            <Input
-              onChange={debounce(searchAddress, 700)}
-              placeholder="출발지를 입력해주세요!"
-              inlineStyles="position: relative;
+            {selectedAddress ? (
+              <div>
+                {selectedAddress}
+                <Button
+                  onClick={() => {
+                    setSelectedAddress("");
+                    setSearchTxt("");
+                  }}
+                >
+                  x
+                </Button>
+              </div>
+            ) : (
+              <BlankBox>
+                <Input
+                  value={searchTxt}
+                  onChange={searchAddress}
+                  placeholder="출발지를 입력해주세요!"
+                  inlineStyles="position: relative;
 width: 335px;
 height: 46px;
 left: 20px;
 top: 330px;
 background: #F7F7F7;
 border-radius: 10px;"
-            />
+                />
+              </BlankBox>
+            )}
+
+            {isShowSearchList && searchTxt ? (
+              <AutoSearchContainer>
+                <AutoSearchWrap>
+                  {data?.documents.map((item: any, idx: number) => (
+                    <AutoSearchData
+                      key={idx}
+                      onClick={() => {
+                        setSelectedAddress(item.address_name);
+                        setIsShowSearchList(false);
+                      }}
+                    >
+                      {item.address_name}
+                    </AutoSearchData>
+                  ))}
+                </AutoSearchWrap>
+              </AutoSearchContainer>
+            ) : (
+              <AutoSearchData></AutoSearchData>
+            )}
           </React.Fragment>
         ))}
-        <Text>{searchResult}</Text>
         <Button
           inlineStyles="position: relative;
 width: 335px;
@@ -143,4 +180,40 @@ color: #FFFFFF"
     </React.Fragment>
   );
 };
+
+const AutoSearchContainer = styled.div`
+  z-index: 3;
+  height: 500px;
+  width: 335px;
+  background-color: #fff;
+  position: relative;
+  top: 330px;
+  border: 2px solid;
+  padding: 15px;
+  left: 20px;
+`;
+
+const AutoSearchWrap = styled.ul``;
+
+const AutoSearchData = styled.li`
+  padding: 10px 8px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 4;
+  letter-spacing: 2px;
+  &:hover {
+    background-color: #edf5f5;
+    cursor: pointer;
+  }
+  position: relative;
+  img {
+    position: absolute;
+    right: 5px;
+    width: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+`;
+
 export default PlaceSearch;
