@@ -3,6 +3,8 @@ import React, { useCallback, useState, useEffect } from "react";
 import { debounce } from "lodash";
 import styled from "styled-components";
 
+import Icon from "@components/Icon";
+
 import { useLazyPostCoordinateQuery } from "@redux/api/coordinateApi";
 import { useLazyGetAddressQuery } from "@redux/api/placeApi";
 
@@ -90,17 +92,22 @@ margin-top: 5px"
               {item.name}
             </Text>
             {Object.keys(selectedAddress).length ? (
-              <>
-                {selectedAddress.address_name}
+              <BlankBox inlineStyles="width: 335px; height: 44px; top: 242px; left: 20px; position: relative;background-color:#F5F5F5; border-radius: 6px;">
+                <Text inlineStyles="top:11px; left: 2px; position: relative; font-size: 16px">
+                  {selectedAddress.address_name}
+                </Text>
                 <Button
+                  background="none"
+                  border="none"
+                  inlineStyles="position: relative; left: 301px; bottom: 5px;"
                   onClick={() => {
                     setSelectedAddress({});
                     setSearchTxt("");
                   }}
                 >
-                  x
+                  <Icon type="CircleX" />
                 </Button>
-              </>
+              </BlankBox>
             ) : (
               <BlankBox>
                 <Input
@@ -109,11 +116,14 @@ margin-top: 5px"
                   placeholder="출발지를 입력해주세요!"
                   inlineStyles="position: relative;
 width: 335px;
-height: 46px;
+height: 44px;
 left: 20px;
 top: 242px;
-background: #F7F7F7;
-border-radius: 10px;"
+background: #F5F5F5;
+border-radius: 6px;
+padding: 11px 0px 0px 14px;
+font-size: 16px;
+"
                 />
               </BlankBox>
             )}
@@ -169,38 +179,27 @@ color: #FFFFFF"
 };
 
 const AutoSearchContainer = styled.div`
-  z-index: 3;
-  height: 500px;
+  z-index: 1;
   width: 335px;
-  background-color: #fff;
+  background-color: #f5f5f5;
   position: relative;
-  top: 330px;
-  border: 2px solid;
-  padding: 15px;
+  top: 226px;
   left: 20px;
 `;
 
 const AutoSearchWrap = styled.ul``;
 
 const AutoSearchData = styled.ul`
-  padding: 10px 8px;
+  padding: 5px 0px 0px 3px;
   width: 100%;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 16px;
   z-index: 4;
-  letter-spacing: 2px;
   &:hover {
-    background-color: #edf5f5;
+    background-color: #f5f5f5;
     cursor: pointer;
   }
   position: relative;
-  img {
-    position: absolute;
-    right: 5px;
-    width: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+  border-top: hidden;
 `;
 
 export default PlaceSearch;

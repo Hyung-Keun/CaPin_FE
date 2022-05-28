@@ -27,6 +27,7 @@ const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
       value,
       label,
       multiLine,
+
       onSubmit,
       onChange,
     },
@@ -69,7 +70,7 @@ Input.displayName = "Input";
 
 const ElInput = styled.input<IInput<HTMLInputElement>>`
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
-  border: 1px solid #212121;
+  border: none;
   padding: 12px 4px;
   box-sizing: border-box;
 `;
