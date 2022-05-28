@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
 
 import StudyGroupCard from "@components/StudyGroupCard";
@@ -24,6 +26,10 @@ const Header = styled.header`
 
 const UserStudyGroups = ({ onBackButtonClick }: ICommonProps) => {
   const mockups = getMockupCurrentGroups(20);
+  const navigate = useNavigate();
+  const navigateToDetailPage = () => {
+    // navigate()
+  };
 
   return (
     <>
@@ -33,7 +39,11 @@ const UserStudyGroups = ({ onBackButtonClick }: ICommonProps) => {
       </Header>
       <DefaultStudyGroupListLayout>
         {mockups.map((mockup) => (
-          <StudyGroupCard key={mockup.groupId} group={mockup} />
+          <StudyGroupCard
+            key={mockup.groupId}
+            group={mockup}
+            onClick={navigateToDetailPage}
+          />
         ))}
       </DefaultStudyGroupListLayout>
     </>

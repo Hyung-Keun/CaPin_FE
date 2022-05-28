@@ -2,6 +2,7 @@ import { ReactComponent as ArrowLeft } from "./arrow-left.svg";
 import { ReactComponent as ArrowRight } from "./arrow-right.svg";
 import { ReactComponent as Calendar } from "./calendar.svg";
 import { ReactComponent as Camera } from "./camera.svg";
+import { ReactComponent as FabButton } from "./fab-button.svg";
 import { ReactComponent as ActiveHome } from "./home-active.svg";
 import { ReactComponent as Home } from "./home-inactive.svg";
 import { ReactComponent as Marker } from "./marker.svg";
@@ -17,6 +18,7 @@ import { ReactComponent as Star } from "./star.svg";
 
 const icons = {
   ArrowLeft,
+  FabButton,
   ArrowRight,
   Alarm,
   Search,

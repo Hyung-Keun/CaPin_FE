@@ -1,3 +1,5 @@
+import React from "react";
+
 import styled from "styled-components";
 
 import { GroupInfo } from "@type/group";
@@ -41,9 +43,19 @@ const DefaultStudyGroupCardLayout = styled.li`
   }
 `;
 
-const StudyGroupCard = ({ group }: { group: GroupInfo }) => {
+const StudyGroupCard = ({
+  group,
+  onClick,
+}: {
+  group: GroupInfo;
+  onClick: () => void;
+}) => {
+  const handleClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    e.stopPropagation();
+    onClick();
+  };
   return (
-    <DefaultStudyGroupCardLayout>
+    <DefaultStudyGroupCardLayout onClick={handleClick}>
       <h2>{group.groupTitle}</h2>
       <h3>{group.description}</h3>
 

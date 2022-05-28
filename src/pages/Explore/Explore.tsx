@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
 import { GroupsQueryOption } from "@type/group";
 
+import Icon from "@components/Icon";
+import NavBar from "@components/Navigator/NavBar";
 import StudyGroupCard from "@components/StudyGroupCard";
 import { DefaultStudyGroupListLayout } from "@components/StudyGroupList";
 
@@ -35,6 +38,13 @@ const CurrentStudyGroups = styled(DefaultStudyGroupListLayout)`
   padding-top: 12px;
 `;
 
+const CreateStudyButton = styled.div`
+  position: fixed;
+  right: 20px;
+  bottom: 106px;
+  cursor: pointer;
+`;
+
 const Explore = () => {
   /**
    * TAB 유무 생기면 아래와 Search 컴포넌트 prop, Search 컴포넌트 내부 핸들러에 대해서 Uncomment 해주시면 되겠습니다.
@@ -45,9 +55,9 @@ const Explore = () => {
       setSearchResult("");
    *};
    */
+  const navigate = useNavigate();
 
   const [searchResult, setSearchResult] = useState("");
-  //
   const onSearchChange = (nextSearch: string) => setSearchResult(nextSearch);
   const debouncedOnSearchCahnge = useDebounce<string, typeof onSearchChange>(
     onSearchChange,
@@ -75,6 +85,14 @@ const Explore = () => {
     isQueryResolved &&
     queryResult.data.content.length > 0;
 
+  const navigateToCreatePage = () => {
+    // navigate()
+  };
+
+  const navigateToDetailPage = () => {
+    //navigate()
+  };
+
   return (
     <main>
       <Search
@@ -94,12 +112,20 @@ const Explore = () => {
           {searchResult.length === 0 ? <p>새로 올라온 스터디 그룹</p> : null}
           <CurrentStudyGroups>
             {queryResult.data.content.map((group) => (
-              <StudyGroupCard key={group.groupId} group={group} />
+              <StudyGroupCard
+                onClick={navigateToDetailPage}
+                key={group.groupId}
+                group={group}
+              />
             ))}
           </CurrentStudyGroups>
           <div style={{ height: "133px " }} />
         </CardSection>
       ) : null}
+      <CreateStudyButton role="button" onClick={navigateToCreatePage}>
+        <Icon type="FabButton" />
+      </CreateStudyButton>
+      <NavBar />
     </main>
   );
 };
