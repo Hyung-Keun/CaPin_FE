@@ -15,9 +15,6 @@ export const studyApi = createApi({
       query: (data) => ({
         url: `/api/groups`,
         method: "POST",
-        headers: {
-          "content-type": "multipart/form-data",
-        },
         body: data,
       }),
     }),
