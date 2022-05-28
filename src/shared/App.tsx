@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Alarm from "@pages/Alarm";
 import AreaSelection from "@pages/AreaSelection";
 import Login from "@pages/Auth/Login";
 import OAuth from "@pages/Auth/OAuth";
@@ -9,7 +8,6 @@ import Profile from "@pages/Auth/Profile";
 import NotFound from "@pages/Error/NotFound";
 import GroupList from "@pages/GroupList";
 import MyPage from "@pages/MyPage/MyPage";
-import MyStudyGroups from "@pages/MyStudyGroups";
 import PlaceSearch from "@pages/PlaceSearch";
 import PostCode from "@pages/PostCode";
 import Recommend from "@pages/Recommend";
@@ -36,8 +34,6 @@ const App = () => {
           <Route path="/placesearch" element={<PlaceSearch />} />
           <Route path="/postcode" element={<PostCode />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/mystudygroups" element={<MyStudyGroups />} />
-          <Route path="/alarm" element={<Alarm />} />
           <Route path="/specificstudy" element={<SpecificStudy />} />
           <Route path="/areaselection" element={<AreaSelection />} />
           <Route path="*" element={<Navigate to="/notfound" replace />} />
