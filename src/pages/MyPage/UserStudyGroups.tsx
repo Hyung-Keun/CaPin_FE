@@ -62,7 +62,7 @@ const CurrentGroup = styled.section`
   }
 `;
 
-const CurrentStudyGroups = ({ onBackButtonClick }: ICommonProps) => {
+const UserStudyGroups = ({ onBackButtonClick }: ICommonProps) => {
   const mockups = getMockupCurrentGroups(20);
 
   return (
@@ -93,4 +93,4 @@ const CurrentStudyGroups = ({ onBackButtonClick }: ICommonProps) => {
   );
 };
 
-export default CurrentStudyGroups;
+export default UserStudyGroups;

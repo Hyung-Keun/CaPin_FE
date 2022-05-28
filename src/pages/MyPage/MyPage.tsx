@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import CurrentStudyGroups from "./CurrentStudyGroups";
 import Overview from "./Overview";
 import UserSettings from "./UserSettings";
+import UserStudyGroups from "./UserStudyGroups";
 
 const OVERVIEW = 0;
 const USER_SETTINGS = 1;
@@ -17,7 +17,7 @@ const MyPage = () => {
       {pageIndex === OVERVIEW && <Overview />}
       {pageIndex === USER_SETTINGS && <UserSettings />}
       {pageIndex === USER_STUDY_GROUPS && (
-        <CurrentStudyGroups onBackButtonClick={goBack} />
+        <UserStudyGroups onBackButtonClick={goBack} />
       )}
     </>
   );
