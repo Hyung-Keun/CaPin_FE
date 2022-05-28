@@ -26,4 +26,4 @@ export const placeApi = createApi({
   }),
 });
 
-export const { useGetAddressQuery } = placeApi;
+export const { useLazyGetAddressQuery, useGetAddressQuery } = placeApi;
