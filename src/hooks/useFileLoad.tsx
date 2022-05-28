@@ -60,6 +60,7 @@ const useFileLoad = () => {
     FileLoader,
     isLoading,
     fileData,
+    setFileData,
     /**
      * 불러온 파일을 비우는 함수입니다.
      */
