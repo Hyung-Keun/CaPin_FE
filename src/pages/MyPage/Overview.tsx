@@ -2,135 +2,111 @@ import React from "react";
 
 import styled from "styled-components";
 
+import Icon from "@components/Icon";
+import TitleWithBackButton from "@components/TitleWithBackButton";
+
 import gamst from "../../assets/images/gamst.jpeg";
+import { USER_SETTINGS, USER_STUDY_GROUPS } from "./constants";
 
 import { Text, Image, BlankBox } from "@elements";
-import { typography } from "@utils/const";
+import { palette, typography } from "@utils/const";
 
-const Header = styled.header`
-  width: 100%;
-  height: 43px;
+const UserOverviewSection = styled.section`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  gap: 0 12px;
+  width: calc(100% - 40px);
+  padding-bottom: 24px;
+  margin: 0 auto;
+  margin-bottom: 12px;
+  border-bottom: 1px solid ${palette.grey200};
 
-  & > h1 {
-    ${typography.st17b};
+  & > img {
+    width: 56px;
+    height: 56px;
+    border-radius: 9999px;
   }
 `;
 
-const Overview = () => {
+const SubTitleWithIcon = styled.div<{ padding?: string }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  background: none;
+
+  width: 100%;
+  height: 48px;
+  padding: ${({ padding }) => padding ?? "0"};
+
+  & > p {
+    ${typography.b16r};
+    color: ${palette.grey900};
+  }
+`;
+
+const Bar = styled.div`
+  width: 100%;
+  height: 8px;
+  margin: 12px 0px;
+  background: #f6f6f6;
+  border-top: 1px solid #ededed;
+  border-bottom: 1px solid #ededed;
+`;
+
+const DeleteUserSection = styled.div`
+  width: calc(100% - 40px);
+  padding-top: 23.5px;
+  margin: 0 auto;
+  margin-top: 11.5px;
+  border-top: 1px solid ${palette.grey200};
+
+  & > button {
+    background: none;
+    border: none;
+    ${typography.b14r};
+    color: ${palette.grey500};
+  }
+`;
+
+const Overview = ({
+  onClick,
+}: {
+  onClick: React.Dispatch<React.SetStateAction<number>>;
+}) => {
+  const goUserSettings = () => onClick(USER_SETTINGS);
+  const goUserStudyGroups = () => onClick(USER_STUDY_GROUPS);
+
   return (
     <>
-      <Header>
-        <h1>마이 페이지</h1>
-      </Header>
-      <BlankBox
-        inlineStyles="
-    width: calc(100% - 40px);
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  "
+      <TitleWithBackButton title="마이 페이지" showButton={false} />
+      <UserOverviewSection>
+        <img src={gamst} alt="user profile" />
+        <SubTitleWithIcon onClick={goUserSettings} role="button">
+          <p>닉네임닉네임</p>
+          <Icon type="ArrowRight" />
+        </SubTitleWithIcon>
+      </UserOverviewSection>
+      <SubTitleWithIcon
+        onClick={goUserStudyGroups}
+        role="button"
+        padding="0 20px"
       >
-        <BlankBox
-          inlineStyles="
-        display: flex;
-        align-items: center;
-        gap: 0 12px;
-      "
-        >
-          <Image
-            size="56px"
-            shape="circle"
-            src={gamst}
-            inlineStyles="
-          margin: 0;
-        "
-          />
-          <Text
-            inlineStyles="
-          font-size: 16px;
-          line-height: 23px;
-          letter-spacing: -0.03em;"
-          >
-            닉네임닉네임
-          </Text>
-        </BlankBox>
-      </BlankBox>
-      <BlankBox
-        inlineStyles="
-      width: calc(100% - 40px);
-      height: 1px;
-      margin: 24px auto 12px;
-      background: #e1e1e1;
-    "
-      />
-      <BlankBox
-        inlineStyles="
-      width: calc(100% - 40px);
-      margin: 0 auto;
-      height: 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  "
-      >
-        <Text>내 스터디 그룹</Text>
-      </BlankBox>
-      <BlankBox
-        inlineStyles="
-      width: calc(100% - 40px);
-      margin: 0 auto;
-      height: 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  "
-      >
-        <Text>알림 설정</Text>
-      </BlankBox>
-      <BlankBox
-        inlineStyles="
-      width: 100%;
-      height: 8px;
-      margin: 12px 0px;
-      background: #F6F6F6;
-      border-top: 1px solid #EDEDED;
-      border-bottom: 1px solid #EDEDED;
-    "
-      />
-      <BlankBox
-        inlineStyles="
-      width: calc(100% - 40px);
-      margin: 0 auto;
-      height: 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  "
-      >
-        <Text>로그아웃</Text>
-      </BlankBox>
-      <BlankBox
-        inlineStyles="
-      margin: 24.5px 20px 23.5px 20px;
-      width: 100%;
-      height: 1px;
-      background: #e1e1e1;
-  "
-      />
-      <Text
-        inlineStyles="
-      margin-left: 20px;
-      font-size: 14px;
-      letter-spacing: -0.03em;
-      color: #898989;
-  "
-      >
-        회원탈퇴
-      </Text>
+        <p>내 스터디 그룹</p>
+        <Icon type="ArrowRight" />
+      </SubTitleWithIcon>
+      <SubTitleWithIcon role="button" padding="0 20px">
+        <p>알림설정</p>
+        <Icon type="ArrowRight" />
+      </SubTitleWithIcon>
+      <Bar aria-hidden />
+      <SubTitleWithIcon role="button" padding="0 20px">
+        <p>로그아웃</p>
+      </SubTitleWithIcon>
+      <DeleteUserSection>
+        <button>회원탈퇴</button>
+      </DeleteUserSection>
     </>
   );
 };
