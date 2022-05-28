@@ -7,16 +7,21 @@ import Icon from "./Icon";
 
 import { typography } from "@utils/const";
 
-const Wrapper = styled.header`
-  width: 100%;
-  height: 43px;
+const Wrapper = styled.header<{ isSticky: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: ${({ isSticky }) => (isSticky ? "sticky" : "static")};
+  top: 0;
+  width: 100%;
+  height: 43px;
+  background: #ffffff;
+  z-index: 2;
 
   & > h1 {
     ${typography.st17b};
   }
+
   & > button {
     position: absolute;
     top: 12px;
@@ -28,8 +33,9 @@ const Wrapper = styled.header`
 
 type Props = {
   title: string;
-  showButton?: boolean;
+  isSticky?: boolean;
   showTitle?: boolean;
+  showButton?: boolean;
   /**
    * 뒤로가기 말고 다른 것을 하고싶으시면 해당 함수를 이 prop으로 전달해주세요.
    */
@@ -47,6 +53,7 @@ type Props = {
 const TitleWithBackButton = ({
   showButton = true,
   showTitle = true,
+  isSticky = false,
   title,
   onBackButtonClick,
 }: Props) => {
@@ -60,7 +67,7 @@ const TitleWithBackButton = ({
   };
 
   return (
-    <Wrapper>
+    <Wrapper isSticky={isSticky}>
       {showButton && (
         <button onClick={handleClick}>
           <Icon type="ArrowLeft" />
