@@ -2,10 +2,12 @@ import { createLogger } from "redux-logger";
 
 import { authApi } from "./api/authApi";
 import { placeApi } from "./api/placeApi";
+import { studyApi } from "./api/studyApi";
 import areaReducer from "./modules/areaSlice";
 import authReducer from "./modules/authSlice";
 import initReducer from "./modules/initSlice";
 import mapReducer from "./modules/mapSlice";
+import studyReducer from "./modules/studySlice";
 import userReducer from "./modules/userSlice";
 
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
@@ -13,13 +15,15 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 const loggerMiddleware = createLogger();
 
 const rootReducer = combineReducers({
+  area: areaReducer,
   auth: authReducer,
   init: initReducer,
   map: mapReducer,
+  study: studyReducer,
   user: userReducer,
-  area: areaReducer,
   [authApi.reducerPath]: authApi.reducer,
   [placeApi.reducerPath]: placeApi.reducer,
+  [studyApi.reducerPath]: studyApi.reducer,
 });
 
 const initialState = {};
