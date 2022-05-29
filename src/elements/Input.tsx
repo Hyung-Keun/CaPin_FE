@@ -2,7 +2,7 @@ import React from "react";
 
 import styled, { css } from "styled-components";
 
-import { Text, BlankBox } from "./index";
+import { Text } from "./index";
 
 import { palette, typography } from "@utils/const";
 import { convertPixelToEm } from "@utils/func";
@@ -41,17 +41,15 @@ const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
     if (multiLine) {
       return (
         <React.Fragment>
-          <BlankBox>
-            {label && <Text margin="0px">{label}</Text>}
-            <ElTextarea
-              inlineStyles={inlineStyles}
-              rows={10}
-              value={value}
-              placeholder={placeholder}
-              onChange={onChange}
-              ref={ref as React.ForwardedRef<HTMLTextAreaElement>}
-            />
-          </BlankBox>
+          {label && <Text margin="0px">{label}</Text>}
+          <ElTextarea
+            inlineStyles={inlineStyles}
+            rows={10}
+            value={value}
+            placeholder={placeholder}
+            onChange={onChange}
+            ref={ref as React.ForwardedRef<HTMLTextAreaElement>}
+          />
         </React.Fragment>
       );
     }
@@ -79,6 +77,9 @@ const commonStyle = css`
   background-color: ${palette.grey050};
   border-radius: 0.25em;
   border: none;
+  &:focus {
+    outline: none;
+  }
   &::placeholder {
     ${typography.b15r}
     color: ${palette.grey400};
@@ -95,6 +96,7 @@ const ElTextarea = styled.textarea<IInput<HTMLTextAreaElement>>`
   ${commonStyle}
   padding: ${convertPixelToEm(8)} ${convertPixelToEm(12)};
   ${({ inlineStyles }) => inlineStyles}
+  resize: none;
 `;
 
 export default Input;
