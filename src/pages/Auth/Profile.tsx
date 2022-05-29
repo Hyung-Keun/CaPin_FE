@@ -28,15 +28,9 @@ const Profile = () => {
     debounceOnChange();
   };
 
-  console.log(getData?.username);
-  console.log(nickname);
-
   const postNickImage = () => {
-    if (nickname === "") {
-      setNickname(getData?.username);
-    }
     postTrigger({
-      username: nickname,
+      username: nickname ? nickname : getData?.username,
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWzcGxl-Tfu-MUAjSslSkyzT7ULQQI4EY5QA&usqp=CAU",
     });
