@@ -67,22 +67,12 @@ const StudyOpen = () => {
       return;
     }
 
-    // const newData = {
-    //   groupTitle: nameRef.current?.value,
-    //   description: descRef.current?.value,
-    //   maxMemberCount: people,
-    //   image: fileData,
-    //   roughAddress,
-    //   firstDay: firstDayRef.current?.value.replaceAll(".", "-"),
-    //   lastDay: lastDayRef.current?.value.replaceAll(".", "-"),
-    // };
-
     const formData = new FormData();
     formData.append("groupTitle", nameRef.current!.value);
     formData.append("description", descRef.current!.value);
     formData.append("maxMemberCount", String(people));
     formData.append("image", String(fileData));
-    formData.append("roughAdrses", roughAddress);
+    formData.append("roughAddress", roughAddress);
     formData.append(
       "firstDay",
       firstDayRef.current!.value.replaceAll(".", "-"),
