@@ -80,7 +80,7 @@ font-weight: 500px
   border: none;
   border-radius: 50px;"
       >
-        <Icon type="CirclePlus"></Icon>
+        <Icon type="CirclePlusOrange"></Icon>
       </Button>
 
       <Text
