@@ -17,3 +17,13 @@ export function checkValidDate(date: string) {
   }
   return result;
 }
+
+export const base64ToBlob = async (url: string) => {
+  try {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    return blob;
+  } catch (e) {
+    console.log(e);
+  }
+};

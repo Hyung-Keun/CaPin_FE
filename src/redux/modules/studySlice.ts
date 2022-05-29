@@ -5,7 +5,7 @@ export interface IStudyOpenData {
     groupTitle: string;
     description: string;
     maxMemberCount: number;
-    image: FileReader["result"];
+    image: string; // base64 string
     firstDay: string;
     lastDay: string;
   };

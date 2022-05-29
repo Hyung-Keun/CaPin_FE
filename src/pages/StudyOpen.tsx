@@ -15,7 +15,7 @@ import { Text, Input } from "@elements";
 import { useAppDispatch, useAppSelector } from "@hooks/redux";
 import useFileLoad from "@hooks/useFileLoad";
 import { palette, typography } from "@utils/const";
-import { checkValidDate, convertPixelToEm } from "@utils/func";
+import { base64ToBlob, checkValidDate, convertPixelToEm } from "@utils/func";
 
 const StudyOpen = () => {
   const [inputState, setInputState] = useState({
@@ -25,7 +25,12 @@ const StudyOpen = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [trigger, { data, isSuccess, isLoading }] = useLazyCreateStudyQuery();
-  const { FileLoader, fileData, clearFileData } = useFileLoad();
+  const {
+    FileLoader,
+    fileData,
+    clearFileData,
+    isLoading: isFileLoading,
+  } = useFileLoad();
 
   const onPlus = () => {
     setInputState((state) => ({
@@ -85,7 +90,7 @@ const StudyOpen = () => {
   const isBtnDisabled =
     Object.values(inputState).findIndex((state) => !state) !== -1;
 
-  const onCreateStudyBtnClick = () => {
+  const onCreateStudyBtnClick = async () => {
     const {
       groupTitle,
       description,
@@ -113,16 +118,21 @@ const StudyOpen = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("groupTitle", groupTitle);
-    formData.append("description", description);
-    formData.append("maxMemberCount", String(maxMemberCount));
-    formData.append("image", image ? String(image) : String(fileData));
-    formData.append("roughAddress", roughAddress);
-    formData.append("firstDay", firstDay.replaceAll(".", "-"));
-    formData.append("lastDay", lastDay.replaceAll(".", "-"));
+    const imgUrl = image ?? fileData;
+    const imgBlob = await base64ToBlob(imgUrl);
 
-    trigger(formData);
+    if (imgBlob) {
+      const formData = new FormData();
+      formData.append("groupTitle", groupTitle);
+      formData.append("description", description);
+      formData.append("maxMemberCount", String(maxMemberCount));
+      formData.append("image", imgBlob!);
+      formData.append("roughAddress", roughAddress);
+      formData.append("firstDay", firstDay.replaceAll(".", "-"));
+      formData.append("lastDay", lastDay.replaceAll(".", "-"));
+
+      trigger(formData);
+    }
   };
 
   useEffect(() => {
@@ -133,7 +143,7 @@ const StudyOpen = () => {
 
   return (
     <>
-      {isLoading && <Loading />}
+      {(isLoading || isFileLoading) && <Loading />}
       <Header type="Simple">스터디 그룹 개설</Header>
       <Container>
         <InputWrap column>
