@@ -1,8 +1,11 @@
 import React from "react";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { Text, BlankBox } from "./index";
+
+import { palette, typography } from "@utils/const";
+import { convertPixelToEm } from "@utils/func";
 
 type HTMLInputBlockType = HTMLTextAreaElement | HTMLInputElement;
 
@@ -16,6 +19,7 @@ interface IInput<T> {
   rows?: number;
   onSubmit?: React.FormEventHandler<T>;
   onChange?: React.ChangeEventHandler<T>;
+  readOnly?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
@@ -29,6 +33,7 @@ const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
       multiLine,
       onSubmit,
       onChange,
+      readOnly,
     },
     ref,
   ) => {
@@ -58,6 +63,7 @@ const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
           placeholder={placeholder}
           onChange={onChange}
           onSubmit={onSubmit}
+          readOnly={readOnly}
           ref={ref as React.ForwardedRef<HTMLInputElement>}
         />
       </React.Fragment>
@@ -67,18 +73,27 @@ const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
 
 Input.displayName = "Input";
 
+const commonStyle = css`
+  width: 100%;
+  background-color: ${palette.grey050};
+  border-radius: 0.25em;
+  border: none;
+  &::placeholder {
+    ${typography.b15r}
+    color: ${palette.grey400};
+  }
+`;
+
 const ElInput = styled.input<IInput<HTMLInputElement>>`
-  ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
-  border: 1px solid #212121;
-  padding: 12px 4px;
-  box-sizing: border-box;
+  ${commonStyle}
+  padding: ${convertPixelToEm(12)} ${convertPixelToEm(14)};
+  ${({ inlineStyles }) => inlineStyles}
 `;
 
 const ElTextarea = styled.textarea<IInput<HTMLTextAreaElement>>`
-  ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
-  border: 1px solid #212121;
-  padding: 12px 4px;
-  box-sizing: border-box;
+  ${commonStyle}
+  padding: ${convertPixelToEm(8)} ${convertPixelToEm(12)};
+  ${({ inlineStyles }) => inlineStyles}
 `;
 
 export default Input;
