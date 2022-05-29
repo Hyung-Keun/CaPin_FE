@@ -2,7 +2,10 @@ import React from "react";
 
 import styled from "styled-components";
 
-import gamst from "../../assets/images/gamst.jpeg";
+import TitleWithBackButton from "@components/TitleWithBackButton";
+
+import gamst from "../../../assets/images/gamst.jpeg";
+import { ICommonProps } from "../types";
 
 import { Image } from "@elements";
 import useFileLoad from "@hooks/useFileLoad";
@@ -81,12 +84,17 @@ const Section = styled.section`
   padding: 0 20px;
 `;
 
-const UserSettings = () => {
-  const { FileLoader, isLoading } = useFileLoad();
+const UserSettings = ({ goBack }: ICommonProps) => {
+  const { FileLoader } = useFileLoad();
   const inputRef = React.useRef<HTMLInputElement>(null);
   return (
     <>
-      <header style={{ height: 43, marginBottom: "13px" }}></header>
+      <TitleWithBackButton
+        title=""
+        showTitle={false}
+        showButton
+        onBackButtonClick={goBack}
+      />
       <Section>
         <ChoosePhotoGuide>프로필 사진을 등록해주세요</ChoosePhotoGuide>
         <Image

@@ -1,3 +1,3 @@
 export interface ICommonProps {
-  onBackButtonClick: () => void;
+  goBack: () => void;
 }
