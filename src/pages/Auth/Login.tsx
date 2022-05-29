@@ -12,10 +12,9 @@ const Login = () => {
   return (
     <React.Fragment>
       <Text
+        width="100%"
+        height="10px"
         inlineStyles="
-          position: absolute;
-          width: 252px;
-          height: 80px;
           font-weight: 500;
           left: 20px;
           margin: 129px 103px 603px 20px;

@@ -10,6 +10,10 @@ interface IText {
   inlineStyles?: string;
   margin?: string;
   key?: string | number;
+  width?: string;
+  height?: string;
+  fontSize?: string;
+  lineHeight?: string;
 }
 
 const Text = ({
@@ -20,6 +24,10 @@ const Text = ({
   inlineStyles,
   margin,
   key,
+  width,
+  height,
+  fontSize,
+  lineHeight,
 }: IText) => {
   const styles: IText = {
     bold,
@@ -27,6 +35,10 @@ const Text = ({
     size,
     inlineStyles,
     margin,
+    width,
+    height,
+    fontSize,
+    lineHeight,
   };
   return (
     <React.Fragment>
@@ -38,11 +50,15 @@ const Text = ({
 };
 
 const Sentence = styled.p<IText>`
-  ${(props) => props.color};
-  ${(props) => props.size};
-  ${(props) => (props.bold ? `${props.bold};` : "")};
-  ${(props) => (props.margin ? `${props.margin};` : "")};
+  color: ${(props) => props.color};
+  size: ${(props) => props.size};
+  bold: ${(props) => (props.bold ? `${props.bold};` : "")};
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
-  ${(props) => (props.key ? `${props.key}` : "")}
+  ${(props) => (props.key ? `${props.key}` : "")};
+  ${(props) => (props.margin ? `${props.margin}` : "")};
+  width: ${(props) => (props.width ? `${props.width}` : "")};
+  height: ${(props) => (props.height ? `${props.height}` : "")};
+  font-size: ${(props) => (props.fontSize ? `${props.fontSize}` : "")};
+  line-height: ${(props) => (props.lineHeight ? `${props.lineHeight}` : "")};
 `;
 export default Text;
