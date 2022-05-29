@@ -1,55 +1,104 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, ChangeEvent, useCallback } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+import Header from "@components/Header";
+import Icon from "@components/Icon";
+import Loading from "@components/Loading";
 
 import { useLazyCreateStudyQuery } from "@redux/api/studyApi";
+import { setArea } from "@redux/modules/areaSlice";
+import { setStudyOpenData } from "@redux/modules/studySlice";
 
-import defaultImg from "../assets/defaultImg.svg";
-
-import { Text, Input, Button, BlankBox, Image } from "@elements";
-import { useAppSelector } from "@hooks/redux";
+import { Text, Input } from "@elements";
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
 import useFileLoad from "@hooks/useFileLoad";
-
-const dateRegex = new RegExp(
-  /^(19|20)\d{2}.(0[1-9]|1[012]).(0[1-9]|[12][0-9]|3[0-1])$/,
-);
+import { palette, typography } from "@utils/const";
+import { checkValidDate, convertPixelToEm } from "@utils/func";
 
 const StudyOpen = () => {
-  const [people, setPeople] = useState(0);
-  const nameRef = useRef<HTMLInputElement>(null);
-  const descRef = useRef<HTMLTextAreaElement>(null);
-  const firstDayRef = useRef<HTMLInputElement>(null);
-  const lastDayRef = useRef<HTMLInputElement>(null);
-  const roughAddress = useAppSelector(({ area }) => area.value);
-
-  const [trigger, { data, isSuccess }] = useLazyCreateStudyQuery();
-
-  const {
-    FileLoader,
-    isLoading: isFileLoading,
-    fileData,
-    clearFileData,
-  } = useFileLoad();
+  const [inputState, setInputState] = useState({
+    ...useAppSelector(({ study }) => study.data),
+    roughAddress: useAppSelector(({ area }) => area.value),
+  });
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [trigger, { data, isSuccess, isLoading }] = useLazyCreateStudyQuery();
+  const { FileLoader, fileData, clearFileData } = useFileLoad();
 
   const onPlus = () => {
-    setPeople(people + 1);
-  };
-  const onMinus = () => {
-    if (people === 0) {
-      return setPeople(0);
-    }
-    setPeople(people - 1);
+    setInputState((state) => ({
+      ...state,
+      maxMemberCount: inputState.maxMemberCount + 1,
+    }));
   };
 
+  const onMinus = () => {
+    if (inputState.maxMemberCount > 2) {
+      setInputState((state) => ({
+        ...inputState,
+        maxMemberCount: inputState.maxMemberCount - 1,
+      }));
+    }
+  };
+
+  useEffect(() => {
+    if (fileData) setInputState((state) => ({ ...state, image: fileData }));
+  }, [fileData]);
+
+  const clearImageData = () => {
+    clearFileData();
+    setInputState({ ...inputState, image: "" });
+  };
+
+  const onInputChange = useCallback(
+    (key: keyof typeof inputState) => (e: ChangeEvent<HTMLInputElement>) =>
+      setInputState((state) => ({ ...state, [key]: e.target.value })),
+    [],
+  );
+
+  const setInputData = () => {
+    const {
+      groupTitle,
+      description,
+      maxMemberCount,
+      image,
+      roughAddress,
+      firstDay,
+      lastDay,
+    } = inputState;
+
+    const data = {
+      groupTitle,
+      description,
+      maxMemberCount,
+      image,
+      roughAddress,
+      firstDay,
+      lastDay,
+    };
+
+    dispatch(setStudyOpenData({ data }));
+  };
+
+  const isBtnDisabled =
+    Object.values(inputState).findIndex((state) => !state) !== -1;
+
   const onCreateStudyBtnClick = () => {
-    const isValidFirstDayForm = dateRegex.test(
-      firstDayRef.current?.value as string,
-    );
-    const isValidLastDayForm = dateRegex.test(
-      lastDayRef.current?.value as string,
-    );
-    if (!(isValidFirstDayForm || isValidLastDayForm)) {
+    const {
+      groupTitle,
+      description,
+      maxMemberCount,
+      image,
+      roughAddress,
+      firstDay,
+      lastDay,
+    } = inputState;
+
+    const isValidFirstDayForm = checkValidDate(firstDay);
+    const isValidLastDayForm = checkValidDate(lastDay);
+    if (!isValidFirstDayForm || !isValidLastDayForm) {
       alert(
         `${
           !isValidFirstDayForm ? "시작" : "종료"
@@ -59,369 +108,256 @@ const StudyOpen = () => {
     }
 
     // "시작일 > 종료일" === true 면, return;
-    if (
-      new Date(firstDayRef.current?.value as string).getTime() >
-      new Date(lastDayRef.current?.value as string).getTime()
-    ) {
+    if (new Date(firstDay).getTime() > new Date(lastDay).getTime()) {
       alert("기간이 올바르지 않습니다. 다시 입력해주세요.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("groupTitle", nameRef.current!.value);
-    formData.append("description", descRef.current!.value);
-    formData.append("maxMemberCount", String(people));
-    formData.append("image", String(fileData));
+    formData.append("groupTitle", groupTitle);
+    formData.append("description", description);
+    formData.append("maxMemberCount", String(maxMemberCount));
+    formData.append("image", image ? String(image) : String(fileData));
     formData.append("roughAddress", roughAddress);
-    formData.append(
-      "firstDay",
-      firstDayRef.current!.value.replaceAll(".", "-"),
-    );
-    formData.append("lastDay", lastDayRef.current!.value.replaceAll(".", "-"));
+    formData.append("firstDay", firstDay.replaceAll(".", "-"));
+    formData.append("lastDay", lastDay.replaceAll(".", "-"));
 
     trigger(formData);
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      console.log(data);
+    if (isSuccess && !isLoading) {
+      navigate(`/specificstudy/${data.groupId}`);
     }
-  }, [isSuccess, data]);
+  }, [isSuccess, isLoading, data, navigate]);
 
   return (
-    <React.Fragment>
-      {/* <Grid> */}
-      <Text
-        inlineStyles="
-          width: 100%;
-          Height: 27px;
-          Top: 53px;
-          position: absolute;
-          font-size: 25px;
-          font-weight: 500;
-          text-align: center;
-          line-height: 26px;
-        "
-      >
-        스터디 그룹 개설
-      </Text>
-      <Text
-        inlineStyles="
-        position: absolute;
-        height: 22px;
-        left: 20px;
-        top: 100px;
-        font-family: 'Noto Sans KR';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 15px;
-        line-height: 22px;
-        letter-spacing: -0.05em;
-        color: #4A4A4A;
-        "
-      >
-        스터디 이름<span style={{ color: "#ff0000" }}>*</span>
-      </Text>
-      <Input
-        ref={nameRef}
-        inlineStyles="
-          position: absolute;
-          width: 90%;
-          height: 38px;
-          top: 130px;
-          background: #F8F8F8;
-          border-radius: 8px;
-          border: 1px solid #212121;
-          padding: 12px 4px;
-          box-sizing: border-box;
-          left: 20px;
-        "
-      />
-      <Text
-        inlineStyles="position: absolute;
-width: 36px;
-height: 22px;
-left: 20px;
-top: 200px;
-font-family: 'Noto Sans KR';
-font-style: normal;
-font-weight: 400;
-font-size: 15px;
-line-height: 22px;
-
-letter-spacing: -0.05em;
-
-color: #4A4A4A;"
-      >
-        지역<span style={{ color: "#ff0000" }}>*</span>
-      </Text>
-      {roughAddress && (
-        <Text inlineStyles="position: absolute; top: 192px; right: 120px; padding: 8px 12px; border-radius: 10px; border: 1px solid black;">
-          {roughAddress}
-        </Text>
-      )}
-      <StyleLink
-        inlineStyles="box-sizing: border-box;
-  position: absolute;
-  width: 75px;
-  height: 38px;
-  right: 20px;
-  top: 192px;
-  border: 1px solid;
-  border-radius: 8px;
-  background: #f8f8f8;
-  "
-        to="/areaselection"
-      >
-        선택
-      </StyleLink>
-      <Text
-        inlineStyles="position: absolute;
-width: 30px;
-height: 22px;
-left: 20px;
-top: 260px;
-font-family: 'Noto Sans KR';
-font-style: normal;
-font-weight: 400;
-font-size: 15px;
-line-height: 22px;
-letter-spacing: -0.05em;
-color: #4A4A4A;"
-      >
-        기간
-      </Text>
-      <Input
-        inlineStyles="
-position: absolute;
-width: 104px;
-height: 38px;
-right: 150px;
-top: 254px;
-background: #F8F8F8;
-border-radius: 8px;"
-        ref={firstDayRef}
-      />
-      <Text
-        inlineStyles="position: absolute;
-width: 9px;
-height: 22px;
-right: 131px;
-top: 260px;
-font-family: Noto Sans KR;
-font-style: normal;
-font-weight: 400;
-font-size: 15px;
-line-height: 22px;
-letter-spacing: -0.05em;
-color: #000000;"
-      >
-        ~
-      </Text>
-      <Input
-        inlineStyles="
-position: absolute;
-width: 104px;
-height: 38px;
-right: 20px;
-top: 254px;
-background: #F8F8F8;
-border-radius: 8px;"
-        ref={lastDayRef}
-      />
-      <Text
-        inlineStyles="position: absolute;
-width: 3px;
-height: 3px;
-left: 21px;
-top: 308px;
-color: #256FFF;"
-      >
-        ◦
-      </Text>
-      <Text
-        inlineStyles="position: absolute;
-width: 154px;
-height: 18px;
-left: 30px;
-top: 308px;
-font-family: 'Noto Sans KR';
-font-style: normal;
-font-weight: 400;
-font-size: 12px;
-line-height: 17px;
-letter-spacing: -0.02em;
-color: #256FFF;
-"
-      >
-        예시: 2022.03.15 ~ 2022.09.23
-      </Text>
-      <Text
-        inlineStyles="position: absolute;
-width: 30px;
-height: 22px;
-left: 20px;
-top: 349px;
-font-family: 'Noto Sans KR';
-font-style: normal;
-font-weight: 400;
-font-size: 15px;
-line-height: 22px;
-letter-spacing: -0.05em;
-color: #4A4A4A;
-"
-      >
-        인원
-      </Text>
-      <Button
-        onClick={onMinus}
-        inlineStyles="width: 30px;
-          height: 30px;
-          background-color: #F2F2F2;
-          color: #212121;
-          box-sizing: border-box;
-          position: absolute;
-          top: 343px;
-          right: 148px;
-          text-align: inherit;
-          vertical-align: middle;
-          border: 1px solid #DEDEDE;
-          border-radius: 28px;"
-      >
-        ➖
-      </Button>
-      <BlankBox
-        value={people}
-        inlineStyles="position: absolute;
-width: 80px;
-height: 38px;
-right: 60px;
-top: 341px;
-background: #F8F8F8;
-border-radius: 8px;
-display: flex;
-align-items: center;
-text-align: center;
-display: inline-grid"
-      >
-        {people}
-      </BlankBox>
-      <Button
-        onClick={onPlus}
-        inlineStyles="width: 30px;
-          height: 30px;
-          background-color: #F2F2F2;
-          color: #212121;
-          box-sizing: border-box;
-          position: absolute;
-          top: 343px;
-          right: 20px;
-          text-align: inherit;
-          vertical-align: middle;
-          border: 1px solid #DEDEDE;
-          border-radius: 28px;"
-      >
-        ➕
-      </Button>
-      <Text
-        inlineStyles="position: absolute;
-width: auto;
-height: 22px;
-left: 20px;
-top: 403px;
-font-family: 'Noto Sans KR';
-font-style: normal;
-font-weight: 400;
-font-size: 15px;
-line-height: 22px;
-letter-spacing: -0.05em;
-color: #4A4A4A;"
-      >
-        이미지
-      </Text>
-      <BlankBox
-        inlineStyles="
-          position: absolute;
-width: 128px;
-height: 72px;
-left: 20px;
-top: 440px;
-border: 1px dashed #DEDEDE;
-border-radius: 8px;"
-      >
-        {!fileData ? (
-          <FileLoader accept="image/*">
-            <Image size="100%" src={defaultImg} />
-          </FileLoader>
-        ) : (
+    <>
+      {isLoading && <Loading />}
+      <Header type="Simple">스터디 그룹 개설</Header>
+      <Container>
+        <InputWrap column>
+          <h2>
+            스터디 이름 <span>*</span>
+          </h2>
+          <Input
+            placeholder="스터디 그룹 이름"
+            value={inputState.groupTitle}
+            onChange={onInputChange("groupTitle")}
+          />
+        </InputWrap>
+        <InputWrap>
+          <h2>
+            지역 <span>*</span>
+          </h2>
+          {inputState.roughAddress ? (
+            <AddressBtn
+              onClick={() => {
+                setArea("");
+                setInputState((state) => ({ ...state, roughAddress: "" }));
+              }}
+            >
+              {inputState.roughAddress} <Icon type="XOrange" />
+            </AddressBtn>
+          ) : (
+            <StyleLink to="/areaselection" onClick={setInputData}>
+              선택
+            </StyleLink>
+          )}
+        </InputWrap>
+        <InputWrap column>
+          <InputWrap>
+            <h2>기간</h2>
+            <div>
+              <Input
+                inlineStyles={`width: ${convertPixelToEm(134)};`}
+                value={inputState.firstDay}
+                onChange={onInputChange("firstDay")}
+              />
+              <span>~</span>
+              <Input
+                inlineStyles={`width: ${convertPixelToEm(134)};`}
+                value={inputState.lastDay}
+                onChange={onInputChange("lastDay")}
+              />
+            </div>
+          </InputWrap>
+          <Text
+            inlineStyles={`position: relative; top: -${convertPixelToEm(
+              20,
+            )}; font-size: ${convertPixelToEm(12)}; color: ${
+              palette.orange600
+            }`}
+          >
+            ◦ 예시: 2022.03.15 ~ 2022.09.23
+          </Text>
+        </InputWrap>
+        <InputWrap>
+          <h2>인원</h2>
           <div>
-            <Image size="100%" src={fileData as string} />
-            <Button onClick={clearFileData}>X</Button>
+            <TransparentBtn onClick={onMinus}>
+              <Icon type="CircleMinusGrey" />
+            </TransparentBtn>
+            <Input
+              inlineStyles={`width: ${convertPixelToEm(80)};`}
+              value={String(inputState.maxMemberCount)}
+              readOnly
+            />
+            <TransparentBtn onClick={onPlus}>
+              <Icon type="CirclePlusGrey" />
+            </TransparentBtn>
           </div>
-        )}
-        <div style={{ position: "fixed", top: 0 }}>
-          {isFileLoading ? "로딩중..." : "몰라앙"}
-        </div>
-      </BlankBox>
-      <Text
-        inlineStyles="position: absolute;
-width: auto;
-height: 22px;
-left: 21px;
-top: 528px;
-font-family: 'Noto Sans KR';
-font-style: normal;
-font-weight: 400;
-font-size: 15px;
-line-height: 22px;
-letter-spacing: -0.05em;
-color: #4A4A4A;"
-      >
-        설명
-      </Text>
-      <Input
-        multiLine
-        inlineStyles="position: absolute;
-width: 90%;
-height: 140px;
-left: 21px;
-top: 558px;
-background: #F8F8F8;
-border-radius: 8px;
-resize: none;"
-        ref={descRef}
-      />
-      <Button
-        inlineStyles="position: absolute;
-width: 90%;
-height: 48px;
-left: 20px;
-bottom: 60px;
-background: #4E4E4E;
-border-radius: 10px;"
-        onClick={onCreateStudyBtnClick}
-      >
-        <Text
-          inlineStyles="
-        font-family: 'Noto Sans KR';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 23px;
-        text-align: center;
-        letter-spacing: -0.04em;
-        color: #FFFFFF;"
-        >
-          스터디만들기
-        </Text>
-      </Button>
-      {/* </Grid> */}
-    </React.Fragment>
+        </InputWrap>
+        <InputWrap column>
+          <h2>이미지</h2>
+          <ImageWrap
+            image={
+              inputState.image ? String(inputState.image) : String(fileData)
+            }
+          >
+            {!fileData ? (
+              <FileLoader style={FileLoaderStyle} accept="image/*">
+                <Icon type="CameraGrey" />
+              </FileLoader>
+            ) : (
+              <>
+                <button onClick={clearImageData}>
+                  <Icon type="CircleXDark" />
+                </button>
+              </>
+            )}
+          </ImageWrap>
+        </InputWrap>
+        <InputWrap column>
+          <h2>설명</h2>
+          <Input
+            placeholder="스터디 설명 작성해주세요"
+            multiLine
+            value={inputState.description}
+            onChange={onInputChange("description")}
+          />
+        </InputWrap>
+        <CreateButton onClick={onCreateStudyBtnClick} disabled={isBtnDisabled}>
+          저장하기
+        </CreateButton>
+      </Container>
+    </>
   );
 };
 
-const StyleLink = styled(Link)<{ inlineStyles: string }>`
-  ${(props) => props.inlineStyles}
+const Container = styled.section`
+  padding: 1.25em;
+  h2 {
+    ${typography.b15r};
+    color: ${palette.grey700};
+    span {
+      display: inline-block;
+      margin-left: 0.1em;
+      color: ${palette.orange500};
+    }
+  }
+`;
+
+const InputWrap = styled.div<{ column?: boolean }>`
+  width: 100%;
+  display: flex;
+  flex-direction: ${({ column }) => (column ? "column" : "row")};
+  justify-content: space-between;
+  align-items: ${({ column }) => (column ? "flex-start" : "center")};
+  & > div {
+    display: flex;
+    align-items: center;
+    & > *:not(:first-child) {
+      margin-left: ${convertPixelToEm(8)};
+    }
+    & > input {
+      text-align: center;
+    }
+  }
+  & > h2 {
+    margin-bottom: ${({ column }) =>
+      column ? convertPixelToEm(8) : "initial"};
+  }
+  margin-bottom: ${convertPixelToEm(24)};
+`;
+
+const ImageWrap = styled.div<{ image: string }>`
+  border: ${convertPixelToEm(1)} dashed ${palette.grey200};
+  border-radius: ${convertPixelToEm(4)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: ${convertPixelToEm(128)};
+  height: ${convertPixelToEm(72)};
+  background: ${({ image }) => (image ? `url(${image})` : "none")} no-repeat;
+  background-position: center center;
+  background-size: auto 100%;
+  position: relative;
+
+  & button {
+    border: none;
+    background: none;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    transform: translate(50%, -50%);
+    cursor: pointer;
+  }
+`;
+
+const StyleLink = styled(Link)`
+  ${typography.b15r}
+  border: ${palette.orange200} ${convertPixelToEm(1)} solid;
+  color: ${palette.orange600};
+  border-radius: ${convertPixelToEm(4)};
+  padding: ${convertPixelToEm(8)} ${convertPixelToEm(24)};
+`;
+
+const FileLoaderStyle = css`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+
+const CreateButton = styled.button`
+  ${typography.b16sb}
+  width: 100%;
+  background-color: ${palette.orange600};
+  color: ${palette.grey050};
+  border: none;
+  border-radius: ${convertPixelToEm(4)};
+  padding: ${convertPixelToEm(12)};
+  &:disabled {
+    background-color: ${palette.grey200};
+    color: ${palette.grey400};
+  }
+`;
+
+const AddressBtn = styled.button`
+  ${typography.b15r}
+  background: none;
+  border: ${palette.orange200} ${convertPixelToEm(1)} solid;
+  border-radius: ${convertPixelToEm(4)};
+  padding: ${convertPixelToEm(8)} ${convertPixelToEm(24)};
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+
+  & > svg {
+    margin-left: ${convertPixelToEm(8)};
+  }
+`;
+
+const TransparentBtn = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
 
 export default StudyOpen;
