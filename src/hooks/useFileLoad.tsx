@@ -26,13 +26,13 @@ const readFileAsync = (input: HTMLInputElement) =>
   });
 
 const useFileLoad = () => {
-  const [fileData, setFileData] = useState<FileReader["result"]>();
+  const [fileData, setFileData] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setIsLoading(true);
     const data = await readFileAsync(e.target);
-    setFileData(data);
+    setFileData(data as string);
     setIsLoading(false);
   };
 
