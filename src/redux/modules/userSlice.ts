@@ -15,9 +15,15 @@ export const userSlice = createSlice({
     setUser: (state: { value: string }, action: PayloadAction<string>) => {
       state.value = action.payload;
     },
+    setProfileImage: (
+      state: { value: string },
+      action: PayloadAction<string>,
+    ) => {
+      state.value = action.payload;
+    },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setProfileImage } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -18,13 +18,10 @@ export const userApi = createApi({
       }),
     }),
     editUser: builder.query({
-      query: ({ username, image }) => ({
+      query: (data) => ({
         url: `/api/profile/edit`,
         method: "POST",
-        body: {
-          username,
-          image,
-        },
+        body: data,
       }),
     }),
   }),

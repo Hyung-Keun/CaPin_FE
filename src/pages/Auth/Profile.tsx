@@ -6,12 +6,18 @@ import Icon from "@components/Icon";
 
 import { useGetUserQuery, useLazyEditUserQuery } from "@redux/api/userApi";
 
+import gamst from "@assets/images/default.png";
 import { Button, Text, Image, Input } from "@elements";
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
+import useFileLoad from "@hooks/useFileLoad";
 
 const Profile = () => {
   const [nickname, setNickname] = useState<string>("");
   const [postTrigger, { data: postData }] = useLazyEditUserQuery();
+  const [profileImage, setProfileImage] = useState<string>("");
   const { data: getData } = useGetUserQuery(true);
+  const { FileLoader, fileData } = useFileLoad();
+  const dispatch = useAppDispatch();
 
   const debounceOnChange = useCallback(
     debounce(() => {
@@ -28,12 +34,19 @@ const Profile = () => {
     debounceOnChange();
   };
 
+  const postImage = () => {
+    console.log(getData.imageUrl);
+    setProfileImage(String(fileData));
+  };
+  console.log(profileImage);
   const postNickImage = () => {
-    postTrigger({
-      username: nickname ? nickname : getData?.username,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWzcGxl-Tfu-MUAjSslSkyzT7ULQQI4EY5QA&usqp=CAU",
-    });
+    const formData = new FormData();
+
+    formData.append("username", nickname ? nickname : getData?.username);
+    // formData.append("image", gamst);
+    formData.append("image", profileImage ? profileImage : getData.imageUrl);
+    postTrigger(formData);
+    // dispatch(setProfileImage(getData?.imageUrl))
   };
 
   return (
@@ -58,18 +71,12 @@ font-weight: 500px
         inlineStyles="margin: 142px 299px 614px 20px; position:absolute;"
       />
 
-      <Image
-        size="56px"
-        src={getData?.image_url}
-        shape="circle"
-        inlineStyles="border: none; margin: 214px 299px 614px 20px;"
-      />
       <Text inlineStyles="position: absolute; font-size: 15px; margin: 230px 188px 560px 88px; width: 150px; height: 22px;">
         새로운 사진 등록
       </Text>
 
       <Button
-        onClick={postNickImage}
+        onClick={postImage}
         inlineStyles="width: 50px;
   height: 50px;
   background-color: #F2F2F2;
@@ -80,7 +87,9 @@ font-weight: 500px
   border: none;
   border-radius: 50px;"
       >
-        <Icon type="CirclePlusOrange"></Icon>
+        <FileLoader accept="image/*">
+          <Icon type="CirclePlusOrange" />
+        </FileLoader>
       </Button>
 
       <Text
@@ -110,6 +119,7 @@ font-weight: 500px
       >
         CAPIN에서는 닉네임으로 소통해요.
       </Text>
+
       <Button
         onClick={postNickImage}
         inlineStyles="bottom: 44px;
