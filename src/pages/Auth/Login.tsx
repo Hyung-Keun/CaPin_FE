@@ -29,10 +29,15 @@ const Login = () => {
           <span style={{ fontWeight: "bold" }}>같이 스터디</span> 해요.
         </Text>
       </Text>
-
-      <Image margin="282px 0px 0px 20px" src={kakaoLogo}>
-        <Button onClick={kauthClick}></Button>
-      </Image>
+      <Button
+        onClick={kauthClick}
+        background="transparent"
+        width="0.1px"
+        height="0.1px"
+        border="transparent"
+      >
+        <Image margin="282px 0px 0px 20px" src={kakaoLogo} />
+      </Button>
     </React.Fragment>
   );
 };

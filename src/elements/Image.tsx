@@ -66,7 +66,7 @@ const ImageCircle = styled.div<IImage>`
   border-radius: var(--size);
   background-image: url("${(props) => props.src}");
   background-size: cover;
-  margin: 4px;
+  margin: ${(props) => (props.margin ? `${props.margin};` : "")};
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
 `;
 
