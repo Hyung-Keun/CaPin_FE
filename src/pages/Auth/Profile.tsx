@@ -10,6 +10,7 @@ import gamst from "@assets/images/default.png";
 import { Button, Text, Image, Input } from "@elements";
 import { useAppDispatch, useAppSelector } from "@hooks/redux";
 import useFileLoad from "@hooks/useFileLoad";
+import { base64ToBlob } from "@utils/func";
 
 const Profile = () => {
   const [nickname, setNickname] = useState<string>("");
@@ -38,15 +39,22 @@ const Profile = () => {
     console.log(getData.imageUrl);
     setProfileImage(String(fileData));
   };
-  console.log(profileImage);
-  const postNickImage = () => {
-    const formData = new FormData();
+  // console.log(fileData);
+  // console.log(getData?.imageUrl);
+  // console.log(profileImage);
+  const postNickImage = async () => {
+    const imgUrl = fileData ?? profileImage;
+    const imgBlob = await base64ToBlob(imgUrl);
 
-    formData.append("username", nickname ? nickname : getData?.username);
-    // formData.append("image", gamst);
-    formData.append("image", profileImage ? profileImage : getData.imageUrl);
-    postTrigger(formData);
-    // dispatch(setProfileImage(getData?.imageUrl))
+    if (imgBlob) {
+      const formData = new FormData();
+
+      formData.append("username", nickname ? nickname : getData?.username);
+      // formData.append("image", gamst);
+      formData.append("image", imgBlob);
+      postTrigger(formData);
+      // dispatch(setProfileImage(getData?.imageUrl))
+    }
   };
 
   return (
@@ -66,7 +74,7 @@ font-weight: 500px
       </Text>
       <Image
         size="56px"
-        src={getData?.imageUrl}
+        src={fileData ?? getData?.imageUrl}
         shape="circle"
         inlineStyles="margin: 142px 299px 614px 20px; position:absolute;"
       />
