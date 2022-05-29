@@ -1,33 +1,52 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
-import { setUser } from "@redux/modules/userSlice";
+import { debounce } from "lodash";
 
-import gamst from "@assets/images/gamst.jpeg";
-import { Button, Grid, Text, Image, Input } from "@elements";
-import { useAppDispatch, useAppSelector } from "@hooks/redux";
+import Icon from "@components/Icon";
+
+import { useGetUserQuery, useLazyEditUserQuery } from "@redux/api/userApi";
+
+import { Button, Text, Image, Input } from "@elements";
 
 const Profile = () => {
   const [nickname, setNickname] = useState<string>("");
-  const name = useAppSelector((state) => state.user.value);
-  const dispatch = useAppDispatch();
+  const [postTrigger, { data: postData }] = useLazyEditUserQuery();
+  const { data: getData } = useGetUserQuery(true);
 
-  const onChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+  const debounceOnChange = useCallback(
+    debounce(() => {
+      console.log("Debounce function");
+    }, 700),
+    [],
+  );
+
+  const onChangeNickname: React.ChangeEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
     console.log(event.target.value);
-    console.log(name);
     setNickname(event.target.value);
+    debounceOnChange();
   };
-  const onClick = () => {
-    console.log("서버에 닉네임보내기");
-    dispatch(setUser(nickname));
+
+  console.log(getData?.username);
+  console.log(nickname);
+
+  const postNickImage = () => {
+    if (nickname === "") {
+      setNickname(getData?.username);
+    }
+    postTrigger({
+      username: nickname,
+      image:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWzcGxl-Tfu-MUAjSslSkyzT7ULQQI4EY5QA&usqp=CAU",
+    });
   };
 
   return (
     <React.Fragment>
-      <Grid inlineStyles="background-color: #FFFFFF">
-        <Text
-          inlineStyles="
-          position: absolute;
-width: 203px;
+      <Text
+        inlineStyles="
+width: 100%;
 height: 26px;
 left: 20px;
 top: 100px;
@@ -35,88 +54,85 @@ font-size: 18px;
 line-height: 26px;
 font-weight: 500px
         "
-        >
-          프로필사진을 선택해주세요.
-        </Text>
-        <Image
-          size="56px"
-          src={gamst}
-          shape="circle"
-          inlineStyles="margin: 142px 299px 614px 20px; position:absolute;"
-        />
+      >
+        프로필사진을 선택해주세요.
+      </Text>
+      <Image
+        size="56px"
+        src={getData?.imageUrl}
+        shape="circle"
+        inlineStyles="margin: 142px 299px 614px 20px; position:absolute;"
+      />
 
-        <Image
-          size="56px"
-          shape="circle"
-          inlineStyles="background-color: #F2F2F2; border: none; margin: 214px 299px 614px 20px; position: absolute "
-        />
-        <Text inlineStyles="position: absolute font-size: 15px; font-weight: 500px; margin: 230px 188px 560px 88px; width: 150px; height: 22px;">
-          새로운 사진 등록
-        </Text>
-        <Button
-          inlineStyles="width: 50px;
+      <Image
+        size="56px"
+        src={getData?.image_url}
+        shape="circle"
+        inlineStyles="border: none; margin: 214px 299px 614px 20px;"
+      />
+      <Text inlineStyles="position: absolute; font-size: 15px; margin: 230px 188px 560px 88px; width: 150px; height: 22px;">
+        새로운 사진 등록
+      </Text>
+
+      <Button
+        onClick={postNickImage}
+        inlineStyles="width: 50px;
   height: 50px;
   background-color: #F2F2F2;
   color: #212121;
-  box-sizing: border-box;
-  font-size: 36px;
-  font-weight: 800;
   position: absolute;
-  top: 217px;
-  left: 23px;
-  text-align: center;
-  column-align: middle;
+  top: 267px;
+  left: 20px;
   border: none;
   border-radius: 50px;"
-        >
-          +
-        </Button>
-        <Text
-          inlineStyles="width: 170px;
+      >
+        <Icon type="CirclePlus"></Icon>
+      </Button>
+
+      <Text
+        inlineStyles="width: 170px;
     height: 26px;
     top: 350px;
     position: absolute;
     left: 20px; 
     fonst-size: 18px;
     font-weight: 500"
-        >
-          닉네임을 입력해주세요. {nickname}
-        </Text>
-        <Input
-          placeholder="닉네임"
-          type="text"
-          value={nickname}
-          onChange={onChange}
-          inlineStyles="position: absolute; width: auto; height: 44px; top 384px; border-radius: 10px; left: 20px; right: 20px"
-        />
-        <Text
-          inlineStyles="top: 444px;
+      >
+        닉네임을 입력해주세요. {nickname}
+      </Text>
+      <Input
+        placeholder={getData?.username}
+        type="text"
+        value={nickname}
+        onChange={onChangeNickname}
+        inlineStyles="position: absolute; width: auto; height: 44px; top 384px; border-radius: 10px; left: 20px; right: 20px"
+      />
+      <Text
+        inlineStyles="top: 444px;
     position: absolute;
     left: 20px;
     font-size: 12px;
     color: #848484;"
-        >
-          닉네임으로 소통해요.
-        </Text>
-        <Button
-          inlineStyles="bottom: 44px;
-    position: absolute;
+      >
+        CAPIN에서는 닉네임으로 소통해요.
+      </Text>
+      <Button
+        onClick={postNickImage}
+        inlineStyles="bottom: 44px;
     width: auto;
     height: 48px;
     left: 20px;
     right: 20px;
     background: #4E4E4E;
     border-radius: 10px;"
-          onClick={onClick}
-        >
-          <Text
-            inlineStyles="color: #FFFFFF;
+      >
+        <Text
+          inlineStyles="color: #FFFFFF;
           font-weight: 500; font-size: 16px;"
-          >
-            가입완료
-          </Text>
-        </Button>
-      </Grid>
+        >
+          가입완료
+        </Text>
+      </Button>
     </React.Fragment>
   );
 };

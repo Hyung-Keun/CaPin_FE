@@ -2,6 +2,7 @@ import { ReactComponent as ArrowLeft } from "./arrow-left.svg";
 import { ReactComponent as ArrowRight } from "./arrow-right.svg";
 import { ReactComponent as Calendar } from "./calendar.svg";
 import { ReactComponent as Camera } from "./camera.svg";
+import { ReactComponent as CirclePlus } from "./circlePlus.svg";
 import { ReactComponent as CircleX } from "./circleX.svg";
 import { ReactComponent as FabButton } from "./fab-button.svg";
 import { ReactComponent as ActiveHome } from "./home-active.svg";
@@ -36,5 +37,6 @@ const icons = {
   ActiveSearch,
   Share,
   CircleX,
+  CirclePlus,
 };
 export default icons;
