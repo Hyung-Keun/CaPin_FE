@@ -1,36 +1,52 @@
-import React, { useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 
 import { debounce } from "lodash";
+import styled from "styled-components";
 
-import { useGetAddressQuery } from "@redux/api/placeApi";
-import { placeApi } from "@redux/api/placeApi";
+import Icon from "@components/Icon";
+
+import { useLazyPostCoordinateQuery } from "@redux/api/coordinateApi";
+import { useLazyGetAddressQuery } from "@redux/api/placeApi";
 
 import dummy from "./data.json";
 
-import { BlankBox, Text, Input, Button, Image } from "@elements";
+import { BlankBox, Text, Input, Button } from "@elements";
 
 const PlaceSearch = () => {
-  const [searchTxt, setSearchTxt] = useState("");
+  const [searchTxt, setSearchTxt] = useState<string>("");
+  const [isShowSearchList, setIsShowSearchList] = useState(false);
 
-  const { data } = useGetAddressQuery(searchTxt);
+  const [trigger, { data, isSuccess }] = useLazyGetAddressQuery();
+  const [selectedAddress, setSelectedAddress] = useState<any>({});
+  const [postTrigger, { error, isError, isSuccess: Success }] =
+    useLazyPostCoordinateQuery();
 
-  const searchAddress = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  const debounceOnChange = useCallback(
+    debounce((value) => {
+      console.log("Debounce function");
+      trigger(value);
+      setIsShowSearchList(true);
+    }, 700),
+    [],
+  );
+
+  const searchAddress = (event: any) => {
+    console.log(searchTxt);
     setSearchTxt(event.target.value);
-    console.log(event.target.value);
+    debounceOnChange(event.target.value);
   };
 
-  const searchResult: any[] = [];
-  const addressData = data?.documents;
-  if (addressData !== undefined && addressData != null) {
-    for (let idx = 0; idx < addressData.length; idx++) {
-      const result = data?.documents[idx].address.address_name;
-      console.log(`${result} : ${idx}`);
-      searchResult.push(result);
-    }
-  }
-  console.log(searchResult);
+  console.log(selectedAddress);
+
+  const postCoordinates = () => {
+    postTrigger({
+      groupId: 9,
+      startLocationX: selectedAddress.x,
+      startLocationY: selectedAddress.y,
+      startAddress: selectedAddress.address_name,
+    });
+  };
+
   return (
     <React.Fragment>
       <BlankBox
@@ -55,34 +71,6 @@ const PlaceSearch = () => {
         >
           출발지를 입력하고 중간장소와 카페를 추천받으세요!
         </Text>
-        <Text
-          inlineStyles="
-          position: absolute;
-          width: auto;
-          height: 20px;
-          left: 20px;
-          top: 240px;
-          font-family: 'Noto Sans KR';
-          font-style: normal;
-          font-weight: 400;
-          font-size: 14px;
-          line-height: 20px;
-          letter-spacing: -0.03em;
-          color: #4F4F4F;
-          "
-        >
-          방장닉네임1
-        </Text>
-        <Input
-          placeholder="출발지를 입력해주세요!"
-          inlineStyles="position: absolute;
-width: 335px;
-height: 46px;
-left: 20px;
-top: 265px;
-background: #F7F7F7;
-border-radius: 10px;"
-        />
         {dummy.nickname.map((item) => (
           <React.Fragment key={item.id}>
             <Text
@@ -90,7 +78,7 @@ border-radius: 10px;"
 width: 46px;
 height: 20px;
 left: 20px;
-top: 327px;
+top: 238px;
 font-family: 'Noto Sans KR';
 font-style: normal;
 font-weight: 700;
@@ -102,20 +90,64 @@ margin-top: 5px"
             >
               {item.name}
             </Text>
-            <Input
-              onChange={debounce(searchAddress, 700)}
-              placeholder="출발지를 입력해주세요!"
-              inlineStyles="position: relative;
+            {Object.keys(selectedAddress).length ? (
+              <BlankBox inlineStyles="width: 335px; height: 44px; top: 242px; left: 20px; position: relative;background-color:#F5F5F5; border-radius: 6px;">
+                <Text inlineStyles="top:11px; left: 2px; position: relative; font-size: 16px">
+                  {selectedAddress.address_name}
+                </Text>
+                <Button
+                  background="none"
+                  border="none"
+                  inlineStyles="position: relative; left: 301px; bottom: 5px;"
+                  onClick={() => {
+                    setSelectedAddress({});
+                    setSearchTxt("");
+                  }}
+                >
+                  <Icon type="CircleX" />
+                </Button>
+              </BlankBox>
+            ) : (
+              <BlankBox>
+                <Input
+                  value={searchTxt}
+                  onChange={searchAddress}
+                  placeholder="출발지를 입력해주세요!"
+                  inlineStyles="position: relative;
 width: 335px;
-height: 46px;
+height: 44px;
 left: 20px;
-top: 330px;
-background: #F7F7F7;
-border-radius: 10px;"
-            />
+top: 242px;
+background: #F5F5F5;
+border-radius: 6px;
+padding: 11px 0px 0px 14px;
+font-size: 16px;
+"
+                />
+              </BlankBox>
+            )}
+
+            {isShowSearchList && searchTxt ? (
+              <AutoSearchContainer>
+                <AutoSearchWrap>
+                  {data?.documents.map((item: any, idx: number) => (
+                    <AutoSearchData
+                      key={idx}
+                      onClick={() => {
+                        setSelectedAddress(item);
+                        setIsShowSearchList(false);
+                      }}
+                    >
+                      {item.address_name}
+                    </AutoSearchData>
+                  ))}
+                </AutoSearchWrap>
+              </AutoSearchContainer>
+            ) : (
+              <AutoSearchData></AutoSearchData>
+            )}
           </React.Fragment>
         ))}
-        <Text>{searchResult}</Text>
         <Button
           inlineStyles="position: relative;
 width: 335px;
@@ -129,6 +161,7 @@ color: #FFFFFF"
           저장하기
         </Button>
         <Button
+          onClick={postCoordinates}
           inlineStyles="position: relative;
           width: 335px;
           height: 48px;
@@ -143,4 +176,29 @@ color: #FFFFFF"
     </React.Fragment>
   );
 };
+
+const AutoSearchContainer = styled.div`
+  z-index: 1;
+  width: 335px;
+  background-color: #f5f5f5;
+  position: relative;
+  top: 226px;
+  left: 20px;
+`;
+
+const AutoSearchWrap = styled.ul``;
+
+const AutoSearchData = styled.ul`
+  padding: 5px 0px 0px 3px;
+  width: 100%;
+  font-size: 16px;
+  z-index: 4;
+  &:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+  position: relative;
+  border-top: hidden;
+`;
+
 export default PlaceSearch;

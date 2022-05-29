@@ -1,4 +1,7 @@
+import { GroupListResponse, GroupsQueryOption } from "@type/group";
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { getValidQueryParameter } from "@utils/api";
 import { prepareHeaders } from "@utils/auth";
 import { BASE_API_URL } from "@utils/const";
 
@@ -11,6 +14,16 @@ export const studyApi = createApi({
   }),
 
   endpoints: (builder) => ({
+    getStudiesByOptions: builder.query<GroupListResponse, GroupsQueryOption>({
+      query: (option) => {
+        const queryParameter = getValidQueryParameter(option);
+
+        return {
+          url: `/api/groups/list${queryParameter}`,
+          method: "GET",
+        };
+      },
+    }),
     createStudy: builder.query({
       query: (data) => ({
         url: `/api/groups`,
@@ -21,4 +34,5 @@ export const studyApi = createApi({
   }),
 });
 
-export const { useLazyCreateStudyQuery } = studyApi;
+export const { useLazyCreateStudyQuery, useGetStudiesByOptionsQuery } =
+  studyApi;
