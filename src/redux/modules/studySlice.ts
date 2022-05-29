@@ -1,23 +1,37 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface CommonState {
-  value: string;
+export interface IStudyOpenData {
+  data: {
+    groupTitle: string;
+    description: string;
+    maxMemberCount: number;
+    image: FileReader["result"];
+    firstDay: string;
+    lastDay: string;
+  };
 }
 
-const initialState: CommonState = {
-  value: "",
+const initialState: IStudyOpenData = {
+  data: {
+    groupTitle: "",
+    description: "",
+    maxMemberCount: 2,
+    image: "",
+    firstDay: "",
+    lastDay: "",
+  },
 };
 
 export const studySlice = createSlice({
   name: "study",
   initialState,
   reducers: {
-    setStudy: (state: { value: string }, action: PayloadAction<string>) => {
-      state.value = action.payload;
+    setStudyOpenData: (state, action: PayloadAction<IStudyOpenData>) => {
+      state.data = action.payload.data;
     },
   },
 });
 
-export const { setStudy } = studySlice.actions;
+export const { setStudyOpenData } = studySlice.actions;
 
 export default studySlice.reducer;
