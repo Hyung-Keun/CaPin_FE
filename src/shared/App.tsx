@@ -36,7 +36,7 @@ const App = () => {
           <Route path="/placesearch" element={<PlaceSearch />} />
           <Route path="/postcode" element={<PostCode />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/specificstudy" element={<SpecificStudy />} />
+          <Route path="/specificstudy/:id" element={<SpecificStudy />} />
           <Route path="/areaselection" element={<AreaSelection />} />
           <Route path="*" element={<Navigate to="/notfound" replace />} />
         </Routes>
