@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { debounce } from "lodash";
 
@@ -6,9 +7,7 @@ import Icon from "@components/Icon";
 
 import { useGetUserQuery, useLazyEditUserQuery } from "@redux/api/userApi";
 
-import gamst from "@assets/images/default.png";
 import { Button, Text, Image, Input } from "@elements";
-import { useAppDispatch, useAppSelector } from "@hooks/redux";
 import useFileLoad from "@hooks/useFileLoad";
 import { base64ToBlob } from "@utils/func";
 
@@ -18,7 +17,7 @@ const Profile = () => {
   const [profileImage, setProfileImage] = useState<string>("");
   const { data: getData } = useGetUserQuery(true);
   const { FileLoader, fileData } = useFileLoad();
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const debounceOnChange = useCallback(
     debounce(() => {
@@ -39,21 +38,17 @@ const Profile = () => {
     console.log(getData.imageUrl);
     setProfileImage(String(fileData));
   };
-  // console.log(fileData);
-  // console.log(getData?.imageUrl);
-  // console.log(profileImage);
+
   const postNickImage = async () => {
     const imgUrl = fileData ?? profileImage;
     const imgBlob = await base64ToBlob(imgUrl);
 
     if (imgBlob) {
       const formData = new FormData();
-
       formData.append("username", nickname ? nickname : getData?.username);
-      // formData.append("image", gamst);
       formData.append("image", imgBlob);
       postTrigger(formData);
-      // dispatch(setProfileImage(getData?.imageUrl))
+      navigate("/");
     }
   };
 
