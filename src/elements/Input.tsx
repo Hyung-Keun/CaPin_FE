@@ -17,9 +17,12 @@ interface IInput<T> {
   label?: string;
   multiLine?: boolean;
   rows?: number;
+  width?: string;
+  minWidth?: string;
   onSubmit?: React.FormEventHandler<T>;
   onChange?: React.ChangeEventHandler<T>;
   readOnly?: boolean;
+  margin?: string;
 }
 
 const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
@@ -31,10 +34,12 @@ const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
       value,
       label,
       multiLine,
-
+      width,
+      minWidth,
       onSubmit,
       onChange,
       readOnly,
+      margin,
     },
     ref,
   ) => {
@@ -48,6 +53,9 @@ const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
             value={value}
             placeholder={placeholder}
             onChange={onChange}
+            margin={margin}
+            width={width}
+            minWidth={minWidth}
             ref={ref as React.ForwardedRef<HTMLTextAreaElement>}
           />
         </React.Fragment>
@@ -63,6 +71,9 @@ const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
           onChange={onChange}
           onSubmit={onSubmit}
           readOnly={readOnly}
+          width={width}
+          minWidth={minWidth}
+          margin={margin}
           ref={ref as React.ForwardedRef<HTMLInputElement>}
         />
       </React.Fragment>
@@ -73,7 +84,6 @@ const Input = React.forwardRef<HTMLInputBlockType, IInput<HTMLInputBlockType>>(
 Input.displayName = "Input";
 
 const commonStyle = css`
-  width: 100%;
   background-color: ${palette.grey050};
   border-radius: 0.25em;
   border: none;
@@ -89,14 +99,20 @@ const commonStyle = css`
 const ElInput = styled.input<IInput<HTMLInputElement>>`
   ${commonStyle}
   padding: ${convertPixelToEm(12)} ${convertPixelToEm(14)};
-  ${({ inlineStyles }) => inlineStyles}
+  width: ${(props) => (props.width ? `${props.width}` : "")};
+  min-width: ${(props) => (props.minWidth ? `${props.minWidth}` : "")};
+  ${({ inlineStyles }) => inlineStyles};
+  margin: ${(props) => (props.margin ? `${props.margin}` : "")};
 `;
 
 const ElTextarea = styled.textarea<IInput<HTMLTextAreaElement>>`
   ${commonStyle}
   padding: ${convertPixelToEm(8)} ${convertPixelToEm(12)};
-  ${({ inlineStyles }) => inlineStyles}
+  width: ${(props) => (props.width ? `${props.width}` : "")};
+  min-width: ${(props) => (props.minWidth ? `${props.minWidth}` : "")};
+  ${({ inlineStyles }) => inlineStyles};
   resize: none;
+  margin: ${(props) => (props.margin ? `${props.margin}` : "")};
 `;
 
 export default Input;

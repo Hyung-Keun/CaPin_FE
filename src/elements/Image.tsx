@@ -9,9 +9,10 @@ interface IImage {
   inlineStyles?: string;
   src?: string;
   children?: React.ReactNode;
+  margin?: string;
 }
-const Image = ({ src, shape, size, inlineStyles }: IImage) => {
-  const styles: IImage = { src, size, inlineStyles };
+const Image = ({ src, shape, size, inlineStyles, margin }: IImage) => {
+  const styles: IImage = { src, size, margin, inlineStyles };
 
   if (shape === "circle") {
     return <ImageCircle {...styles}></ImageCircle>;
@@ -40,6 +41,7 @@ const ImageDefault = styled.img<IImage>`
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  margin: ${(props) => (props.margin ? `${props.margin};` : "")};
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
 `;
 
@@ -64,7 +66,7 @@ const ImageCircle = styled.div<IImage>`
   border-radius: var(--size);
   background-image: url("${(props) => props.src}");
   background-size: cover;
-  margin: 4px;
+  margin: ${(props) => (props.margin ? `${props.margin};` : "")};
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
 `;
 

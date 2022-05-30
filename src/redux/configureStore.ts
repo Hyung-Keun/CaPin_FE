@@ -4,6 +4,7 @@ import { authApi } from "./api/authApi";
 import { coordinateApi } from "./api/coordinateApi";
 import { placeApi } from "./api/placeApi";
 import { studyApi } from "./api/studyApi";
+import { userApi } from "./api/userApi";
 import areaReducer from "./modules/areaSlice";
 import authReducer from "./modules/authSlice";
 import initReducer from "./modules/initSlice";
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   [placeApi.reducerPath]: placeApi.reducer,
   [studyApi.reducerPath]: studyApi.reducer,
   [coordinateApi.reducerPath]: coordinateApi.reducer,
+  [userApi.reducerPath]: userApi.reducer,
 });
 
 const initialState = {};

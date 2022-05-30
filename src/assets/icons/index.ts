@@ -5,6 +5,7 @@ import { ReactComponent as CameraGrey } from "./camera-grey.svg";
 import { ReactComponent as Camera } from "./camera.svg";
 import { ReactComponent as CircleMinusGrey } from "./circle-minus-grey.svg";
 import { ReactComponent as CirclePlusGrey } from "./circle-plus-grey.svg";
+import { ReactComponent as CirclePlusOrange } from "./circle-plus-orange.svg";
 import { ReactComponent as CircleXDark } from "./circle-x-dark.svg";
 import { ReactComponent as CircleX } from "./circleX.svg";
 import { ReactComponent as FabButton } from "./fab-button.svg";
@@ -44,6 +45,7 @@ const icons = {
   ActiveSearch,
   Share,
   CircleX,
+  CirclePlusOrange,
   CircleXDark,
   CircleMinusGrey,
   CirclePlusGrey,
