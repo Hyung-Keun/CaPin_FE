@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Map, MapMarker, MapProps, MapTypeControl } from "react-kakao-maps-sdk";
+import React, { useEffect, useState } from "react";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 
-import { ICafeData, IPosition } from "@type/init";
+import { IPosition } from "@type/init";
 
 import { setCafeData } from "@redux/modules/mapSlice";
 
@@ -45,9 +45,7 @@ const CafeMap = ({ center, width, height }: ICafeMap) => {
             if (status === kakao.maps.services.Status.OK) {
               const bounds = new kakao.maps.LatLngBounds();
               const markers: IMarker[] = [];
-              const cafeList: ICafeData[] = [];
-
-              data.map((d) => {
+              const cafeList = data.map((d) => {
                 /**
                  * address_name: "부산 영도구 봉래동2가 145-6"
                  * category_group_code: "CE7"
@@ -62,34 +60,26 @@ const CafeMap = ({ center, width, height }: ICafeMap) => {
                  * x: "129.0435385821103"
                  * y: "35.096465155803486"
                  */
-                const { id, place_name, road_address_name, x, y } = d;
-                const lat = Number(y);
-                const lng = Number(x);
+                const lat = Number(d.y);
+                const lng = Number(d.x);
 
                 markers.push({
                   position: {
                     lat,
                     lng,
                   },
-                  content: place_name,
+                  content: d.place_name,
                 });
 
                 bounds.extend(new kakao.maps.LatLng(lat, lng));
 
-                const newCafeData = {
-                  id,
-                  imgSrc: "",
-                  name: place_name,
-                  addr: road_address_name,
-                  hours: "10:00 ~ 20:00",
-                  rate: 4.8,
-                  reviewCnt: 13,
-                  position: {
-                    lat,
-                    lng,
-                  },
+                return {
+                  ...d,
+                  mainphotourl: "",
+                  comntcnt: "??",
+                  scoresum: "?",
+                  scorecnt: "?",
                 };
-                cafeList.push(newCafeData);
               });
 
               setMarkers(markers);
