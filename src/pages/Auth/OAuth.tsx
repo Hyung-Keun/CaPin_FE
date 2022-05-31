@@ -30,7 +30,7 @@ const OAuth = () => {
       setRefreshTokenLS(refreshToken);
       dispatch(updateAccessToken(accessToken));
       dispatch(updateRefreshToken(refreshToken));
-      navigate("/profile");
+      navigate("/profilesetting");
     } else if (isError) {
       console.log(error);
       navigate("/");
