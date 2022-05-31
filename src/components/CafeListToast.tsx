@@ -23,6 +23,7 @@ const ToastList = () => {
         items={cafeItemList}
         gap="1.5em"
         direction="column"
+        allItemsLink=""
       />
     </Container>
   );
