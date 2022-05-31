@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import { Text } from "./index";
 
 import { palette, typography } from "@utils/const";
-import { convertPixelToEm } from "@utils/func";
+import { convertPixelToRem } from "@utils/func";
 
 type HTMLInputBlockType = HTMLTextAreaElement | HTMLInputElement;
 

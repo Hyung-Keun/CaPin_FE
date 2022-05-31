@@ -3,43 +3,40 @@ import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 
-import { IPosition } from "@type/init";
+import { CafeInfo } from "@type/cafe";
 
 import Icon from "@components/Icon";
 
 import { Image } from "@elements";
 import { palette } from "@utils/const";
 
-interface ICafeItem {
-  id: string;
-  imgSrc: string;
-  name: string;
-  addr: string;
-  hours: string;
-  rate: number;
-  reviewCnt: number;
-  position: IPosition;
-}
-
 const CafeItem = ({
   id,
-  imgSrc,
-  name,
-  addr,
-  hours,
-  rate,
-  reviewCnt,
-}: ICafeItem) => {
+  category_group_code,
+  category_group_name,
+  category_name,
+  distance,
+  phone,
+  place_name,
+  place_url,
+  road_address_name,
+  x,
+  y,
+  mainphotourl,
+  comntcnt,
+  scoresum,
+  scorecnt,
+}: CafeInfo) => {
   return (
     <Container to={`/cafe/detail/${id}`}>
-      <Image src={imgSrc} inlineStyles="width: 8.75em; height: 6.5em;" />
+      <Image src={mainphotourl} inlineStyles="width: 8.75em; height: 6.5em;" />
       <InfoArea>
-        <Title>{name}</Title>
-        <Address>{addr}</Address>
-        <OpeningHours>{hours}</OpeningHours>
+        <Title>{place_name}</Title>
+        <Address>{road_address_name}</Address>
+        <OpeningHours>확인 필요</OpeningHours>
         <AttractionInfo>
           <Icon type="Star" />
-          {rate} <Review>리뷰 {reviewCnt}</Review>
+          {scorecnt} / {scoresum} <Review>리뷰 {comntcnt}</Review>
         </AttractionInfo>
       </InfoArea>
     </Container>

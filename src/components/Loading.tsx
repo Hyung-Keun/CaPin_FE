@@ -20,14 +20,15 @@ const Container = styled.section`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: ${palette.grey050};
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 `;
 
 const CircleArea = styled.div`
-  background-color: ${palette.grey050};
+  background-color: ${palette.white};
   border-radius: 50%;
   display: flex;
   justify-content: center;

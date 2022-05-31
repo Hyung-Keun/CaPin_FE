@@ -1,28 +1,31 @@
-import { IInitState } from "@type/init";
-
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: IInitState = {
+const initialState = {
+  activePageName: "HOME",
   navList: [
     {
-      name: "홈",
+      name: "HOME",
       path: "/",
-      iconType: "ArrowLeft",
+      iconType: {
+        active: "ActiveHome",
+        inactive: "Home",
+      },
     },
     {
-      name: "탐색",
-      path: "/",
-      iconType: "ArrowLeft",
+      name: "SEARCH",
+      path: "/search",
+      iconType: {
+        active: "ActiveSearch",
+        inactive: "Search",
+      },
     },
     {
-      name: "채팅",
-      path: "/",
-      iconType: "ArrowLeft",
-    },
-    {
-      name: "마이페이지",
-      path: "/",
-      iconType: "ArrowLeft",
+      name: "ME",
+      path: "/mypage",
+      iconType: {
+        active: "ActiveMe",
+        inactive: "Me",
+      },
     },
   ],
 };
@@ -30,9 +33,13 @@ const initialState: IInitState = {
 export const initSlice = createSlice({
   name: "init",
   initialState,
-  reducers: {},
+  reducers: {
+    setActiveBtnName(state, action) {
+      state.activePageName = action.payload;
+    },
+  },
 });
 
-export const {} = initSlice.actions;
+export const { setActiveBtnName } = initSlice.actions;
 
 export default initSlice.reducer;

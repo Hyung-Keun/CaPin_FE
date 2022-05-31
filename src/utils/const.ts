@@ -11,6 +11,8 @@ export const REFRESH_TOKEN_LS = "refresh_token";
 export const MOBILE_WIDTH = "428px";
 
 export const palette = {
+  white: "#ffffff",
+
   orange030: "#faf1ef",
   orange050: "#F9E9E7",
   orange100: "#fbccbd",
@@ -41,81 +43,81 @@ export const typography = {
     font-size: 24px;
     font-weight: 500;
     line-height: 36px;
-    letter-spacing: -4px;
+    letter-spacing: -4%;
   `,
   t20b: css`
     font-size: 20px;
     font-weight: 700;
     line-height: 30px;
-    letter-spacing: -4px;
+    letter-spacing: -4%;
   `,
   st18sb: css`
     font-size: 18px;
     font-weight: 600;
     line-height: 27px;
-    letter-spacing: -3px;
+    letter-spacing: -3%;
   `,
   st17b: css`
     font-size: 17px;
     font-weight: 700;
     line-height: 25px;
-    letter-spacing: -3px;
+    letter-spacing: -3%;
   `,
   st16b: css`
     font-size: 16px;
     font-weight: 700;
     line-height: 23px;
-    letter-spacing: -3px;
+    letter-spacing: -3%;
   `,
   b16sb: css`
     font-size: 16px;
     font-weight: 600;
     line-height: 23px;
-    letter-spacing: -3px;
+    letter-spacing: -3%;
   `,
   b16r: css`
     font-size: 16px;
     line-height: 23px;
-    letter-spacing: -3px;
+    letter-spacing: -3%;
   `,
   b15r: css`
     font-size: 15px;
     line-height: 22px;
-    letter-spacing: -3px;
+    letter-spacing: -3%;
   `,
   b14b: css`
     font-size: 14px;
     font-weight: 700;
     line-height: 20px;
-    letter-spacing: -3px;
+    letter-spacing: -3%;
   `,
   b14m: css`
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
-    letter-spacing: -3px;
+    letter-spacing: -3%;
   `,
   b14r: css`
     font-size: 14px;
     line-height: 20px;
-    letter-spacing: -3px;
+    letter-spacing: -3%;
   `,
   b13sb: css`
     font-size: 13px;
     font-weight: 500;
     line-height: 19px;
-    letter-spacing: -2px;
+    letter-spacing: -2%;
   `,
   b13r: css`
     font-size: 13px;
     line-height: 19px;
-    letter-spacing: -2px;
+    letter-spacing: -2%;
   `,
   b12m: css`
     font-size: 12px;
     font-weight: 500;
     line-height: 18px;
-    letter-spacing: -2px;
+    letter-spacing: -2%;
   `,
 };
 

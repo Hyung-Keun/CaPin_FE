@@ -1,28 +1,32 @@
-import { ICafeData, IPosition } from "@type/init";
+import { CafeInfo } from "@type/cafe";
+import { IPosition } from "@type/init";
 
-import defaultImage from "@assets/images/default.png";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IMapData {
   center: IPosition;
-  cafeList: ICafeData[];
+  cafeList: CafeInfo[];
 }
 
 const initialState: IMapData = {
   center: { lat: 37.5559, lng: 126.9723 },
   cafeList: [
     {
-      id: "1",
-      imgSrc: defaultImage,
-      name: "노량진 카페맛집",
-      addr: "서울특별시 서초구 서초동",
-      hours: "10:00 ~ 20: 00",
-      rate: 4.8,
-      reviewCnt: 13,
-      position: {
-        lat: 129.0435385821103,
-        lng: 35.096465155803486,
-      },
+      id: "",
+      category_group_code: "",
+      category_group_name: "",
+      category_name: "",
+      distance: "",
+      phone: "",
+      place_name: "",
+      place_url: "",
+      road_address_name: "",
+      x: "",
+      y: "",
+      mainphotourl: "",
+      comntcnt: "",
+      scoresum: "",
+      scorecnt: "",
     },
   ],
 };
@@ -37,10 +41,10 @@ export const mapSlice = createSlice({
     setPosition(state: IMapData, action: PayloadAction<IPosition>) {
       state.center = { ...state.center, ...action.payload };
     },
-    setCafeData(state: IMapData, action: PayloadAction<ICafeData[]>) {
+    setCafeData(state: IMapData, action: PayloadAction<CafeInfo[]>) {
       state.cafeList = action.payload;
     },
-    addCafeData(state: IMapData, action: PayloadAction<ICafeData[]>) {
+    addCafeData(state: IMapData, action: PayloadAction<CafeInfo[]>) {
       state.cafeList = [...state.cafeList, ...action.payload];
     },
   },

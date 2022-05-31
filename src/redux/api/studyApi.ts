@@ -31,8 +31,17 @@ export const studyApi = createApi({
         body: data,
       }),
     }),
+    getMyStudyGroup: builder.query<GroupListResponse, null>({
+      query: () => ({
+        url: `/api/groups/my`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useLazyCreateStudyQuery, useGetStudiesByOptionsQuery } =
-  studyApi;
+export const {
+  useLazyCreateStudyQuery,
+  useGetStudiesByOptionsQuery,
+  useGetMyStudyGroupQuery,
+} = studyApi;

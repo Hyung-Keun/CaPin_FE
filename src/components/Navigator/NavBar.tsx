@@ -1,22 +1,39 @@
+import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
 
-import NavItem from "./NavItem";
+import { IIconType } from "@type/asset";
+
+import Icon from "@components/Icon";
+
+import { setActiveBtnName } from "@redux/modules/initSlice";
 
 import { useAppSelector } from "@hooks/redux";
-import { MOBILE_WIDTH, palette } from "@utils/const";
+import { palette } from "@utils/const";
+import { convertPixelToRem } from "@utils/func";
 
 const NavBar = () => {
-  const { navList } = useAppSelector(({ init }) => init);
+  const navigate = useNavigate();
+  const { activePageName, navList } = useAppSelector(({ init }) => init);
+  const onNavItemClick = (name: string, path: string) => () => {
+    setActiveBtnName(name);
+    navigate(`/${path}`);
+  };
 
   return (
     <Container>
       <NavListWrap>
         {navList.map((navItem) => {
           const { name, path, iconType } = navItem;
+          const type =
+            activePageName === name ? iconType.active : iconType.inactive;
+
           return (
-            <NavItemWrap key={name}>
-              <NavItem name={name} path={path} iconType={iconType} />
-            </NavItemWrap>
+            <li key={name}>
+              <button onClick={onNavItemClick(name, path)}>
+                <Icon type={type as IIconType} />
+              </button>
+            </li>
           );
         })}
       </NavListWrap>
@@ -29,10 +46,10 @@ const Container = styled.nav`
   position: fixed;
   bottom: 0;
   left: 0;
-  padding: 0.625em 2.25em 2.375em;
-  background-color: ${palette.grey050};
-  border-radius: 2em 2em 0 0;
-  box-shadow: 0px -4px 14px rgba(0, 0, 0, 0.08);
+  padding: ${convertPixelToRem(20)} ${convertPixelToRem(50)}
+    ${convertPixelToRem(50)};
+  background-color: ${palette.white};
+  border-top: ${convertPixelToRem(0.5)} solid ${palette.grey200};
 `;
 
 const NavListWrap = styled.ul`
@@ -40,8 +57,11 @@ const NavListWrap = styled.ul`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  & button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
 `;
-
-const NavItemWrap = styled.li``;
 
 export default NavBar;

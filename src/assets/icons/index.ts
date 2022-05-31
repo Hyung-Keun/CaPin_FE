@@ -17,7 +17,7 @@ import { ReactComponent as Marker } from "./marker.svg";
 import { ReactComponent as Me } from "./me-inactive.svg";
 import { ReactComponent as ActiveMe } from "./me-inactive.svg";
 import { ReactComponent as People } from "./people.svg";
-import { ReactComponent as Alarm } from "./ring.svg";
+import { ReactComponent as Ring } from "./ring.svg";
 import { ReactComponent as ActiveSearch } from "./search-active.svg";
 import { ReactComponent as Search } from "./search-inactive.svg";
 import { ReactComponent as Setting } from "./setting.svg";
@@ -29,7 +29,7 @@ const icons = {
   ArrowLeft,
   FabButton,
   ArrowRight,
-  Alarm,
+  Ring,
   Search,
   Setting,
   Star,
