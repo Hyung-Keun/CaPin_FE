@@ -25,7 +25,7 @@ const List = ({
     <section>
       <HeaderWrap>
         <h2>{title}</h2>
-        <Link to={allItemsLink}>전체보기</Link>
+        {allItemsLink && <Link to={allItemsLink}>전체보기</Link>}
       </HeaderWrap>
       <ItemWrap gap={gap} direction={direction}>
         {items.map((item, i) => (
