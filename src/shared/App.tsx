@@ -15,6 +15,12 @@ import Recommend from "@pages/Recommend";
 import SpecificStudy from "@pages/SpecificStudy";
 import StudyOpen from "@pages/StudyOpen";
 
+import CommonModal from "@components/CommonModal";
+import Loading from "@components/Loading";
+import PracticeModal from "@components/PracticeModal";
+import Start from "@components/Start";
+
+import ProfileSetting from "../pages/Auth/ProfileSetting";
 import Frame from "./Frame";
 import GlobalStyles from "./GlobalStyles";
 
@@ -25,6 +31,11 @@ const App = () => {
       {/* <Frame> */}
       <BrowserRouter>
         <Routes>
+          <Route path="/profilesetting" element={<ProfileSetting />} />
+          <Route path="/practicemodal" element={<PracticeModal />} />
+          <Route path="/CommonModal" element={<CommonModal />} />
+          <Route path="/start" element={<Start />} />
+          <Route path="/loading" element={<Loading />} />
           <Route path="/" element={<GroupList />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/login" element={<Login />} />
