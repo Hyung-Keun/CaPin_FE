@@ -1,4 +1,4 @@
-export const convertPixelToEm = (pixel: number) => `${pixel / 16}em`;
+export const convertPixelToRem = (pixel: number) => `${pixel / 16}rem`;
 
 export function checkValidDate(date: string) {
   let result = true;
