@@ -1,32 +1,53 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import styled, { css } from "styled-components";
+
+import { palette, typography } from "@utils/const";
+import { convertPixelToRem } from "@utils/func";
 
 interface IList {
   title: string;
   items: React.ReactElement[];
   gap: string;
+  allItemsLink: string;
   direction?: "row" | "column";
 }
 
-const List = ({ title, items, gap, direction = "row" }: IList) => {
+const List = ({
+  title,
+  items,
+  gap,
+  allItemsLink,
+  direction = "row",
+}: IList) => {
   return (
-    <Container>
-      <Title>{title}</Title>
+    <section>
+      <HeaderWrap>
+        <h2>{title}</h2>
+        <Link to={allItemsLink}>전체보기</Link>
+      </HeaderWrap>
       <ItemWrap gap={gap} direction={direction}>
         {items.map((item, i) => (
-          <Item key={i}>{item}</Item>
+          <li key={i}>{item}</li>
         ))}
       </ItemWrap>
-    </Container>
+    </section>
   );
 };
 
-const Container = styled.section``;
+const HeaderWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 ${convertPixelToRem(20)};
 
-const Title = styled.h2`
-  font-weight: 500;
-  margin: 0 1.25em;
+  & > h2 {
+    ${typography.st17b}
+  }
+  & > a {
+    color: ${palette.orange300};
+  }
 `;
 
 const ItemWrap = styled.ul<{
@@ -70,7 +91,5 @@ const getItemMargin = (direction: IList["direction"], gap: IList["gap"]) => {
       `;
   }
 };
-
-const Item = styled.li``;
 
 export default List;

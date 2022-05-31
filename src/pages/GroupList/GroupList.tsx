@@ -114,6 +114,7 @@ const GroupList = () => {
               items={cafeData}
               gap="1.5em"
               direction="column"
+              allItemsLink="/mypage/studygroup"
             />
           )}
         </ContentArea>
