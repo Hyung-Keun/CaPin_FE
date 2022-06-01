@@ -15,7 +15,7 @@ import { Text, Input } from "@elements";
 import { useAppDispatch, useAppSelector } from "@hooks/redux";
 import useFileLoad from "@hooks/useFileLoad";
 import { palette, typography } from "@utils/const";
-import { base64ToBlob, checkValidDate, convertPixelToEm } from "@utils/func";
+import { base64ToBlob, checkValidDate, convertPixelToRem } from "@utils/func";
 
 const StudyOpen = () => {
   const [inputState, setInputState] = useState({
@@ -180,22 +180,22 @@ const StudyOpen = () => {
             <h2>기간</h2>
             <div>
               <Input
-                inlineStyles={`width: ${convertPixelToEm(134)};`}
+                inlineStyles={`width: ${convertPixelToRem(134)};`}
                 value={inputState.firstDay}
                 onChange={onInputChange("firstDay")}
               />
               <span>~</span>
               <Input
-                inlineStyles={`width: ${convertPixelToEm(134)};`}
+                inlineStyles={`width: ${convertPixelToRem(134)};`}
                 value={inputState.lastDay}
                 onChange={onInputChange("lastDay")}
               />
             </div>
           </InputWrap>
           <Text
-            inlineStyles={`position: relative; top: -${convertPixelToEm(
+            inlineStyles={`position: relative; top: -${convertPixelToRem(
               20,
-            )}; font-size: ${convertPixelToEm(12)}; color: ${
+            )}; font-size: ${convertPixelToRem(12)}; color: ${
               palette.orange600
             }`}
           >
@@ -209,7 +209,7 @@ const StudyOpen = () => {
               <Icon type="CircleMinusGrey" />
             </TransparentBtn>
             <Input
-              inlineStyles={`width: ${convertPixelToEm(80)};`}
+              inlineStyles={`width: ${convertPixelToRem(80)};`}
               value={String(inputState.maxMemberCount)}
               readOnly
             />
@@ -278,7 +278,7 @@ const InputWrap = styled.div<{ column?: boolean }>`
     display: flex;
     align-items: center;
     & > *:not(:first-child) {
-      margin-left: ${convertPixelToEm(8)};
+      margin-left: ${convertPixelToRem(8)};
     }
     & > input {
       text-align: center;
@@ -286,19 +286,19 @@ const InputWrap = styled.div<{ column?: boolean }>`
   }
   & > h2 {
     margin-bottom: ${({ column }) =>
-      column ? convertPixelToEm(8) : "initial"};
+      column ? convertPixelToRem(8) : "initial"};
   }
-  margin-bottom: ${convertPixelToEm(24)};
+  margin-bottom: ${convertPixelToRem(24)};
 `;
 
 const ImageWrap = styled.div<{ image: string }>`
-  border: ${convertPixelToEm(1)} dashed ${palette.grey200};
-  border-radius: ${convertPixelToEm(4)};
+  border: ${convertPixelToRem(1)} dashed ${palette.grey200};
+  border-radius: ${convertPixelToRem(4)};
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${convertPixelToEm(128)};
-  height: ${convertPixelToEm(72)};
+  width: ${convertPixelToRem(128)};
+  height: ${convertPixelToRem(72)};
   background: ${({ image }) => (image ? `url(${image})` : "none")} no-repeat;
   background-position: center center;
   background-size: auto 100%;
@@ -319,10 +319,10 @@ const ImageWrap = styled.div<{ image: string }>`
 
 const StyleLink = styled(Link)`
   ${typography.b15r}
-  border: ${palette.orange200} ${convertPixelToEm(1)} solid;
+  border: ${palette.orange200} ${convertPixelToRem(1)} solid;
   color: ${palette.orange600};
-  border-radius: ${convertPixelToEm(4)};
-  padding: ${convertPixelToEm(8)} ${convertPixelToEm(24)};
+  border-radius: ${convertPixelToRem(4)};
+  padding: ${convertPixelToRem(8)} ${convertPixelToRem(24)};
 `;
 
 const FileLoaderStyle = css`
@@ -340,8 +340,8 @@ const CreateButton = styled.button`
   background-color: ${palette.orange600};
   color: ${palette.grey050};
   border: none;
-  border-radius: ${convertPixelToEm(4)};
-  padding: ${convertPixelToEm(12)};
+  border-radius: ${convertPixelToRem(4)};
+  padding: ${convertPixelToRem(12)};
   &:disabled {
     background-color: ${palette.grey200};
     color: ${palette.grey400};
@@ -351,16 +351,16 @@ const CreateButton = styled.button`
 const AddressBtn = styled.button`
   ${typography.b15r}
   background: none;
-  border: ${palette.orange200} ${convertPixelToEm(1)} solid;
-  border-radius: ${convertPixelToEm(4)};
-  padding: ${convertPixelToEm(8)} ${convertPixelToEm(24)};
+  border: ${palette.orange200} ${convertPixelToRem(1)} solid;
+  border-radius: ${convertPixelToRem(4)};
+  padding: ${convertPixelToRem(8)} ${convertPixelToRem(24)};
   display: flex;
   align-items: center;
 
   cursor: pointer;
 
   & > svg {
-    margin-left: ${convertPixelToEm(8)};
+    margin-left: ${convertPixelToRem(8)};
   }
 `;
 

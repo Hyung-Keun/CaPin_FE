@@ -2,7 +2,8 @@ import React from "react";
 
 import styled from "styled-components";
 
-import CafeItem from "./Item/CafeItem";
+import CafeItem from "@components/CafeItem";
+
 import List from "./List";
 
 import { useAppSelector } from "@hooks/redux";
@@ -22,6 +23,7 @@ const ToastList = () => {
         items={cafeItemList}
         gap="1.5em"
         direction="column"
+        allItemsLink=""
       />
     </Container>
   );

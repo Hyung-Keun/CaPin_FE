@@ -6,23 +6,19 @@ import styled from "styled-components";
 import Icon from "@components/Icon";
 
 import { palette } from "@utils/const";
+import { convertPixelToRem } from "@utils/func";
 
 interface IBasicHeader {}
 
 const BasicHeader = ({ children }: React.PropsWithChildren<IBasicHeader>) => {
   return (
     <Container>
-      <Link to="/">
-        <Icon type="Setting" />
+      <Link to="/explore">
+        <Icon type="Search" />
       </Link>
-      <IconWrap>
-        <Link to="/">
-          <Icon type="Search" />
-        </Link>
-        <Link to="/">
-          <Icon type="Alarm" />
-        </Link>
-      </IconWrap>
+      <Link to="/">
+        <Icon type="Ring" />
+      </Link>
       <Header>{children}</Header>
     </Container>
   );
@@ -31,12 +27,15 @@ const BasicHeader = ({ children }: React.PropsWithChildren<IBasicHeader>) => {
 const Container = styled.header`
   width: 100%;
   padding: 1.5em;
-  position: sticky;
+  position: relative;
   top: 0;
   left: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   background-color: ${palette.grey050};
+  & > a:first-child {
+    margin-right: ${convertPixelToRem(16)};
+  }
 `;
 
 const Header = styled.h1`

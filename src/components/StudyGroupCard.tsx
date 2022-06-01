@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 
 import styled from "styled-components";
 
@@ -6,8 +6,10 @@ import { GroupInfo } from "@type/group";
 
 import { IconWithText } from "@elements";
 import { typography, palette, lineClamp } from "@utils/const";
+import { convertPixelToRem } from "@utils/func";
 
-const DefaultStudyGroupCardLayout = styled.li`
+const DefaultStudyGroupCardLayout = styled.div`
+  width: ${convertPixelToRem(310)};
   width: 100%;
   padding: 16px;
   background: #ffffff;
@@ -50,7 +52,7 @@ const StudyGroupCard = ({
   group: GroupInfo;
   onClick: () => void;
 }) => {
-  const handleClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+  const handleClick: MouseEventHandler = (e) => {
     e.stopPropagation();
     onClick();
   };

@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import { Text } from "./index";
 
 import { palette, typography } from "@utils/const";
-import { convertPixelToEm } from "@utils/func";
+import { convertPixelToRem } from "@utils/func";
 
 type HTMLInputBlockType = HTMLTextAreaElement | HTMLInputElement;
 
@@ -98,7 +98,7 @@ const commonStyle = css`
 
 const ElInput = styled.input<IInput<HTMLInputElement>>`
   ${commonStyle}
-  padding: ${convertPixelToEm(12)} ${convertPixelToEm(14)};
+  padding: ${convertPixelToRem(12)} ${convertPixelToRem(14)};
   width: ${(props) => (props.width ? `${props.width}` : "")};
   min-width: ${(props) => (props.minWidth ? `${props.minWidth}` : "")};
   ${({ inlineStyles }) => inlineStyles};
@@ -107,7 +107,7 @@ const ElInput = styled.input<IInput<HTMLInputElement>>`
 
 const ElTextarea = styled.textarea<IInput<HTMLTextAreaElement>>`
   ${commonStyle}
-  padding: ${convertPixelToEm(8)} ${convertPixelToEm(12)};
+  padding: ${convertPixelToRem(8)} ${convertPixelToRem(12)};
   width: ${(props) => (props.width ? `${props.width}` : "")};
   min-width: ${(props) => (props.minWidth ? `${props.minWidth}` : "")};
   ${({ inlineStyles }) => inlineStyles};
