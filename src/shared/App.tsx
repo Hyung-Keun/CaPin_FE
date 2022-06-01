@@ -15,6 +15,7 @@ import Recommend from "@pages/Recommend";
 import SpecificStudy from "@pages/SpecificStudy";
 import StudyOpen from "@pages/StudyOpen";
 
+import Auth from "./Auth";
 import GlobalStyles from "./GlobalStyles";
 
 const App = () => {
@@ -23,19 +24,19 @@ const App = () => {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<GroupList />} />
-          <Route path="/explore" element={<Explore />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/notfound" element={<NotFound />} />
           <Route path="/oauth" element={<OAuth />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/recommend" element={<Recommend />} />
-          <Route path="/studyopen" element={<StudyOpen />} />
-          <Route path="/placesearch/:id" element={<PlaceSearch />} />
-          <Route path="/postcode" element={<PostCode />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/specificstudy/:id" element={<SpecificStudy />} />
-          <Route path="/areaselection" element={<AreaSelection />} />
+          <Route path="/grouplist" element={Auth(<GroupList />)} />
+          <Route path="/explore" element={Auth(<Explore />)} />
+          <Route path="/profile" element={Auth(<Profile />)} />
+          <Route path="/recommend" element={Auth(<Recommend />)} />
+          <Route path="/studyopen" element={Auth(<StudyOpen />)} />
+          <Route path="/placesearch/:id" element={Auth(<PlaceSearch />)} />
+          <Route path="/postcode" element={Auth(<PostCode />)} />
+          <Route path="/mypage" element={Auth(<MyPage />)} />
+          <Route path="/specificstudy/:id" element={Auth(<SpecificStudy />)} />
+          <Route path="/areaselection" element={Auth(<AreaSelection />)} />
+          <Route path="/notfound" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/notfound" replace />} />
         </Routes>
       </BrowserRouter>

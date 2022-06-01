@@ -3,6 +3,7 @@ import { css } from "styled-components";
 export const {
   REACT_APP_KAKAO_AUTH_URL: KAKAO_AUTH_URL,
   REACT_APP_BASE_API_URL: BASE_API_URL,
+  REACT_APP_TOKEN_SUBJECT: TOKEN_SUBJECT,
 } = process.env;
 
 export const ACCESS_TOKEN_LS = "access_token";
