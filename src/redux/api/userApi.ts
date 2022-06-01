@@ -1,3 +1,5 @@
+import { UserProfile } from "@type/group";
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { prepareHeaders } from "@utils/auth";
 import { BASE_API_URL } from "@utils/const";
@@ -11,7 +13,7 @@ export const userApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    getUser: builder.query({
+    getUser: builder.query<UserProfile, any>({
       query: () => ({
         url: `/api/profile`,
         method: "GET",

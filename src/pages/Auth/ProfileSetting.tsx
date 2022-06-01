@@ -9,9 +9,7 @@ import TitleWithBackButton from "@components/TitleWithBackButton";
 
 import { useGetUserQuery, useEditUserMutation } from "@redux/api/userApi";
 
-import { ICommonProps } from "../MyPage/types";
-
-import { Image, Button } from "@elements";
+import { Image } from "@elements";
 import useFileLoad from "@hooks/useFileLoad";
 import { typography, palette } from "@utils/const";
 import { base64ToBlob } from "@utils/func";
@@ -114,7 +112,6 @@ const ProfileSettings = () => {
   };
 
   const postImage = () => {
-    console.log(getData.imageUrl);
     setProfileImage(String(fileData));
   };
 
@@ -124,7 +121,7 @@ const ProfileSettings = () => {
 
     if (imgBlob) {
       const formData = new FormData();
-      formData.append("username", nickname ? nickname : getData?.username);
+      formData.append("username", nickname || getData?.username!);
       formData.append("image", imgBlob);
       postTrigger(formData);
       navigate("/");
@@ -137,7 +134,7 @@ const ProfileSettings = () => {
         <ChoosePhotoGuide>프로필 사진을 등록해주세요</ChoosePhotoGuide>
         <Image
           size="56px"
-          src={fileData || getData?.imageUrl}
+          src={fileData || getData?.imageUrl!}
           shape="circle"
           inlineStyles="margin: 12px 0 16px 0"
         />

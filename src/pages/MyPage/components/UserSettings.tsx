@@ -119,7 +119,7 @@ const UserSettings = ({ goBack }: ICommonProps) => {
     const imgBlob = imgUrl && (await base64ToBlob(imgUrl));
 
     const formData = new FormData();
-    formData.append("username", nickname ? nickname : getData?.username);
+    formData.append("username", nickname || getData?.username!);
     formData.append("image", imgBlob || "");
 
     postTrigger(formData);
@@ -148,7 +148,7 @@ const UserSettings = ({ goBack }: ICommonProps) => {
         <ChoosePhotoGuide>프로필 사진을 등록해주세요</ChoosePhotoGuide>
         <Image
           size="56px"
-          src={fileData || userData.imageUrl || getData?.imageUrl}
+          src={String(fileData || userData.imageUrl || getData?.imageUrl)}
           shape="circle"
           margin="12px 0 16px 0"
         />

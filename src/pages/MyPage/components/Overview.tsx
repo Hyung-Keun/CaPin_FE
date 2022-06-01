@@ -93,7 +93,10 @@ const Overview = ({
     <>
       <TitleWithBackButton title="마이 페이지" showButton />
       <UserOverviewSection>
-        <img alt="userImage" src={userData.imageUrl || getData?.imageUrl} />
+        <img
+          alt="userImage"
+          src={(userData?.imageUrl || getData?.imageUrl) as string}
+        />
         <SubTitleWithIcon onClick={goUserSettings} role="button">
           <p>{userData.username || getData?.username}</p>
           <Icon type="ArrowRight" />

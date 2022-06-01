@@ -13,7 +13,7 @@ import { base64ToBlob } from "@utils/func";
 
 const Profile = () => {
   const [nickname, setNickname] = useState<string>("");
-  const [postTrigger, { data: postData }] = useEditUserMutation();
+  const [postTrigger] = useEditUserMutation();
   const [profileImage, setProfileImage] = useState<string>("");
   const { data: getData } = useGetUserQuery(true);
   const { FileLoader, fileData } = useFileLoad();
@@ -35,7 +35,6 @@ const Profile = () => {
   };
 
   const postImage = () => {
-    console.log(getData.imageUrl);
     setProfileImage(String(fileData));
   };
 
@@ -45,7 +44,7 @@ const Profile = () => {
 
     if (imgBlob) {
       const formData = new FormData();
-      formData.append("username", nickname ? nickname : getData?.username);
+      formData.append("username", nickname || getData?.username!);
       formData.append("image", imgBlob);
       postTrigger(formData);
       navigate("/");
@@ -69,7 +68,7 @@ const Profile = () => {
 
       <Image
         size="56px"
-        src={fileData || getData?.imageUrl}
+        src={fileData || getData?.imageUrl!}
         shape="circle"
         margin="0px 0px 0px 20px"
       />
