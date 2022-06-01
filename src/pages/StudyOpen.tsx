@@ -180,13 +180,13 @@ const StudyOpen = () => {
             <h2>기간</h2>
             <div>
               <Input
-                inlineStyles={`width: ${convertPixelToRem(134)};`}
+                inlineStyles={`width: ${convertPixelToRem(134)} !important;`}
                 value={inputState.firstDay}
                 onChange={onInputChange("firstDay")}
               />
               <span>~</span>
               <Input
-                inlineStyles={`width: ${convertPixelToRem(134)};`}
+                inlineStyles={`width: ${convertPixelToRem(134)} !important;`}
                 value={inputState.lastDay}
                 onChange={onInputChange("lastDay")}
               />
@@ -265,6 +265,10 @@ const Container = styled.section`
       margin-left: 0.1em;
       color: ${palette.orange500};
     }
+  }
+  & input,
+  & textarea {
+    width: 100%;
   }
 `;
 
