@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import Loading from "@components/Loading";
+
 import { useGetAuthQuery } from "@redux/api/authApi";
 import {
   updateAccessToken,
@@ -37,7 +39,7 @@ const OAuth = () => {
     }
   }, [isLoading]);
 
-  return <div>Loading</div>;
+  return <Loading isSolid />;
 };
 
 export default OAuth;

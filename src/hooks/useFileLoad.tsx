@@ -13,27 +13,33 @@ interface IFile {
   style?: FlattenSimpleInterpolation;
 }
 
-const readFileAsync = (input: HTMLInputElement) =>
-  new Promise<FileReader["result"]>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (loadEvent) => {
-      if (loadEvent.target) resolve(loadEvent.target.result);
-      else reject("Cannot find reader event object.");
+function getBase64(file: Blob) {
+  const reader = new FileReader();
+  return new Promise((resolve, reject) => {
+    reader.onload = (e) => {
+      resolve(e.target?.result);
     };
     reader.onerror = reject;
-
-    if (input.files) reader.readAsDataURL(input.files[0]);
+    reader.readAsDataURL(file);
   });
+}
 
 const useFileLoad = () => {
   const [fileData, setFileData] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    setIsLoading(true);
-    const data = await readFileAsync(e.target);
-    setFileData(data as string);
-    setIsLoading(false);
+    if (e.target.files) {
+      try {
+        setIsLoading(true);
+        const data = await getBase64(e.target.files[0]);
+        setFileData(String(data));
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
   const clearFileData = () => setFileData("");

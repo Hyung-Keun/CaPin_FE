@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { debounce } from "lodash";
 import styled from "styled-components";
@@ -7,11 +7,13 @@ import styled from "styled-components";
 import Icon from "@components/Icon";
 import TitleWithBackButton from "@components/TitleWithBackButton";
 
-import { useGetUserQuery, useLazyEditUserQuery } from "@redux/api/userApi";
+import { useGetUserQuery, useEditUserMutation } from "@redux/api/userApi";
+import { setUser } from "@redux/modules/userSlice";
 
 import { ICommonProps } from "../types";
 
 import { Image } from "@elements";
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
 import useFileLoad from "@hooks/useFileLoad";
 import { typography, palette } from "@utils/const";
 import { base64ToBlob } from "@utils/func";
@@ -90,46 +92,50 @@ const Section = styled.section`
 `;
 
 const UserSettings = ({ goBack }: ICommonProps) => {
+  const location = useLocation();
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [nickname, setNickname] = useState<string>("");
-  const [postTrigger] = useLazyEditUserQuery();
-  const [profileImage, setProfileImage] = useState<string>("");
-  const { data: getData } = useGetUserQuery(true);
+  const [postTrigger, { isSuccess, data: editResult }] = useEditUserMutation();
+  const { data: getData } = useGetUserQuery(null);
   const { FileLoader, fileData } = useFileLoad();
   const navigate = useNavigate();
+  const userData = useAppSelector(({ user }) => user.data);
+  const dispatch = useAppDispatch();
 
   const debounceOnChange = useCallback(
-    debounce(() => {
-      console.log("Debounce function");
-    }, 700),
+    debounce(() => {}, 700),
     [],
   );
 
   const onChangeNickname: React.ChangeEventHandler<HTMLInputElement> = (
     event,
   ) => {
-    console.log(event.target.value);
     setNickname(event.target.value);
     debounceOnChange();
   };
 
-  const postImage = () => {
-    console.log(getData.imageUrl);
-    setProfileImage(String(fileData));
-  };
-
   const postNickImage = async () => {
-    const imgUrl = fileData || profileImage;
-    const imgBlob = await base64ToBlob(imgUrl);
+    const imgUrl = fileData;
+    const imgBlob = imgUrl && (await base64ToBlob(imgUrl));
 
-    if (imgBlob) {
-      const formData = new FormData();
-      formData.append("username", nickname ? nickname : getData?.username);
-      formData.append("image", imgBlob);
-      postTrigger(formData);
-      goBack();
-    }
+    const formData = new FormData();
+    formData.append("username", nickname ? nickname : getData?.username);
+    formData.append("image", imgBlob || "");
+
+    postTrigger(formData);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setUser(editResult));
+      if (location.pathname.includes("profile")) {
+        navigate("/");
+      } else {
+        if (goBack) goBack();
+      }
+    }
+  }, [isSuccess]);
+
   return (
     <>
       <TitleWithBackButton
@@ -142,12 +148,12 @@ const UserSettings = ({ goBack }: ICommonProps) => {
         <ChoosePhotoGuide>프로필 사진을 등록해주세요</ChoosePhotoGuide>
         <Image
           size="56px"
-          src={fileData || getData?.imageUrl}
+          src={fileData || userData.imageUrl || getData?.imageUrl}
           shape="circle"
           margin="12px 0 16px 0"
         />
         <FileLoader accept="image/*">
-          <NewPhotoGuide onClick={postImage}>
+          <NewPhotoGuide>
             <Icon type="CirclePlusOrange" />
             <span>새로운 사진 등록</span>
           </NewPhotoGuide>

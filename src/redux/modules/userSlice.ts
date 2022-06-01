@@ -1,29 +1,31 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface CommonState {
-  value: string;
+interface UserData {
+  data: {
+    imageUrl: string;
+    memberId: number;
+    username: string;
+  };
 }
 
-const initialState: CommonState = {
-  value: "",
+const initialState: UserData = {
+  data: {
+    imageUrl: "",
+    memberId: -1,
+    username: "",
+  },
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state: { value: string }, action: PayloadAction<string>) => {
-      state.value = action.payload;
-    },
-    setProfileImage: (
-      state: { value: string },
-      action: PayloadAction<string>,
-    ) => {
-      state.value = action.payload;
+    setUser: (state, action: PayloadAction<UserData["data"]>) => {
+      state.data = action.payload;
     },
   },
 });
 
-export const { setUser, setProfileImage } = userSlice.actions;
+export const { setUser } = userSlice.actions;
 
 export default userSlice.reducer;

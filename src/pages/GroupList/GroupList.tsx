@@ -88,7 +88,9 @@ const GroupList = () => {
 
   return (
     <>
-      {(isLoading || isGeoLoading || isCoordinateLoading) && <Loading />}
+      {(isLoading || isGeoLoading || isCoordinateLoading) && (
+        <Loading isSolid />
+      )}
       <Container>
         <Header type="Basic"></Header>
         <h1>

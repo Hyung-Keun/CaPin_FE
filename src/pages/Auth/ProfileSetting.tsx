@@ -7,7 +7,7 @@ import styled from "styled-components";
 import Icon from "@components/Icon";
 import TitleWithBackButton from "@components/TitleWithBackButton";
 
-import { useGetUserQuery, useLazyEditUserQuery } from "@redux/api/userApi";
+import { useGetUserQuery, useEditUserMutation } from "@redux/api/userApi";
 
 import { ICommonProps } from "../MyPage/types";
 
@@ -92,7 +92,7 @@ const Section = styled.section`
 const ProfileSettings = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [nickname, setNickname] = useState<string>("");
-  const [postTrigger] = useLazyEditUserQuery();
+  const [postTrigger] = useEditUserMutation();
   const [profileImage, setProfileImage] = useState<string>("");
   const { data: getData } = useGetUserQuery(true);
   const { FileLoader, fileData } = useFileLoad();

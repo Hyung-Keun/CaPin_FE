@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import styled from "styled-components";
 
@@ -6,11 +6,11 @@ import Icon from "@components/Icon";
 import TitleWithBackButton from "@components/TitleWithBackButton";
 
 import { useGetUserQuery } from "@redux/api/userApi";
+import { setUser } from "@redux/modules/userSlice";
 
 import { USER_SETTINGS, USER_STUDY_GROUPS, ALARM_SETTINGS } from "../constants";
 
-import { Image } from "@elements";
-import useFileLoad from "@hooks/useFileLoad";
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
 import { palette, typography } from "@utils/const";
 
 const UserOverviewSection = styled.section`
@@ -21,6 +21,7 @@ const UserOverviewSection = styled.section`
   width: calc(100% - 40px);
   padding-bottom: 24px;
   margin: 0 auto;
+  margin-top: 32px;
   margin-bottom: 12px;
   border-bottom: 1px solid ${palette.grey200};
 
@@ -80,15 +81,21 @@ const Overview = ({
   const goUserSettings = () => onClick(USER_SETTINGS);
   const goUserStudyGroups = () => onClick(USER_STUDY_GROUPS);
   const goAlarmSettings = () => onClick(ALARM_SETTINGS);
-  const { data: getData } = useGetUserQuery(true);
-  const { fileData } = useFileLoad();
+  const { data: getData } = useGetUserQuery(null);
+  const userData = useAppSelector(({ user }) => user.data);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!userData && getData) dispatch(setUser(getData));
+  }, [userData, getData]);
+
   return (
     <>
-      <TitleWithBackButton title="마이 페이지" showButton={false} />
+      <TitleWithBackButton title="마이 페이지" showButton />
       <UserOverviewSection>
-        <img alt="userImage" src={fileData || getData?.imageUrl} />
+        <img alt="userImage" src={userData.imageUrl || getData?.imageUrl} />
         <SubTitleWithIcon onClick={goUserSettings} role="button">
-          <p>{getData?.username}</p>
+          <p>{userData.username || getData?.username}</p>
           <Icon type="ArrowRight" />
         </SubTitleWithIcon>
       </UserOverviewSection>
