@@ -1,3 +1,4 @@
+import { ReactComponent as ArrowLeftWhite } from "./arrow-left-white.svg";
 import { ReactComponent as ArrowLeft } from "./arrow-left.svg";
 import { ReactComponent as ArrowRight } from "./arrow-right.svg";
 import { ReactComponent as Calendar } from "./calendar.svg";
@@ -27,6 +28,7 @@ import { ReactComponent as XOrange } from "./x-orange.svg";
 
 const icons = {
   ArrowLeft,
+  ArrowLeftWhite,
   FabButton,
   ArrowRight,
   Ring,

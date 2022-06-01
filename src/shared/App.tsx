@@ -28,7 +28,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/notfound" element={<NotFound />} />
           <Route path="/oauth" element={<OAuth />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<ProfileSetting />} />
           <Route path="/recommend" element={<Recommend />} />
           <Route path="/studyopen" element={<StudyOpen />} />
           <Route path="/placesearch/:id" element={<PlaceSearch />} />
