@@ -12,11 +12,13 @@ interface IButton<T> {
   height?: string;
   margin?: string;
   minWidth?: string;
+  position?: string;
   onChange?: React.ChangeEventHandler<T>;
   onClick?: React.MouseEventHandler<T>;
 }
 
 const Button = ({
+  position,
   background,
   border,
   children,
@@ -32,6 +34,7 @@ const Button = ({
   return (
     <React.Fragment>
       <Btn
+        position={position}
         background={background}
         border={border}
         borderRadius={borderRadius}
@@ -53,7 +56,8 @@ const Btn = styled.button<
   IButton<string | HTMLButtonElement | HTMLInputElement>
 >`
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
-  background: ${(props) => (props.background ? `${props.background};` : "")};
+  background-color: ${(props) =>
+    props.background ? `${props.background};` : ""};
   border: ${(props) => (props.border ? `${props.border};` : "")};
   border-radius: ${(props) =>
     props.borderRadius ? `${props.borderRadius};` : ""};
@@ -61,6 +65,7 @@ const Btn = styled.button<
   min-width: ${(props) => (props.minWidth ? `${props.minWidth};` : "")};
   height: ${(props) => (props.height ? `${props.height};` : "")};
   margin: ${(props) => (props.margin ? `${props.margin};` : "")};
+  position: ${(props) => (props.position ? `${props.position};` : "")};
 `;
 
 export default Button;
