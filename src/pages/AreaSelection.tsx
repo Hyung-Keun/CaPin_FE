@@ -89,7 +89,7 @@ const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
               style={{ display: "none" }}
             />
             <div>{item.region}</div>
-            <Icon type="ArrowRight" />
+            <Icon type="ArrowRightGrey" />
           </Label>
         ))}
       </BlankBox>
@@ -99,7 +99,7 @@ const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
 
 const Label = styled.label<{ inlineStyles?: string; isChecked: boolean }>`
   ${(props) => (props.inlineStyles ? `${props.inlineStyles};` : "")};
-  background-color: #fff;
+  background-color: #fafafa;
   color: #313131;
   ${(props) => props.isChecked && "background-color: #f9e9e7; color: #eb5527;"};
 `;

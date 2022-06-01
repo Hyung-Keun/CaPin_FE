@@ -1,5 +1,6 @@
 import { ReactComponent as ArrowLeftWhite } from "./arrow-left-white.svg";
 import { ReactComponent as ArrowLeft } from "./arrow-left.svg";
+import { ReactComponent as ArrowRightGrey } from "./arrow-right-grey.svg";
 import { ReactComponent as ArrowRight } from "./arrow-right.svg";
 import { ReactComponent as Calendar } from "./calendar.svg";
 import { ReactComponent as CameraGrey } from "./camera-grey.svg";
@@ -30,6 +31,7 @@ const icons = {
   ArrowLeft,
   ArrowLeftWhite,
   FabButton,
+  ArrowRightGrey,
   ArrowRight,
   Ring,
   Search,
