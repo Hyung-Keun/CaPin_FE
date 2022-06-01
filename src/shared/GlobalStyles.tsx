@@ -10,6 +10,11 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: none;
     color: inherit;
   }
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
   body {
     font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI",
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
