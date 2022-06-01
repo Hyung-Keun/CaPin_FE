@@ -1,3 +1,4 @@
+import { ReactComponent as ArrowDownWhite } from "./arrow-down-white.svg";
 import { ReactComponent as ArrowLeftWhite } from "./arrow-left-white.svg";
 import { ReactComponent as ArrowLeft } from "./arrow-left.svg";
 import { ReactComponent as ArrowRightGrey } from "./arrow-right-grey.svg";
@@ -6,6 +7,7 @@ import { ReactComponent as Calendar } from "./calendar.svg";
 import { ReactComponent as CameraGrey } from "./camera-grey.svg";
 import { ReactComponent as Camera } from "./camera.svg";
 import { ReactComponent as CircleArrowLeft } from "./circle-arrow-left.svg";
+import { ReactComponent as CircleDotsVertical } from "./circle-dots-vertical.svg";
 import { ReactComponent as CircleMinusGrey } from "./circle-minus-grey.svg";
 import { ReactComponent as CirclePlusGrey } from "./circle-plus-grey.svg";
 import { ReactComponent as CirclePlusOrange } from "./circle-plus-orange.svg";
@@ -30,6 +32,7 @@ import { ReactComponent as Star } from "./star.svg";
 import { ReactComponent as XOrange } from "./x-orange.svg";
 
 const icons = {
+  ArrowDownWhite,
   ArrowLeft,
   ArrowLeftWhite,
   FabButton,
@@ -51,6 +54,7 @@ const icons = {
   ActiveSearch,
   Share,
   CircleArrowLeft,
+  CircleDotsVertical,
   CircleX,
   CirclePlusOrange,
   CircleXDark,
