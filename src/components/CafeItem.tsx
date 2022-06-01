@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 import styled from "styled-components";
@@ -7,6 +6,7 @@ import { CafeInfo } from "@type/cafe";
 
 import Icon from "@components/Icon";
 
+import defaultImg from "@assets/images/cafe_default.jpg";
 import { Image } from "@elements";
 import { palette } from "@utils/const";
 
@@ -28,8 +28,11 @@ const CafeItem = ({
   scorecnt,
 }: CafeInfo) => {
   return (
-    <Container to={`/cafe/detail/${id}`}>
-      <Image src={mainphotourl} inlineStyles="width: 8.75em; height: 6.5em;" />
+    <Container href={place_url} target="_blank" rel="noreferrer">
+      <Image
+        src={mainphotourl || defaultImg}
+        inlineStyles="width: 8.75em; height: 6.5em;"
+      />
       <InfoArea>
         <Title>{place_name}</Title>
         <Address>{road_address_name}</Address>
@@ -43,7 +46,7 @@ const CafeItem = ({
   );
 };
 
-const Container = styled(Link)`
+const Container = styled.a`
   display: flex;
 `;
 
