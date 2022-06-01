@@ -1,3 +1,5 @@
+import { CafeInfo } from "@type/cafe";
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { prepareHeaders } from "@utils/auth";
 import { BASE_API_URL } from "@utils/const";
@@ -17,7 +19,17 @@ export const cafeApi = createApi({
         method: "GET",
       }),
     }),
+    getCafeListRecommend: builder.query<
+      { cafes: CafeInfo[] },
+      { lat: number; lng: number }
+    >({
+      query: ({ lat, lng }) => ({
+        url: `/api/cafe-reco?locationX=${lng}&locationY=${lat}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useLazyGetCafeListQuery } = cafeApi;
+export const { useLazyGetCafeListQuery, useLazyGetCafeListRecommendQuery } =
+  cafeApi;

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
@@ -12,11 +12,11 @@ import Loading from "@components/Loading";
 import NavBar from "@components/Navigator/NavBar";
 import StudyGroupCard from "@components/StudyGroupCard";
 
+import { useLazyGetCafeListRecommendQuery } from "@redux/api/cafeApi";
 import { useGetMyStudyGroupQuery } from "@redux/api/studyApi";
 
 import EmptyCard from "./components/EmptyCard";
 
-import defaultImg from "@assets//images/default.png";
 import useGetLocationPosData from "@hooks/useGetLocationPosData";
 import useSlide from "@hooks/useSlide";
 import { palette } from "@utils/const";
@@ -25,23 +25,28 @@ import { convertPixelToRem } from "@utils/func";
 const GroupList = () => {
   const navigate = useNavigate();
   const { data, isLoading } = useGetMyStudyGroupQuery(null);
-  const [cafeListData, setCafeListData] = useState<CafeInfo[]>();
+  const [
+    cafeListDataTrigger,
+    { data: cafeListData, isLoading: isLoadingCafeListData },
+  ] = useLazyGetCafeListRecommendQuery();
   const {
     data: geoData,
     isLoading: isGeoLoading,
     trigger: geoTrigger,
   } = useGetLocationPosData();
-  const [isCoordinateLoading, setIsCoordinateLoading] = useState(false);
   const slideIdxRef = useRef(0);
   const Slider = useSlide(slideIdxRef);
+
+  const cafeData = cafeListData?.cafes.map((cd: CafeInfo) => (
+    <CafeItem key={cd.id} {...cd} />
+  ));
+
   const studyData = data?.content.map((study) => (
     <StudyGroupCard
       group={study}
       onClick={() => navigate(`/specificstudy/${study.groupId}`)}
     />
   ));
-
-  const cafeData = cafeListData?.map((cd) => <CafeItem key={cd.id} {...cd} />);
 
   const hasStudy = studyData?.length;
 
@@ -56,31 +61,9 @@ const GroupList = () => {
   useLayoutEffect(() => {
     const { lat, lng } = geoData;
     if (lat && lng) {
-      setIsCoordinateLoading(true);
-
-      const geocoder = new kakao.maps.services.Geocoder();
-      geocoder.coord2RegionCode(lng, lat, (result, status) => {
-        if (status === kakao.maps.services.Status.OK) {
-          const dong = result[0].region_3depth_name;
-          const ps = new kakao.maps.services.Places();
-
-          ps.keywordSearch(`${dong} 카페`, (data, status, _pagination) => {
-            if (status === kakao.maps.services.Status.OK) {
-              const resultData: CafeInfo[] = data.map((d) => ({
-                ...d,
-                mainphotourl: defaultImg,
-                comntcnt: "??",
-                scoresum: "?",
-                scorecnt: "?",
-              }));
-              setCafeListData(resultData);
-              setIsCoordinateLoading(false);
-            }
-          });
-        }
-      });
+      cafeListDataTrigger({ lat, lng });
     }
-  }, [geoData, geoData.lat, geoData.lng]);
+  }, [geoData]);
 
   useLayoutEffect(() => {
     geoTrigger();
@@ -88,7 +71,7 @@ const GroupList = () => {
 
   return (
     <>
-      {(isLoading || isGeoLoading || isCoordinateLoading) && (
+      {(isLoading || isGeoLoading || isLoadingCafeListData) && (
         <Loading isSolid />
       )}
       <Container>

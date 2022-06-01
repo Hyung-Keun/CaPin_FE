@@ -1,6 +1,7 @@
 import { createLogger } from "redux-logger";
 
 import { authApi } from "./api/authApi";
+import { cafeApi } from "./api/cafeApi";
 import { coordinateApi } from "./api/coordinateApi";
 import { placeApi } from "./api/placeApi";
 import { studyApi } from "./api/studyApi";
@@ -24,9 +25,10 @@ const rootReducer = combineReducers({
   study: studyReducer,
   user: userReducer,
   [authApi.reducerPath]: authApi.reducer,
+  [cafeApi.reducerPath]: cafeApi.reducer,
+  [coordinateApi.reducerPath]: coordinateApi.reducer,
   [placeApi.reducerPath]: placeApi.reducer,
   [studyApi.reducerPath]: studyApi.reducer,
-  [coordinateApi.reducerPath]: coordinateApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
 });
 
@@ -38,9 +40,14 @@ export const store = configureStore({
     getDefaultMiddleware({
       immutableCheck: { ignoredPaths: ["some.nested.path"] },
       serializableCheck: { ignoredPaths: ["some.nested.path"] },
-    }).concat(loggerMiddleware),
-  // .concat(authApi.middleware)
-  // .concat(placeApi.middleware),
+    })
+      .concat(loggerMiddleware)
+      .concat(authApi.middleware)
+      .concat(placeApi.middleware)
+      .concat(cafeApi.middleware)
+      .concat(coordinateApi.middleware)
+      .concat(studyApi.middleware)
+      .concat(userApi.middleware),
 
   devTools: process.env.NODE_ENV !== "production",
   preloadedState: initialState,
