@@ -17,7 +17,7 @@ export const userApi = createApi({
         method: "GET",
       }),
     }),
-    editUser: builder.query({
+    editUser: builder.mutation({
       query: (data) => ({
         url: `/api/profile/edit`,
         method: "POST",
@@ -27,4 +27,4 @@ export const userApi = createApi({
   }),
 });
 
-export const { useGetUserQuery, useLazyEditUserQuery } = userApi;
+export const { useGetUserQuery, useEditUserMutation } = userApi;

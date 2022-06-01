@@ -5,7 +5,7 @@ import { debounce } from "lodash";
 
 import Icon from "@components/Icon";
 
-import { useGetUserQuery, useLazyEditUserQuery } from "@redux/api/userApi";
+import { useGetUserQuery, useEditUserMutation } from "@redux/api/userApi";
 
 import { Button, Text, Image, Input } from "@elements";
 import useFileLoad from "@hooks/useFileLoad";
@@ -13,7 +13,7 @@ import { base64ToBlob } from "@utils/func";
 
 const Profile = () => {
   const [nickname, setNickname] = useState<string>("");
-  const [postTrigger, { data: postData }] = useLazyEditUserQuery();
+  const [postTrigger, { data: postData }] = useEditUserMutation();
   const [profileImage, setProfileImage] = useState<string>("");
   const { data: getData } = useGetUserQuery(true);
   const { FileLoader, fileData } = useFileLoad();
