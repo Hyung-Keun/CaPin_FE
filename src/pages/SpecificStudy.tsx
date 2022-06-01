@@ -31,7 +31,7 @@ const SpecificStudy = () => {
   const params = useParams();
   const { id: groupId } = params;
   const [getSpecificStudyData, { data }] = useLazyGetSpecificStudyQuery();
-  const { data: userData, refetch } = useGetUserQuery(null);
+  const { data: userData } = useGetUserQuery(null);
   const [apply, { isSuccess: isSuccessApply, isLoading: isLoadingApply }] =
     useApplyStudyMutation();
   const { UpDownModal, open: openUpDownModal } = useUpDownModal();
@@ -61,7 +61,7 @@ const SpecificStudy = () => {
   };
 
   useEffect(() => {
-    if (isSuccessApply) refetch();
+    if (isSuccessApply && groupId) getSpecificStudyData(groupId);
   }, [isSuccessApply]);
 
   /**
