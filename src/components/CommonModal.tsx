@@ -62,9 +62,9 @@ to {
 
 const slideUp = keyframes`
 from{
-  tramsform: translateY(-100%)
+  tramsform: translateY(200px)
 } to{
-  transform: translateY(0%)
+  transform: translateY(0px)
 }`;
 
 const slideDown = keyframes`
@@ -82,6 +82,8 @@ const ModalContainer = styled.div`
   align-items: center;
   justify-content: center;
   position: fixed;
+  left: 0;
+  top: 0;
 
   animation-duration: 0.25s;
   animation-timing-function: ease-out;
@@ -89,7 +91,7 @@ const ModalContainer = styled.div`
   animation-fill-mode: forwards;
 `;
 // ${props => props.disappear && css`animation-name: ${fadeOut}`}
-const DialogBox = styled.div<
+export const DialogBox = styled.div<
   ICommonModal<HTMLButtonElement & HTMLInputElement>
 >`
   width: 270px;
