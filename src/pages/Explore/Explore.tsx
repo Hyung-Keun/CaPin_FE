@@ -85,14 +85,6 @@ const Explore = () => {
     isQueryResolved &&
     queryResult.data.content.length > 0;
 
-  const navigateToCreatePage = () => {
-    // navigate()
-  };
-
-  const navigateToDetailPage = () => {
-    //navigate()
-  };
-
   return (
     <main>
       <Search
@@ -113,7 +105,9 @@ const Explore = () => {
           <CurrentStudyGroups>
             {queryResult.data.content.map((group) => (
               <StudyGroupCard
-                onClick={navigateToDetailPage}
+                onClick={() => {
+                  navigate(`/specificstudy/${group.groupId}`);
+                }}
                 key={group.groupId}
                 group={group}
               />
@@ -122,7 +116,12 @@ const Explore = () => {
           <div style={{ height: "133px " }} />
         </CardSection>
       ) : null}
-      <CreateStudyButton role="button" onClick={navigateToCreatePage}>
+      <CreateStudyButton
+        role="button"
+        onClick={() => {
+          navigate("/studyopen");
+        }}
+      >
         <Icon type="FabButton" />
       </CreateStudyButton>
       <NavBar />
