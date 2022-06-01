@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import Loading from "@components/Loading";
+
 import { useGetAuthQuery } from "@redux/api/authApi";
 import {
   updateAccessToken,
@@ -30,14 +32,14 @@ const OAuth = () => {
       setRefreshTokenLS(refreshToken);
       dispatch(updateAccessToken(accessToken));
       dispatch(updateRefreshToken(refreshToken));
-      navigate("/profilesetting");
+      navigate("/profile");
     } else if (isError) {
       console.log(error);
       navigate("/");
     }
   }, [isLoading]);
 
-  return <div>Loading</div>;
+  return <Loading isSolid />;
 };
 
 export default OAuth;
