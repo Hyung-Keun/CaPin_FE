@@ -129,7 +129,7 @@ const UserSettings = ({ goBack }: ICommonProps) => {
     if (isSuccess) {
       dispatch(setUser(editResult));
       if (location.pathname.includes("profile")) {
-        navigate("/");
+        navigate("/grouplist");
       } else {
         if (goBack) goBack();
       }
