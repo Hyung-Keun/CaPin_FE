@@ -119,7 +119,7 @@ const UserSettings = ({ goBack }: ICommonProps) => {
   };
 
   const postNickImage = async () => {
-    const imgUrl = fileData ?? profileImage;
+    const imgUrl = fileData || profileImage;
     const imgBlob = await base64ToBlob(imgUrl);
 
     if (imgBlob) {
@@ -127,7 +127,7 @@ const UserSettings = ({ goBack }: ICommonProps) => {
       formData.append("username", nickname ? nickname : getData?.username);
       formData.append("image", imgBlob);
       postTrigger(formData);
-      navigate("mypage");
+      goBack();
     }
   };
   return (

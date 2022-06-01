@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AreaSelection from "@pages/AreaSelection";
 import Login from "@pages/Auth/Login";
 import OAuth from "@pages/Auth/OAuth";
-import Profile from "@pages/Auth/Profile";
+import ProfileSetting from "@pages/Auth/ProfileSetting";
 import NotFound from "@pages/Error/NotFound";
 import Explore from "@pages/Explore/Explore";
 import GroupList from "@pages/GroupList/GroupList";
@@ -28,7 +28,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/notfound" element={<NotFound />} />
           <Route path="/oauth" element={<OAuth />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<ProfileSetting />} />
           <Route path="/recommend" element={<Recommend />} />
           <Route path="/studyopen" element={<StudyOpen />} />
           <Route path="/placesearch/:id" element={<PlaceSearch />} />
