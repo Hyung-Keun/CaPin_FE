@@ -5,9 +5,12 @@ import styled from "styled-components";
 import Icon from "@components/Icon";
 import TitleWithBackButton from "@components/TitleWithBackButton";
 
-import gamst from "../../../assets/images/gamst.jpeg";
+import { useGetUserQuery } from "@redux/api/userApi";
+
 import { USER_SETTINGS, USER_STUDY_GROUPS, ALARM_SETTINGS } from "../constants";
 
+import { Image } from "@elements";
+import useFileLoad from "@hooks/useFileLoad";
 import { palette, typography } from "@utils/const";
 
 const UserOverviewSection = styled.section`
@@ -77,14 +80,15 @@ const Overview = ({
   const goUserSettings = () => onClick(USER_SETTINGS);
   const goUserStudyGroups = () => onClick(USER_STUDY_GROUPS);
   const goAlarmSettings = () => onClick(ALARM_SETTINGS);
-
+  const { data: getData } = useGetUserQuery(true);
+  const { fileData } = useFileLoad();
   return (
     <>
       <TitleWithBackButton title="마이 페이지" showButton={false} />
       <UserOverviewSection>
-        <img src={gamst} alt="user profile" />
+        <img alt="userImage" src={fileData || getData?.imageUrl} />
         <SubTitleWithIcon onClick={goUserSettings} role="button">
-          <p>닉네임닉네임</p>
+          <p>{getData?.username}</p>
           <Icon type="ArrowRight" />
         </SubTitleWithIcon>
       </UserOverviewSection>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import capin from "@assets/logo/capin.svg";
+import capin from "@assets/logo/capin-orange-letter.svg";
 import kakaoLogo from "@assets/logo/kakao_login_medium_wide.png";
 import { Button, Text, Image } from "@elements";
 import { KAKAO_AUTH_URL } from "@utils/const";

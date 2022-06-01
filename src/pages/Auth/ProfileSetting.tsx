@@ -9,9 +9,9 @@ import TitleWithBackButton from "@components/TitleWithBackButton";
 
 import { useGetUserQuery, useLazyEditUserQuery } from "@redux/api/userApi";
 
-import { ICommonProps } from "../types";
+import { ICommonProps } from "../MyPage/types";
 
-import { Image } from "@elements";
+import { Image, Button } from "@elements";
 import useFileLoad from "@hooks/useFileLoad";
 import { typography, palette } from "@utils/const";
 import { base64ToBlob } from "@utils/func";
@@ -89,7 +89,7 @@ const Section = styled.section`
   padding: 0 20px;
 `;
 
-const UserSettings = ({ goBack }: ICommonProps) => {
+const ProfileSettings = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [nickname, setNickname] = useState<string>("");
   const [postTrigger] = useLazyEditUserQuery();
@@ -127,24 +127,19 @@ const UserSettings = ({ goBack }: ICommonProps) => {
       formData.append("username", nickname ? nickname : getData?.username);
       formData.append("image", imgBlob);
       postTrigger(formData);
-      navigate("mypage");
+      navigate("/");
     }
   };
   return (
     <>
-      <TitleWithBackButton
-        onBackButtonClick={goBack}
-        title=""
-        showTitle={false}
-        showButton
-      />
+      <TitleWithBackButton title="" showTitle={false} showButton />
       <Section>
         <ChoosePhotoGuide>프로필 사진을 등록해주세요</ChoosePhotoGuide>
         <Image
           size="56px"
           src={fileData || getData?.imageUrl}
           shape="circle"
-          margin="12px 0 16px 0"
+          inlineStyles="margin: 12px 0 16px 0"
         />
         <FileLoader accept="image/*">
           <NewPhotoGuide onClick={postImage}>
@@ -164,9 +159,9 @@ const UserSettings = ({ goBack }: ICommonProps) => {
           <li>CA PIN에서는 닉네임으로 소통해요</li>
         </UserNameGuide>
       </Section>
-      <Savebutton onClick={postNickImage}>저장하기</Savebutton>
+      <Savebutton onClick={postNickImage}>가입완료</Savebutton>
     </>
   );
 };
 
-export default UserSettings;
+export default ProfileSettings;

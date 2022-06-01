@@ -14,7 +14,6 @@ import PostCode from "@pages/PostCode";
 import Recommend from "@pages/Recommend";
 import SpecificStudy from "@pages/SpecificStudy";
 import StudyOpen from "@pages/StudyOpen";
-
 import GlobalStyles from "./GlobalStyles";
 
 const App = () => {
@@ -23,6 +22,11 @@ const App = () => {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
+          <Route path="/profilesetting" element={<ProfileSetting />} />
+          <Route path="/practicemodal" element={<PracticeModal />} />
+          <Route path="/CommonModal" element={<CommonModal />} />
+          <Route path="/start" element={<Start />} />
+          <Route path="/loading" element={<Loading />} />
           <Route path="/" element={<GroupList />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/login" element={<Login />} />

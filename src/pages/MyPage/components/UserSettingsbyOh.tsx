@@ -1,20 +1,15 @@
-import React, { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
-import { debounce } from "lodash";
 import styled from "styled-components";
 
-import Icon from "@components/Icon";
 import TitleWithBackButton from "@components/TitleWithBackButton";
 
-import { useGetUserQuery, useLazyEditUserQuery } from "@redux/api/userApi";
-
+import gamst from "../../../assets/images/gamst.jpeg";
 import { ICommonProps } from "../types";
 
 import { Image } from "@elements";
 import useFileLoad from "@hooks/useFileLoad";
 import { typography, palette } from "@utils/const";
-import { base64ToBlob } from "@utils/func";
 
 const ChoosePhotoGuide = styled.p`
   margin-top: 13px;
@@ -90,81 +85,37 @@ const Section = styled.section`
 `;
 
 const UserSettings = ({ goBack }: ICommonProps) => {
+  const { FileLoader } = useFileLoad();
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [nickname, setNickname] = useState<string>("");
-  const [postTrigger] = useLazyEditUserQuery();
-  const [profileImage, setProfileImage] = useState<string>("");
-  const { data: getData } = useGetUserQuery(true);
-  const { FileLoader, fileData } = useFileLoad();
-  const navigate = useNavigate();
-
-  const debounceOnChange = useCallback(
-    debounce(() => {
-      console.log("Debounce function");
-    }, 700),
-    [],
-  );
-
-  const onChangeNickname: React.ChangeEventHandler<HTMLInputElement> = (
-    event,
-  ) => {
-    console.log(event.target.value);
-    setNickname(event.target.value);
-    debounceOnChange();
-  };
-
-  const postImage = () => {
-    console.log(getData.imageUrl);
-    setProfileImage(String(fileData));
-  };
-
-  const postNickImage = async () => {
-    const imgUrl = fileData ?? profileImage;
-    const imgBlob = await base64ToBlob(imgUrl);
-
-    if (imgBlob) {
-      const formData = new FormData();
-      formData.append("username", nickname ? nickname : getData?.username);
-      formData.append("image", imgBlob);
-      postTrigger(formData);
-      navigate("mypage");
-    }
-  };
   return (
     <>
       <TitleWithBackButton
-        onBackButtonClick={goBack}
         title=""
         showTitle={false}
         showButton
+        onBackButtonClick={goBack}
       />
       <Section>
         <ChoosePhotoGuide>프로필 사진을 등록해주세요</ChoosePhotoGuide>
         <Image
+          src={gamst}
           size="56px"
-          src={fileData || getData?.imageUrl}
           shape="circle"
-          margin="12px 0 16px 0"
+          inlineStyles="margin: 12px 0 16px 0"
         />
-        <FileLoader accept="image/*">
-          <NewPhotoGuide onClick={postImage}>
-            <Icon type="CirclePlusOrange" />
+        <FileLoader>
+          <NewPhotoGuide>
+            <button>+</button>
             <span>새로운 사진 등록</span>
           </NewPhotoGuide>
         </FileLoader>
         <TypeInputGuide>닉네임을 입력해주세요.</TypeInputGuide>
-        <UserNicknameInput
-          onChange={onChangeNickname}
-          value={nickname}
-          placeholder={getData?.username}
-          type="text"
-          ref={inputRef}
-        />
+        <UserNicknameInput type="text" ref={inputRef} />
         <UserNameGuide>
           <li>CA PIN에서는 닉네임으로 소통해요</li>
         </UserNameGuide>
       </Section>
-      <Savebutton onClick={postNickImage}>저장하기</Savebutton>
+      <Savebutton>저장하기</Savebutton>
     </>
   );
 };
