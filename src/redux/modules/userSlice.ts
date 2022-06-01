@@ -1,11 +1,9 @@
+import { UserProfile } from "@type/group";
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserData {
-  data: {
-    imageUrl: string;
-    memberId: number;
-    username: string;
-  };
+  data: UserProfile;
 }
 
 const initialState: UserData = {

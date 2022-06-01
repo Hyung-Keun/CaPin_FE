@@ -1,4 +1,4 @@
-type Maybe<T> = T | null;
+type Maybe<T> = T | undefined | null;
 type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 
 export type GroupInfo = {
@@ -13,19 +13,19 @@ export type GroupInfo = {
   description: string;
 };
 
-enum MemberAuthority {
+export enum MemberAuthority {
   JOIN = "JOIN",
   WAIT = "WAIT",
   OWNER = "OWNER",
 }
 
-type UserProfile = {
-  memberId: string;
-  userName: string;
+export type UserProfile = {
+  memberId: number;
+  username: string;
   imageUrl: Maybe<string>;
 };
 
-type MemberInfo = UserProfile & {
+export type MemberInfo = UserProfile & {
   authority: MemberAuthority;
 };
 

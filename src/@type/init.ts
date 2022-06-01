@@ -21,3 +21,8 @@ export interface IPosition {
   lat: number;
   lng: number;
 }
+
+export interface ResponseData {
+  result?: string;
+  msg: string | null;
+}
