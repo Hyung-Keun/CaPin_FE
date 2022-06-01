@@ -37,6 +37,11 @@ const People = ({
     (member) => member.memberId === userData?.memberId,
   )?.authority;
 
+  const isMember =
+    memberList?.findIndex(
+      (member) => member.memberId === userData?.memberId,
+    ) !== -1;
+
   const modalButtonData = [
     {
       text: "승인",
@@ -85,7 +90,7 @@ const People = ({
           </li>
         ))}
       </StyleUl>
-      <ExitButton onClick={exitStudy}>스터디 나가기</ExitButton>
+      {isMember && <ExitButton onClick={exitStudy}>스터디 나가기</ExitButton>}
       <UpDownModal buttonData={modalButtonData} />
     </>
   );
