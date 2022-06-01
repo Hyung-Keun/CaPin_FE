@@ -6,7 +6,7 @@ import styled from "styled-components";
 import Icon from "@components/Icon";
 
 import { Button } from "@elements";
-import { palette } from "@utils/const";
+import { palette, typography } from "@utils/const";
 
 interface ISimpleHeader {
   onClick?: React.MouseEventHandler;
@@ -38,8 +38,7 @@ const Container = styled.header`
   left: 0;
   display: flex;
   justify-content: space-between;
-  background-color: ${palette.grey050};
-
+  background-color: ${palette.white};
   & > button {
     background-color: inherit;
     border: none;
@@ -53,8 +52,8 @@ const Header = styled.h1`
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  font-weight: 700;
   z-index: -1;
+  ${typography.st18sb}
 `;
 
 export default SimpleHeader;
