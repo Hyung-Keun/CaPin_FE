@@ -17,7 +17,7 @@ const NavBar = () => {
   const { activePageName, navList } = useAppSelector(({ init }) => init);
   const onNavItemClick = (name: string, path: string) => () => {
     setActiveBtnName(name);
-    navigate(`/${path}`);
+    navigate(`${path}`);
   };
 
   return (
@@ -46,8 +46,9 @@ const Container = styled.nav`
   position: fixed;
   bottom: 0;
   left: 0;
-  padding: ${convertPixelToRem(20)} ${convertPixelToRem(50)}
-    ${convertPixelToRem(50)};
+  padding: 0 ${convertPixelToRem(50)};
+  padding-top: ${convertPixelToRem(20)};
+  padding-bottom: ${convertPixelToRem(50)};
   background-color: ${palette.white};
   border-top: ${convertPixelToRem(0.5)} solid ${palette.grey200};
 `;
