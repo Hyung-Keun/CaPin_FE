@@ -4,7 +4,7 @@ import styled, { keyframes } from "styled-components";
 
 import { IButtonData } from "@hooks/useUpDownModal";
 
-interface ModalData {
+export interface ModalData {
   text: string;
   buttons?: [IButtonData, IButtonData?];
 }

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
@@ -9,12 +9,15 @@ import {
   useApproveMemberMutation,
   useDenyMemberMutation,
   useExitStudyMutation,
+  useLazyGetSpecificStudyQuery,
 } from "@redux/api/studyApi";
 import { useGetUserQuery } from "@redux/api/userApi";
 
 import Icon from "./Icon";
+import Loading from "./Loading";
 
 import { Text, Image } from "@elements";
+import useCommonModal, { ModalData } from "@hooks/useCommonModal";
 import useUpDownModal from "@hooks/useUpDownModal";
 import { palette, typography } from "@utils/const";
 import { convertPixelToRem } from "@utils/func";
@@ -28,11 +31,38 @@ const People = ({
 }) => {
   const navigate = useNavigate();
   const memberIdRef = useRef(-1);
+  const [getSpecificStudy] = useLazyGetSpecificStudyQuery();
   const { data: userData } = useGetUserQuery(null);
-  const [approve] = useApproveMemberMutation();
-  const [deny] = useDenyMemberMutation();
-  const [exit] = useExitStudyMutation();
-  const { UpDownModal, open } = useUpDownModal();
+  const [
+    approve,
+    {
+      isLoading: isLoadingApprove,
+      isSuccess: isSuccessApprove,
+      isError: isErrorApprove,
+    },
+  ] = useApproveMemberMutation();
+  const [
+    deny,
+    {
+      isLoading: isLoadingDeny,
+      isSuccess: isSuccessDeny,
+      isError: isErrorDeny,
+    },
+  ] = useDenyMemberMutation();
+  const [
+    exit,
+    {
+      isLoading: isLoadingExit,
+      isSuccess: isSuccessExit,
+      isError: isErrorExit,
+    },
+  ] = useExitStudyMutation();
+  const { UpDownModal, open: openUpDownModal } = useUpDownModal();
+  const { CommonModal, open: openCommonModal } = useCommonModal();
+  const [commonModalData, setCommonModalData] = useState<ModalData>({
+    text: "",
+  });
+
   const userAuthority = memberList?.find(
     (member) => member.memberId === userData?.memberId,
   )?.authority;
@@ -54,14 +84,63 @@ const People = ({
   ];
 
   const exitStudy = () => {
-    if (groupId) {
-      exit(groupId);
-      navigate("/grouplist");
-    }
+    setCommonModalData({
+      text: "정말로 탈퇴하시겠습니까?",
+      buttons: [
+        {
+          text: "취소",
+        },
+        {
+          text: "확인",
+          onClick: () => {
+            if (groupId) {
+              exit(groupId);
+            }
+          },
+        },
+      ],
+    });
+    openCommonModal();
   };
+
+  useEffect(() => {
+    if (
+      isSuccessApprove ||
+      isSuccessDeny ||
+      isSuccessExit ||
+      isErrorApprove ||
+      isErrorDeny ||
+      isErrorExit
+    ) {
+      if (isSuccessApprove) {
+        setCommonModalData({ text: "승인되었습니다." });
+      } else if (isSuccessDeny) {
+        setCommonModalData({ text: "거절되었습니다." });
+      } else if (isSuccessExit) {
+        setCommonModalData({
+          text: "탈퇴되었습니다.",
+          buttons: [{ text: "확인", onClick: () => navigate("/grouplist") }],
+        });
+      } else {
+        setCommonModalData({
+          text: "요청에 실패했습니다.\n잠시 후 다시 시도해주세요.",
+        });
+      }
+      openCommonModal();
+      getSpecificStudy(String(groupId));
+    }
+  }, [
+    isSuccessApprove,
+    isSuccessDeny,
+    isSuccessExit,
+    isErrorApprove,
+    isErrorDeny,
+    isErrorExit,
+  ]);
 
   return (
     <>
+      {(isLoadingApprove || isLoadingDeny || isLoadingExit) && <Loading />}
       <Title>스터디원목록</Title>
       <StyleUl>
         {memberList?.map((member) => (
@@ -80,7 +159,7 @@ const People = ({
                 <OptionButton
                   onClick={() => {
                     memberIdRef.current = member.memberId;
-                    open();
+                    openUpDownModal();
                   }}
                 >
                   승인
@@ -92,6 +171,7 @@ const People = ({
       </StyleUl>
       {isMember && <ExitButton onClick={exitStudy}>스터디 나가기</ExitButton>}
       <UpDownModal buttonData={modalButtonData} />
+      <CommonModal {...commonModalData} />
     </>
   );
 };
