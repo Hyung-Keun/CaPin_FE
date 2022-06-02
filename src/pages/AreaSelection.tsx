@@ -12,9 +12,13 @@ import { useAppDispatch } from "@hooks/redux";
 
 interface IAreaSelection {
   isSingular?: boolean;
+  multiSelection?: boolean;
 }
 
-const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
+const AreaSelection = ({
+  isSingular = true,
+  multiSelection = true,
+}: IAreaSelection) => {
   const regions = [
     { id: 1, region: "서초/신사/방배" },
     { id: 2, region: "강남/역삼/삼성/논현" },
@@ -67,7 +71,35 @@ const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
 
     return checkedItems;
   };
-
+  if (multiSelection) {
+    return (
+      <React.Fragment>
+        <Header type="Simple">지역설정</Header>
+        <Text inlineStyles="padding:20px 326px 12px 20px;">서울</Text>
+        <BlankBox inlineStyles="padding:20px;display: grid; grid-template-columns: 1fr 1fr;">
+          {regions.map((item) => (
+            <Label
+              key={item.id}
+              inlineStyles="
+          display: flex;
+          justify-content: space-between;
+          padding: 12px 14px"
+              isChecked={selectedRegion === item.region}
+            >
+              <input
+                type="checkbox"
+                value={item.region}
+                onChange={checkHandler}
+                style={{ display: "none" }}
+              />
+              <div>{item.region}</div>
+              <Icon type="ArrowRightGrey" />
+            </Label>
+          ))}
+        </BlankBox>
+      </React.Fragment>
+    );
+  }
   return (
     <React.Fragment>
       <Header type="Simple">지역설정</Header>
@@ -77,9 +109,9 @@ const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
           <Label
             key={item.id}
             inlineStyles="
-          display: flex;
-          justify-content: space-between;
-          padding: 12px 14px"
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 14px"
             isChecked={isSingular && selectedRegion === item.region}
           >
             <input
