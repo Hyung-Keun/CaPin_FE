@@ -14,9 +14,11 @@ import StudyGroupCard from "@components/StudyGroupCard";
 
 import { useLazyGetCafeListRecommendQuery } from "@redux/api/cafeApi";
 import { useGetMyStudyGroupQuery } from "@redux/api/studyApi";
+import { setCafeListData, setGeoData } from "@redux/modules/initSlice";
 
 import EmptyCard from "./components/EmptyCard";
 
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
 import useGetLocationPosData from "@hooks/useGetLocationPosData";
 import useSlide from "@hooks/useSlide";
 import { palette } from "@utils/const";
@@ -24,10 +26,11 @@ import { convertPixelToRem } from "@utils/func";
 
 const GroupList = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { data, isLoading } = useGetMyStudyGroupQuery(null);
   const [
     cafeListDataTrigger,
-    { data: cafeListData, isLoading: isLoadingCafeListData },
+    { data: recommendCafeListData, isLoading: isLoadingCafeListData },
   ] = useLazyGetCafeListRecommendQuery();
   const {
     data: geoData,
@@ -36,8 +39,14 @@ const GroupList = () => {
   } = useGetLocationPosData();
   const slideIdxRef = useRef(0);
   const Slider = useSlide(slideIdxRef);
+  const { geoData: curGeoData, cafeListData: curCafeListData } = useAppSelector(
+    ({ init }) => init,
+  );
+  const cafeListData = curCafeListData.length
+    ? curCafeListData
+    : recommendCafeListData?.cafes;
 
-  const cafeData = cafeListData?.cafes.map((cd: CafeInfo) => (
+  const cafeData = cafeListData?.map((cd: CafeInfo) => (
     <CafeItem key={cd.id} {...cd} />
   ));
 
@@ -59,11 +68,21 @@ const GroupList = () => {
   };
 
   useLayoutEffect(() => {
+    if (curGeoData.lat !== -1) return;
+
     const { lat, lng } = geoData;
     if (lat && lng) {
-      cafeListDataTrigger({ lat, lng });
+      const curGeolocationData = { lat, lng };
+      cafeListDataTrigger(curGeolocationData);
+      dispatch(setGeoData(curGeolocationData));
     }
-  }, [geoData]);
+  }, [curGeoData, geoData]);
+
+  useLayoutEffect(() => {
+    if (curCafeListData.length) return;
+
+    if (cafeListData) dispatch(setCafeListData(cafeListData));
+  }, [curCafeListData, cafeListData]);
 
   useLayoutEffect(() => {
     geoTrigger();

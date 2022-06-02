@@ -6,8 +6,6 @@ import { IIconType } from "@type/asset";
 
 import Icon from "@components/Icon";
 
-import { setActiveBtnName } from "@redux/modules/initSlice";
-
 import { useAppSelector } from "@hooks/redux";
 import { palette } from "@utils/const";
 import { convertPixelToRem } from "@utils/func";
@@ -18,7 +16,6 @@ const NavBar = ({ pageName }: { pageName: PageNameType }) => {
   const navigate = useNavigate();
   const { navList } = useAppSelector(({ init }) => init);
   const onNavItemClick = (name: string, path: string) => () => {
-    setActiveBtnName(name);
     navigate(`${path}`);
   };
 

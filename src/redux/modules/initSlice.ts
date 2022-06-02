@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  activePageName: "HOME",
   navList: [
     {
       name: "HOME",
@@ -28,18 +27,26 @@ const initialState = {
       },
     },
   ],
+  geoData: {
+    lat: -1,
+    lng: -1,
+  },
+  cafeListData: [],
 };
 
 export const initSlice = createSlice({
   name: "init",
   initialState,
   reducers: {
-    setActiveBtnName(state, action) {
-      state.activePageName = action.payload;
+    setGeoData(state, action) {
+      state.geoData = action.payload;
+    },
+    setCafeListData(state, action) {
+      state.cafeListData = action.payload;
     },
   },
 });
 
-export const { setActiveBtnName } = initSlice.actions;
+export const { setGeoData, setCafeListData } = initSlice.actions;
 
 export default initSlice.reducer;
