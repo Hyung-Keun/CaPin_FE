@@ -143,31 +143,36 @@ const People = ({
       {(isLoadingApprove || isLoadingDeny || isLoadingExit) && <Loading />}
       <Title>스터디원목록</Title>
       <StyleUl>
-        {memberList?.map((member) => (
-          <li key={member.memberId}>
-            <InfoWrap>
-              <Image
-                shape="circle"
-                size="30px"
-                inlineStyles={`margin-right: ${convertPixelToRem(10)}`}
-                src={member.imageUrl!}
-              />
-              <Text>{member.username}</Text>
-            </InfoWrap>
-            {userAuthority === MemberAuthority.OWNER &&
-              member.authority === MemberAuthority.WAIT && (
-                <OptionButton
-                  onClick={() => {
-                    memberIdRef.current = member.memberId;
-                    openUpDownModal();
-                  }}
-                >
-                  승인
-                  <Icon type="ArrowDownWhite" />
-                </OptionButton>
-              )}
-          </li>
-        ))}
+        {memberList?.map((member) =>
+          !(userAuthority === MemberAuthority.OWNER) &&
+          member.authority === MemberAuthority.WAIT ? (
+            <></>
+          ) : (
+            <li key={member.memberId}>
+              <InfoWrap>
+                <Image
+                  shape="circle"
+                  size="30px"
+                  inlineStyles={`margin-right: ${convertPixelToRem(10)}`}
+                  src={member.imageUrl!}
+                />
+                <Text>{member.username}</Text>
+              </InfoWrap>
+              {userAuthority === MemberAuthority.OWNER &&
+                member.authority === MemberAuthority.WAIT && (
+                  <OptionButton
+                    onClick={() => {
+                      memberIdRef.current = member.memberId;
+                      openUpDownModal();
+                    }}
+                  >
+                    승인
+                    <Icon type="ArrowDownWhite" />
+                  </OptionButton>
+                )}
+            </li>
+          ),
+        )}
       </StyleUl>
       {isMember && <ExitButton onClick={exitStudy}>스터디 나가기</ExitButton>}
       <UpDownModal buttonData={modalButtonData} />
