@@ -9,7 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { debounce } from "lodash";
 import styled from "styled-components";
 
-import { MemberAuthority } from "@type/group";
+import { MemberAuthority, MemberInfo } from "@type/group";
 
 import Icon from "@components/Icon";
 import Loading from "@components/Loading";
@@ -20,6 +20,7 @@ import { useLazyGetSpecificStudyQuery } from "@redux/api/studyApi";
 import { useGetUserQuery } from "@redux/api/userApi";
 
 import { BlankBox, Text, Input, Button } from "@elements";
+import useCommonModal from "@hooks/useCommonModal";
 import { palette } from "@utils/const";
 import { convertPixelToRem } from "@utils/func";
 
@@ -28,12 +29,16 @@ const PlaceSearch = () => {
   const [searchTxt, setSearchTxt] = useState<string>("");
   const [selectedAddress, setSelectedAddress] = useState<any>({});
   const [isShowSearchList, setIsShowSearchList] = useState(false);
+  const [memberList, setMemberList] = useState<MemberInfo[]>([]);
 
   const { data: userData } = useGetUserQuery(null);
   const [getSpecificStudy, { data: specificStudyData }] =
     useLazyGetSpecificStudyQuery();
   const [trigger, { data }] = useLazyGetAddressQuery();
-  const [postTrigger, { isLoading }] = usePostCoordinateMutation();
+  const [postTrigger, { isLoading, isSuccess, isError }] =
+    usePostCoordinateMutation();
+  const { CommonModal, open } = useCommonModal();
+  const [modalText, setModalText] = useState("");
 
   const params = useParams();
   const { id: groupId } = params;
@@ -59,6 +64,11 @@ const PlaceSearch = () => {
         startLocationY: selectedAddress.y,
         startAddress: selectedAddress.address_name,
       });
+      /**
+       * selectedAddress에 address_name 이외에 다른 값이 있는지를 보고, 저장하기 버튼 활성화 유무 체크.
+       * 좋은 로직은 아님.
+       */
+      setSelectedAddress({ address_name: selectedAddress.address_name });
     }
   };
 
@@ -69,18 +79,35 @@ const PlaceSearch = () => {
       specificStudyData.memberList.findIndex((member) => member.address) !== -1;
 
     if (isAvailable) navigate(`/recommend/${groupId}`);
-    else alert("불가능");
+    else {
+      setModalText("최소 1개 이상의 주소가 필요합니다.");
+      open();
+    }
   };
 
   useEffect(() => {
     if (groupId) getSpecificStudy(groupId);
   }, [groupId]);
 
+  useEffect(() => {
+    if (isSuccess || isError) {
+      setModalText(
+        isSuccess
+          ? "저장했습니다."
+          : "오류가 발생했습니다.\n잠시 후 다시 시도해주세요.",
+      );
+      open();
+    }
+  }, [isSuccess, isError]);
+
   useLayoutEffect(() => {
     if (specificStudyData) {
-      specificStudyData.memberList.sort((a, b) =>
+      const tempMemberList = [...specificStudyData.memberList];
+      tempMemberList.sort((a, b) =>
         b.authority === MemberAuthority.OWNER ? 1 : 0,
       );
+      setMemberList(tempMemberList);
+
       const selected = specificStudyData.memberList.find(
         (member) => member.memberId === userData?.memberId,
       )?.address;
@@ -136,10 +163,10 @@ const PlaceSearch = () => {
               중간장소와 카페를 추천받으세요!
             </Text>
           </Text>
-          {specificStudyData?.memberList.map(
-            (item) =>
-              item.authority !== MemberAuthority.WAIT && (
-                <React.Fragment key={item.memberId}>
+          {memberList.map(
+            (member) =>
+              member.authority !== MemberAuthority.WAIT && (
+                <React.Fragment key={member.memberId}>
                   <Text
                     width="46px"
                     height="20px"
@@ -150,9 +177,9 @@ const PlaceSearch = () => {
                     letterSpacing="-0.04em"
                     color={palette.grey700}
                   >
-                    {item.username}
+                    {member.username}
                   </Text>
-                  {item.memberId !== userData?.memberId ? (
+                  {member.memberId !== userData?.memberId ? (
                     <BlankBox
                       backgroundColor={palette.grey050}
                       width="335px"
@@ -167,7 +194,7 @@ const PlaceSearch = () => {
                         margin="11px 0 0 14px"
                         fontSize="16px"
                       >
-                        {item.address || "주소가 등록되어있지 않습니다."}
+                        {member.address || "주소가 등록되어있지 않습니다."}
                       </Text>
                     </BlankBox>
                   ) : Object.keys(selectedAddress).length ? (
@@ -218,34 +245,34 @@ const PlaceSearch = () => {
                       />
                     </BlankBox>
                   )}
-                  {isShowSearchList && searchTxt && (
-                    <>
-                      <Divider />
-                      <AutoSearchContainer>
-                        <AutoSearchWrap>
-                          {data?.documents.map((item: any, idx: number) => {
-                            const addr = item.address_name.replace(
-                              searchTxt,
-                              `<em>${searchTxt}</em>`,
-                            );
-                            return (
-                              <AutoSearchData
-                                key={idx}
-                                onClick={() => {
-                                  setSelectedAddress(item);
-                                  setIsShowSearchList(false);
-                                  setSearchTxt("");
-                                }}
-                                dangerouslySetInnerHTML={{ __html: addr }}
-                              />
-                            );
-                          })}
-                        </AutoSearchWrap>
-                      </AutoSearchContainer>
-                    </>
-                  )}
                 </React.Fragment>
               ),
+          )}
+          {isShowSearchList && searchTxt && (
+            <>
+              <Divider />
+              <AutoSearchContainer>
+                <AutoSearchWrap>
+                  {data?.documents.map((addrData: any, idx: number) => {
+                    const addr = addrData.address_name.replace(
+                      searchTxt,
+                      `<em>${searchTxt}</em>`,
+                    );
+                    return (
+                      <AutoSearchData
+                        key={idx}
+                        onClick={() => {
+                          setSelectedAddress(addrData);
+                          setIsShowSearchList(false);
+                          setSearchTxt("");
+                        }}
+                        dangerouslySetInnerHTML={{ __html: addr }}
+                      />
+                    );
+                  })}
+                </AutoSearchWrap>
+              </AutoSearchContainer>
+            </>
           )}
           <Button
             width="335px"
@@ -255,7 +282,10 @@ const PlaceSearch = () => {
             borderRadius="6px"
             border="none"
             onClick={onClickSaveButton}
-            disabled={!Object.keys(selectedAddress).length}
+            disabled={
+              !Object.keys(selectedAddress).length ||
+              !(selectedAddress.x && selectedAddress.y)
+            }
           >
             <Text color={palette.white}>저장하기</Text>
           </Button>
@@ -272,6 +302,7 @@ const PlaceSearch = () => {
           </Button>
         </BlankBox>
       </BlankBox>
+      <CommonModal text={modalText} />
     </React.Fragment>
   );
 };
