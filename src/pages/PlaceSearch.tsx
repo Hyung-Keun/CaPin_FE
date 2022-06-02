@@ -64,6 +64,7 @@ const PlaceSearch = () => {
         startLocationY: selectedAddress.y,
         startAddress: selectedAddress.address_name,
       });
+      getSpecificStudy(groupId);
       /**
        * selectedAddress에 address_name 이외에 다른 값이 있는지를 보고, 저장하기 버튼 활성화 유무 체크.
        * 좋은 로직은 아님.
