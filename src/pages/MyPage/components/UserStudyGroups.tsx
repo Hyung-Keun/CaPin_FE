@@ -1,20 +1,18 @@
 import { useNavigate } from "react-router-dom";
 
+import NavBar from "@components/Navigator/NavBar";
 import StudyGroupCard from "@components/StudyGroupCard";
 import { DefaultStudyGroupListLayout } from "@components/StudyGroupList";
 import TitleWithBackButton from "@components/TitleWithBackButton";
 
-import getMockupCurrentGroups from "../mock";
+import { useGetMyStudyGroupQuery } from "@redux/api/studyApi";
+
 import { ICommonProps } from "../types";
 
 const UserStudyGroups = ({ goBack }: ICommonProps) => {
   const navigate = useNavigate();
-  const navigateToDetailPage = () => {
-    // navigate()
-  };
 
-  const mockups = getMockupCurrentGroups(20);
-
+  const { data, isLoading } = useGetMyStudyGroupQuery(null);
   return (
     <>
       <TitleWithBackButton
@@ -23,14 +21,15 @@ const UserStudyGroups = ({ goBack }: ICommonProps) => {
         onBackButtonClick={goBack}
       />
       <DefaultStudyGroupListLayout>
-        {mockups.map((mockup) => (
+        {data?.content.map((study) => (
           <StudyGroupCard
-            key={mockup.groupId}
-            group={mockup}
-            onClick={navigateToDetailPage}
+            key={study.groupId}
+            group={study}
+            onClick={() => navigate(`/specificstudy/${study.groupId}`)}
           />
         ))}
       </DefaultStudyGroupListLayout>
+      <NavBar />
     </>
   );
 };
