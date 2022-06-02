@@ -5,9 +5,9 @@ import styled, { keyframes } from "styled-components";
 import { palette, typography } from "@utils/const";
 import { convertPixelToRem } from "@utils/func";
 
-interface IButtonData {
+export interface IButtonData {
   text: string;
-  onClick: MouseEventHandler;
+  onClick?: MouseEventHandler;
 }
 
 const useUpDownModal = () => {
@@ -27,7 +27,7 @@ const useUpDownModal = () => {
             <button
               key={`${bd.text}_${i}`}
               onClick={(e) => {
-                bd.onClick(e);
+                if (bd.onClick) bd.onClick(e);
                 close();
               }}
             >
