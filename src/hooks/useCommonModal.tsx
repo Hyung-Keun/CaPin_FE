@@ -6,7 +6,7 @@ import { IButtonData } from "@hooks/useUpDownModal";
 
 export interface ModalData {
   text: string;
-  buttons?: [IButtonData, IButtonData?];
+  buttons?: [IButtonData] | [IButtonData, IButtonData];
 }
 
 const useCommonModal = () => {

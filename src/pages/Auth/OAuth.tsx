@@ -10,6 +10,8 @@ import {
 } from "@redux/modules/authSlice";
 
 import { useAppDispatch } from "@hooks/redux";
+import useCommonModal from "@hooks/useCommonModal";
+import { IButtonData } from "@hooks/useUpDownModal";
 import { setAccessTokenLS, setRefreshTokenLS } from "@utils/auth";
 
 const OAuth = () => {
@@ -18,6 +20,7 @@ const OAuth = () => {
   const params: URLSearchParams = new URL(document.location.toString())
     .searchParams;
   const authCode = params.get("code");
+  const { CommonModal, open } = useCommonModal();
 
   const { data, isSuccess, isError, error, isLoading } =
     useGetAuthQuery(authCode);
@@ -25,21 +28,35 @@ const OAuth = () => {
   const accessToken = data?.accessToken;
   const refreshToken = data?.refreshToken;
 
+  const buttons: [IButtonData] = [
+    {
+      text: "확인",
+      onClick: () => navigate("/login"),
+    },
+  ];
+
   useEffect(() => {
     if (isSuccess) {
-      console.log("success");
       setAccessTokenLS(accessToken);
       setRefreshTokenLS(refreshToken);
       dispatch(updateAccessToken(accessToken));
       dispatch(updateRefreshToken(refreshToken));
-      navigate("/profile");
+      navigate(data?.isFirst ? "/profile" : "/groupList");
     } else if (isError) {
       console.log(error);
-      navigate("/");
+      open();
     }
   }, [isLoading]);
 
-  return <Loading isSolid />;
+  return (
+    <>
+      <Loading isSolid />
+      <CommonModal
+        text="로그인에 실패했습니다.\n잠시후 다시 시도해주세요."
+        buttons={buttons}
+      />
+    </>
+  );
 };
 
 export default OAuth;
