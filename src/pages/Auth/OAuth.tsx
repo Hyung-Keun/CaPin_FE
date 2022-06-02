@@ -41,7 +41,7 @@ const OAuth = () => {
       setRefreshTokenLS(refreshToken);
       dispatch(updateAccessToken(accessToken));
       dispatch(updateRefreshToken(refreshToken));
-      navigate(data?.isFirst ? "/profile" : "/groupList");
+      navigate(data?.isFirst ? "/profile" : "/grouplist");
     } else if (isError) {
       console.log(error);
       open();
