@@ -42,7 +42,9 @@ const SpecificStudy = () => {
 
   const isMember =
     data?.memberList.findIndex(
-      (member) => member.memberId === userData?.memberId,
+      (member) =>
+        member.memberId === userData?.memberId &&
+        member.authority !== MemberAuthority.WAIT,
     ) !== -1;
 
   const isOwner =
