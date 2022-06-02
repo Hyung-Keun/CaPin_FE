@@ -8,6 +8,7 @@ import Profile from "@pages/Auth/ProfileSettings";
 import NotFound from "@pages/Error/NotFound";
 import Explore from "@pages/Explore/Explore";
 import GroupList from "@pages/GroupList/GroupList";
+import Home from "@pages/Home";
 import MyPage from "@pages/MyPage/MyPage";
 import PlaceSearch from "@pages/PlaceSearch";
 import PostCode from "@pages/PostCode";
@@ -24,6 +25,7 @@ const App = () => {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/oauth" element={<OAuth />} />
           <Route path="/grouplist" element={Auth(<GroupList />)} />
