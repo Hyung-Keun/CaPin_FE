@@ -93,7 +93,7 @@ const AreaSelection = ({
                 style={{ display: "none" }}
               />
               <div>{item.region}</div>
-              <Icon type="ArrowRightGrey" />
+              <Icon type="ArrowRight" />
             </Label>
           ))}
         </BlankBox>
