@@ -126,7 +126,7 @@ const Overview = ({
       <DeleteUserSection>
         <button>회원탈퇴</button>
       </DeleteUserSection>
-      <NavBar />
+      <NavBar pageName="ME" />
     </>
   );
 };

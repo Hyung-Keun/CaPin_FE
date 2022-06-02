@@ -5,7 +5,7 @@ const initialState = {
   navList: [
     {
       name: "HOME",
-      path: "/",
+      path: "/groupList",
       iconType: {
         active: "ActiveHome",
         inactive: "Home",
@@ -13,7 +13,7 @@ const initialState = {
     },
     {
       name: "SEARCH",
-      path: "/search",
+      path: "/explore",
       iconType: {
         active: "ActiveSearch",
         inactive: "Search",

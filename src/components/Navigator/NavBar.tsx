@@ -12,9 +12,11 @@ import { useAppSelector } from "@hooks/redux";
 import { palette } from "@utils/const";
 import { convertPixelToRem } from "@utils/func";
 
-const NavBar = () => {
+type PageNameType = "HOME" | "SEARCH" | "ME";
+
+const NavBar = ({ pageName }: { pageName: PageNameType }) => {
   const navigate = useNavigate();
-  const { activePageName, navList } = useAppSelector(({ init }) => init);
+  const { navList } = useAppSelector(({ init }) => init);
   const onNavItemClick = (name: string, path: string) => () => {
     setActiveBtnName(name);
     navigate(`${path}`);
@@ -25,8 +27,7 @@ const NavBar = () => {
       <NavListWrap>
         {navList.map((navItem) => {
           const { name, path, iconType } = navItem;
-          const type =
-            activePageName === name ? iconType.active : iconType.inactive;
+          const type = pageName === name ? iconType.active : iconType.inactive;
 
           return (
             <li key={name}>

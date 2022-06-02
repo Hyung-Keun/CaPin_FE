@@ -124,7 +124,7 @@ const Explore = () => {
       >
         <Icon type="FabButton" />
       </CreateStudyButton>
-      <NavBar />
+      <NavBar pageName="SEARCH" />
     </main>
   );
 };

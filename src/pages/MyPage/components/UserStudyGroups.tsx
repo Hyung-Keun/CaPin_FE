@@ -29,7 +29,7 @@ const UserStudyGroups = ({ goBack }: ICommonProps) => {
           />
         ))}
       </DefaultStudyGroupListLayout>
-      <NavBar />
+      <NavBar pageName="ME" />
     </>
   );
 };

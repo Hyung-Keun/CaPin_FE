@@ -103,7 +103,7 @@ const GroupList = () => {
             />
           )}
         </ContentArea>
-        <NavBar />
+        <NavBar pageName="HOME" />
       </Container>
     </>
   );
