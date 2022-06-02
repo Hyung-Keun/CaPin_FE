@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <Container>
       <div>
-        <iframe title="capin" src="./login" />
+        <iframe title="capin" src="./intro" />
       </div>
     </Container>
   );

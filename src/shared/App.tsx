@@ -18,6 +18,7 @@ import StudyOpen from "@pages/StudyOpen";
 
 import Auth from "./Auth";
 import GlobalStyles from "./GlobalStyles";
+import Intro from "./Intro";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/intro" element={<Intro />} />
           <Route path="/login" element={<Login />} />
           <Route path="/oauth" element={<OAuth />} />
           <Route path="/grouplist" element={Auth(<GroupList />)} />
