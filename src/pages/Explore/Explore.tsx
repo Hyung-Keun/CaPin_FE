@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
@@ -11,10 +11,12 @@ import StudyGroupCard from "@components/StudyGroupCard";
 import { DefaultStudyGroupListLayout } from "@components/StudyGroupList";
 
 import { useGetStudiesByOptionsQuery } from "@redux/api/studyApi";
+import { setArea } from "@redux/modules/areaSlice";
 
 import { Search, SearchResultFilter } from "./components";
 import { PAGE_SIZE } from "./constants";
 
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
 import useDebounce from "@hooks/useDebounce";
 import { palette, typography } from "@utils/const";
 
@@ -56,12 +58,13 @@ const Explore = () => {
    *};
    */
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   const [searchResult, setSearchResult] = useState("");
   const onSearchChange = (nextSearch: string) => setSearchResult(nextSearch);
   const debouncedOnSearchCahnge = useDebounce<string, typeof onSearchChange>(
     onSearchChange,
   );
+  const selectedAddress = useAppSelector(({ area }) => area.value);
 
   const queryOption: GroupsQueryOption = {
     // 페이지를 상태로 관리하여야 합니다.
@@ -72,7 +75,7 @@ const Explore = () => {
     // IMPORTANT!!!!!!!!!!!!!!!!!!!!!
     // useSelector으로 구독해주세요!
     // region[]
-    roughAddress: [],
+    roughAddress: [selectedAddress],
   };
 
   const queryResult = useGetStudiesByOptionsQuery(queryOption);
@@ -85,6 +88,11 @@ const Explore = () => {
     isQueryResolved &&
     queryResult.data.content.length > 0;
 
+  useEffect(() => {
+    return () => {
+      dispatch(setArea(""));
+    };
+  }, []);
   return (
     <main>
       <Search

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import styled from "styled-components";
@@ -9,17 +9,14 @@ import Icon from "@components/Icon";
 import { setArea } from "@redux/modules/areaSlice";
 
 import { Text, BlankBox } from "@elements";
-import { useAppDispatch } from "@hooks/redux";
+import { useAppDispatch, useAppSelector } from "@hooks/redux";
 
 interface IAreaSelection {
   isSingular?: boolean;
   multiSelection?: boolean;
 }
 
-const AreaSelection = ({
-  isSingular = true,
-  multiSelection = true,
-}: IAreaSelection) => {
+const AreaSelection = ({ isSingular = true }: IAreaSelection) => {
   const regions = [
     { id: 1, region: "서초/신사/방배" },
     { id: 2, region: "강남/역삼/삼성/논현" },
@@ -44,14 +41,13 @@ const AreaSelection = ({
   ];
   const [isChecked, setIsChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState(new Set());
-  const [selectedRegion, setSelectedRegion] = useState<string>("");
   const dispatch = useAppDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedRegion = useAppSelector(({ area }) => area.value);
 
   const checkHandler = ({ target }: any) => {
     if (isSingular) {
-      setSelectedRegion(target.value);
-      dispatch(setArea(target.value));
+      const newValue = target.value === selectedRegion ? "" : target.value;
+      dispatch(setArea(newValue));
     } else {
       setIsChecked(!isChecked);
       checkedItemHandler(target.parentNode, target.value, target.checked);
@@ -73,41 +69,7 @@ const AreaSelection = ({
 
     return checkedItems;
   };
-  // if(!searchParams.get('isSingular'))
 
-  const Singular = Boolean(searchParams.get("isSingular"));
-  console.log(!Singular); // false 고대로
-  console.log(Singular); //true
-
-  if (!Singular === false) {
-    return (
-      <React.Fragment>
-        <Header type="Simple">지역설정</Header>
-        <Text inlineStyles="padding:20px 326px 12px 20px;">서울</Text>
-        <BlankBox inlineStyles="padding:20px;display: grid; grid-template-columns: 1fr 1fr;">
-          {regions.map((item) => (
-            <Label
-              key={item.id}
-              inlineStyles="
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 14px"
-              isChecked={selectedRegion === item.region}
-            >
-              <input
-                type="checkbox"
-                value={item.region}
-                onChange={checkHandler}
-                style={{ display: "none" }}
-              />
-              <div>{item.region}</div>
-              <Icon type="ArrowRightGrey" />
-            </Label>
-          ))}
-        </BlankBox>
-      </React.Fragment>
-    );
-  }
   return (
     <React.Fragment>
       <Header type="Simple">지역설정</Header>

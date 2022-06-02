@@ -1,15 +1,16 @@
 import React from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
 
+import { useAppSelector } from "@hooks/redux";
 import { palette, typography } from "@utils/const";
 
 type Props = {
   totalSearchResult: number;
 };
 
-const FilterWrapper = styled.section`
+const FilterWrapper = styled.section<{ isExistArea: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,9 +30,13 @@ const FilterWrapper = styled.section`
   & > button {
     width: 56px;
     height: 32px;
-    text-content: center;
+    text-align: center;
     background: #ffffff;
-    border: 1px solid ${palette.grey200};
+    border: 1px solid
+      ${({ isExistArea }) =>
+        isExistArea ? palette.orange600 : palette.grey200};
+    color: ${({ isExistArea }) =>
+      isExistArea ? palette.orange600 : palette.grey700};
     border-radius: 6px;
     ${typography.b13sb};
   }
@@ -39,15 +44,16 @@ const FilterWrapper = styled.section`
 
 const SearchResultFilter = ({ totalSearchResult }: Props) => {
   const navigate = useNavigate();
+  const area = useAppSelector(({ area }) => area.value);
 
   return (
-    <FilterWrapper>
+    <FilterWrapper isExistArea={area}>
       <p>
         <strong>{totalSearchResult}</strong>개의 검색 결과
       </p>
       <button
         onClick={() => {
-          navigate("/areaselection?isSingular=false");
+          navigate("/areaselection");
         }}
       >
         지역

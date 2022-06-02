@@ -9,7 +9,7 @@ import { typography, palette } from "@utils/const";
 const SearchSection = styled.section`
   position: sticky;
   top: 0;
-  padding-top: 9px;
+  padding-top: 20px;
   background: #fff;
   z-index: 2;
 `;
