@@ -27,6 +27,7 @@ export type UserProfile = {
 
 export type MemberInfo = UserProfile & {
   authority: MemberAuthority;
+  address: string;
 };
 
 type SortingInformation = {

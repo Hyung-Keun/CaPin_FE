@@ -15,6 +15,7 @@ interface IButton<T> {
   position?: string;
   onChange?: React.ChangeEventHandler<T>;
   onClick?: React.MouseEventHandler<T>;
+  disabled?: boolean;
 }
 
 const Button = ({
@@ -30,6 +31,7 @@ const Button = ({
   height,
   margin,
   minWidth,
+  disabled,
 }: IButton<HTMLButtonElement & HTMLInputElement>) => {
   return (
     <React.Fragment>
@@ -45,6 +47,7 @@ const Button = ({
         height={height}
         margin={margin}
         minWidth={minWidth}
+        disabled={disabled}
       >
         {children}
       </Btn>
