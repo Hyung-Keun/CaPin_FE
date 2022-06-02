@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import styled from "styled-components";
@@ -16,6 +16,7 @@ import {
 import { useGetUserQuery } from "@redux/api/userApi";
 
 import groupDefault from "@assets/images/group_default.jpg";
+import useCommonModal from "@hooks/useCommonModal";
 import useUpDownModal from "@hooks/useUpDownModal";
 import { palette, typography } from "@utils/const";
 import { convertPixelToRem } from "@utils/func";
@@ -32,9 +33,17 @@ const SpecificStudy = () => {
   const { id: groupId } = params;
   const [getSpecificStudyData, { data }] = useLazyGetSpecificStudyQuery();
   const { data: userData } = useGetUserQuery(null);
-  const [apply, { isSuccess: isSuccessApply, isLoading: isLoadingApply }] =
-    useApplyStudyMutation();
+  const [
+    apply,
+    {
+      isSuccess: isSuccessApply,
+      isError: isErrorApply,
+      isLoading: isLoadingApply,
+    },
+  ] = useApplyStudyMutation();
   const { UpDownModal, open: openUpDownModal } = useUpDownModal();
+  const { CommonModal, open: openCommonModal } = useCommonModal();
+  const [commonModalText, setCommonModalText] = useState("");
 
   useLayoutEffect(() => {
     if (groupId) getSpecificStudyData(groupId);
@@ -63,8 +72,20 @@ const SpecificStudy = () => {
   };
 
   useEffect(() => {
-    if (isSuccessApply && groupId) getSpecificStudyData(groupId);
-  }, [isSuccessApply]);
+    if (groupId) {
+      if (isSuccessApply) {
+        setCommonModalText("가입 요청을 보냈습니다.");
+        openCommonModal();
+        getSpecificStudyData(groupId);
+      } else if (isErrorApply) {
+        setCommonModalText(
+          "가입 요청에 실패했습니다.\n 잠시 후 다시 시도해주세요.",
+        );
+        openCommonModal();
+        getSpecificStudyData(groupId);
+      }
+    }
+  }, [isSuccessApply, isErrorApply]);
 
   /**
    * 모집글 수정/종료, 스터디삭제 기능 구현 필요.
@@ -136,6 +157,7 @@ const SpecificStudy = () => {
         </PeopleArea>
       </Container>
       <UpDownModal buttonData={buttonData} />
+      <CommonModal text={commonModalText} />
     </>
   );
 };
