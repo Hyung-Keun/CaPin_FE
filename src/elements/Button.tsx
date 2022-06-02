@@ -2,6 +2,8 @@ import React from "react";
 
 import styled from "styled-components";
 
+import { palette } from "@utils/const";
+
 interface IButton<T> {
   inlineStyles?: string;
   children?: React.ReactNode;
@@ -69,6 +71,10 @@ const Btn = styled.button<
   height: ${(props) => (props.height ? `${props.height};` : "")};
   margin: ${(props) => (props.margin ? `${props.margin};` : "")};
   position: ${(props) => (props.position ? `${props.position};` : "")};
+  &:disabled {
+    background-color: ${palette.grey200};
+    color: ${palette.grey400};
+  }
 `;
 
 export default Button;
