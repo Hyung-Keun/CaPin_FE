@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import styled from "styled-components";
 
@@ -39,6 +39,7 @@ const FilterWrapper = styled.section`
 
 const SearchResultFilter = ({ totalSearchResult }: Props) => {
   const navigate = useNavigate();
+
   return (
     <FilterWrapper>
       <p>
@@ -46,7 +47,7 @@ const SearchResultFilter = ({ totalSearchResult }: Props) => {
       </p>
       <button
         onClick={() => {
-          navigate("/areaselection");
+          navigate("/areaselection?isSingular=false");
         }}
       >
         지역
