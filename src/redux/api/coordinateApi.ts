@@ -23,7 +23,7 @@ export const coordinateApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    postCoordinate: builder.query<
+    postCoordinate: builder.mutation<
       IGetAddressResponseData,
       IGetAddressRequestData
     >({
@@ -40,4 +40,4 @@ export const coordinateApi = createApi({
   }),
 });
 
-export const { useLazyPostCoordinateQuery } = coordinateApi;
+export const { usePostCoordinateMutation } = coordinateApi;
