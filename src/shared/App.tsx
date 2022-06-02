@@ -29,7 +29,7 @@ const App = () => {
           <Route path="/grouplist" element={Auth(<GroupList />)} />
           <Route path="/explore" element={Auth(<Explore />)} />
           <Route path="/profile" element={Auth(<Profile />)} />
-          <Route path="/recommend" element={Auth(<Recommend />)} />
+          <Route path="/recommend/:id" element={Auth(<Recommend />)} />
           <Route path="/studyopen" element={Auth(<StudyOpen />)} />
           <Route path="/placesearch/:id" element={Auth(<PlaceSearch />)} />
           <Route path="/postcode" element={Auth(<PostCode />)} />

@@ -8,7 +8,8 @@ import Icon from "@components/Icon";
 
 import defaultImg from "@assets/images/cafe_default.jpg";
 import { Image } from "@elements";
-import { palette } from "@utils/const";
+import { palette, typography } from "@utils/const";
+import { convertPixelToRem } from "@utils/func";
 
 const CafeItem = ({
   id,
@@ -39,7 +40,8 @@ const CafeItem = ({
         <OpeningHours>확인 필요</OpeningHours>
         <AttractionInfo>
           <Icon type="Star" />
-          {scorecnt} / {scoresum} <Review>리뷰 {comntcnt}</Review>
+          {scorecnt ? (Number(scoresum) / Number(scorecnt)).toFixed(1) : 0} / 5{" "}
+          <Review>리뷰 {comntcnt || 0}</Review>
         </AttractionInfo>
       </InfoArea>
     </Container>
@@ -63,23 +65,32 @@ const Title = styled.h3`
 `;
 
 const Address = styled.div`
-  font-size: 0.875rem;
-  margin-bottom: 0.4em;
+  ${typography.b14r}
+  margin-bottom: ${convertPixelToRem(5)};
+  color: ${palette.grey800};
 `;
 
 const OpeningHours = styled.div`
-  font-size: 0.875rem;
+  ${typography.b14m}
   margin-bottom: 0.4em;
+  color: ${palette.grey900};
 `;
 
 const AttractionInfo = styled.div`
   font-size: 0.875em;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+
+  & svg {
+    margin-right: ${convertPixelToRem(2)};
+  }
 `;
 
 const Review = styled.span`
   color: ${palette.grey500};
   font-weight: 400;
+  margin-left: ${convertPixelToRem(8)};
 `;
 
 export default CafeItem;

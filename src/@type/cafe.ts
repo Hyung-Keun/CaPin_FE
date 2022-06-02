@@ -15,3 +15,11 @@ export interface CafeInfo {
   scoresum: string;
   scorecnt: string;
 }
+
+export interface RecommendCafeData {
+  cafes: CafeInfo[];
+  midLocation: {
+    locationX: string;
+    locationY: string;
+  };
+}

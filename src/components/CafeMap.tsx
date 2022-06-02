@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 
+import styled from "styled-components";
+
+import { CafeInfo } from "@type/cafe";
 import { IPosition } from "@type/init";
 
-import { setCafeData } from "@redux/modules/mapSlice";
+import Icon from "./Icon";
 
-import { useAppDispatch } from "@hooks/redux";
+import { palette, typography } from "@utils/const";
+import { convertPixelToRem } from "@utils/func";
 
 interface ICafeMap {
-  center: IPosition;
+  center: {
+    locationX: string | number;
+    locationY: string | number;
+  };
+  cafeList: CafeInfo[];
   width: string;
   height: string;
 }
@@ -22,81 +30,40 @@ const convertPositionStrToNum = (position: IPosition) => {
   return { lat: Number(position.lat), lng: Number(position.lng) };
 };
 
-const CafeMap = ({ center, width, height }: ICafeMap) => {
-  const dispatch = useAppDispatch();
+const CafeMap = ({ center, cafeList, width, height }: ICafeMap) => {
   const [map, setMap] = useState<kakao.maps.Map>();
   const [markers, setMarkers] = useState<IMarker[]>([]);
   const [info, setInfo] = useState<IMarker>();
 
   useEffect(() => {
-    if (!map) return;
+    if (!map || !cafeList) return;
 
-    const geocoder = new kakao.maps.services.Geocoder();
+    const bounds = new kakao.maps.LatLngBounds();
+    const markers: IMarker[] = [];
 
-    geocoder.coord2RegionCode(center.lng, center.lat, (result, status) => {
-      if (status === kakao.maps.services.Status.OK) {
-        const addrKeywords = result[0].address_name.split(" ");
+    cafeList.map((item) => {
+      const lat = Number(item.y);
+      const lng = Number(item.x);
 
-        const ps = new kakao.maps.services.Places();
+      markers.push({
+        position: {
+          lat,
+          lng,
+        },
+        content: item.place_name,
+      });
 
-        ps.keywordSearch(
-          `${addrKeywords[addrKeywords.length - 1]} 카페`,
-          (data, status, _pagination) => {
-            if (status === kakao.maps.services.Status.OK) {
-              const bounds = new kakao.maps.LatLngBounds();
-              const markers: IMarker[] = [];
-              const cafeList = data.map((d) => {
-                /**
-                 * address_name: "부산 영도구 봉래동2가 145-6"
-                 * category_group_code: "CE7"
-                 * category_group_name: "카페"
-                 * category_name: "음식점 > 카페"
-                 * distance: ""
-                 * id: "1341629236"
-                 * phone: "070-7347-8069"
-                 * place_name: "무명일기"
-                 * place_url: "http://place.map.kakao.com/1341629236"
-                 * road_address_name: "부산 영도구 봉래나루로 178"
-                 * x: "129.0435385821103"
-                 * y: "35.096465155803486"
-                 */
-                const lat = Number(d.y);
-                const lng = Number(d.x);
-
-                markers.push({
-                  position: {
-                    lat,
-                    lng,
-                  },
-                  content: d.place_name,
-                });
-
-                bounds.extend(new kakao.maps.LatLng(lat, lng));
-
-                return {
-                  ...d,
-                  mainphotourl: "",
-                  comntcnt: "??",
-                  scoresum: "?",
-                  scorecnt: "?",
-                };
-              });
-
-              setMarkers(markers);
-              map.setBounds(bounds);
-
-              dispatch(setCafeData(cafeList));
-            }
-          },
-        );
-      }
+      bounds.extend(new kakao.maps.LatLng(lat, lng));
     });
-  }, [map]);
+
+    setMarkers(markers);
+    map.setBounds(bounds);
+  }, [map, cafeList]);
 
   return (
     <React.Fragment>
-      <Map
-        center={center}
+      <StyleMap
+        center={{ x: Number(center.locationX), y: Number(center.locationY) }}
         style={{
           width,
           height,
@@ -104,19 +71,52 @@ const CafeMap = ({ center, width, height }: ICafeMap) => {
         level={3}
         onCreate={setMap}
       >
-        {markers.map((marker: IMarker) => (
-          <MapMarker
-            key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-            position={convertPositionStrToNum(marker.position)}
-            onClick={() => setInfo(marker)}
-          >
-            {info && info.content === marker.content && (
-              <div style={{ color: "#000" }}>{marker.content}</div>
-            )}
-          </MapMarker>
-        ))}
-      </Map>
+        {markers.map((marker: IMarker) => {
+          const pos = convertPositionStrToNum(marker.position);
+          return (
+            <>
+              <MapMarker
+                key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+                position={pos}
+                onClick={() => setInfo(marker)}
+              ></MapMarker>
+              {info?.content === marker.content && (
+                <CustomOverlayMap position={pos}>
+                  <CafeNameBubble>
+                    {marker.content}
+                    <button onClick={() => setInfo(undefined)}>
+                      <Icon type="CircleX" />
+                    </button>
+                  </CafeNameBubble>
+                </CustomOverlayMap>
+              )}
+            </>
+          );
+        })}
+      </StyleMap>
     </React.Fragment>
   );
 };
+
+const StyleMap = styled(Map)`
+  & > div:nth-child(2) {
+    display: none;
+  }
+`;
+
+const CafeNameBubble = styled.div`
+  ${typography.b14r}
+  padding: ${convertPixelToRem(8)} ${convertPixelToRem(10)};
+  background-color: ${palette.white};
+  border-radius: ${convertPixelToRem(10)};
+  transform: translateY(-180%);
+  position: relative;
+  & > button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(45%, -25%);
+  }
+`;
+
 export default CafeMap;
