@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import styled from "styled-components";
 
@@ -45,6 +46,7 @@ const AreaSelection = ({
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [selectedRegion, setSelectedRegion] = useState<string>("");
   const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const checkHandler = ({ target }: any) => {
     if (isSingular) {
@@ -71,7 +73,13 @@ const AreaSelection = ({
 
     return checkedItems;
   };
-  if (multiSelection) {
+  // if(!searchParams.get('isSingular'))
+
+  const Singular = Boolean(searchParams.get("isSingular"));
+  console.log(!Singular); // false 고대로
+  console.log(Singular); //true
+
+  if (!Singular === false) {
     return (
       <React.Fragment>
         <Header type="Simple">지역설정</Header>
@@ -81,9 +89,9 @@ const AreaSelection = ({
             <Label
               key={item.id}
               inlineStyles="
-          display: flex;
-          justify-content: space-between;
-          padding: 12px 14px"
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 14px"
               isChecked={selectedRegion === item.region}
             >
               <input
@@ -93,7 +101,7 @@ const AreaSelection = ({
                 style={{ display: "none" }}
               />
               <div>{item.region}</div>
-              <Icon type="ArrowRight" />
+              <Icon type="ArrowRightGrey" />
             </Label>
           ))}
         </BlankBox>
