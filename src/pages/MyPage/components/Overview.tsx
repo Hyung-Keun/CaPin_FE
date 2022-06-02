@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import Icon from "@components/Icon";
+import NavBar from "@components/Navigator/NavBar";
 import TitleWithBackButton from "@components/TitleWithBackButton";
 
 import { useGetUserQuery } from "@redux/api/userApi";
@@ -125,6 +126,7 @@ const Overview = ({
       <DeleteUserSection>
         <button>회원탈퇴</button>
       </DeleteUserSection>
+      <NavBar />
     </>
   );
 };
