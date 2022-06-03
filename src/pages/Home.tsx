@@ -1,3 +1,7 @@
+import { useEffect } from "react";
+import { isMobile } from "react-device-detect";
+import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
 
 import frameImg from "@assets/images/frame.png";
@@ -5,6 +9,11 @@ import backgroundImg from "@assets/images/main-background.jpg";
 import { palette } from "@utils/const";
 
 const Home = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isMobile) navigate("/intro", { replace: true });
+  }, []);
+
   return (
     <Container>
       <div>
