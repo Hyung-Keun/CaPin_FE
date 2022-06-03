@@ -1,8 +1,10 @@
 import React from "react";
 
-import capin from "@assets/logo/capin-orange-letter.svg";
+import styled from "styled-components";
+
+import capin from "@assets/logo/capin-orange-letter.png";
 import kakaoLogo from "@assets/logo/kakao_login_medium_wide.png";
-import { Button, Text, Image } from "@elements";
+import { Button, Text } from "@elements";
 import { KAKAO_AUTH_URL } from "@utils/const";
 
 const Login = () => {
@@ -12,7 +14,7 @@ const Login = () => {
 
   return (
     <React.Fragment>
-      <Image src={capin} size="110px" margin="140px 0px 0px 23px" />
+      <StyleImage src={capin} />
       <Text
         height="96px"
         margin="0px 0px 0px 20px"
@@ -32,14 +34,24 @@ const Login = () => {
       <Button
         onClick={kauthClick}
         background="transparent"
-        width="0.1px"
-        height="0.1px"
+        width="100%"
         border="transparent"
       >
-        <Image margin="282px 0px 0px 20px" src={kakaoLogo} />
+        <KakaoLoginImg src={kakaoLogo} />
       </Button>
     </React.Fragment>
   );
 };
+
+const StyleImage = styled.img`
+  width: 110px;
+  margin: 140px 0px 0px 23px;
+`;
+
+const KakaoLoginImg = styled.img`
+  width: 300px;
+  margin: 0 auto;
+  margin-top: 282px;
+`;
 
 export default Login;

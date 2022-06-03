@@ -27,7 +27,7 @@ import { convertPixelToRem } from "@utils/func";
 const GroupList = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useGetMyStudyGroupQuery(null);
+  const { data, isLoading, refetch } = useGetMyStudyGroupQuery(null);
   const [
     cafeListDataTrigger,
     { data: recommendCafeListData, isLoading: isLoadingCafeListData },
@@ -86,6 +86,7 @@ const GroupList = () => {
 
   useLayoutEffect(() => {
     geoTrigger();
+    refetch();
   }, []);
 
   return (
