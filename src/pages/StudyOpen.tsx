@@ -137,7 +137,7 @@ const StudyOpen = () => {
 
   useEffect(() => {
     if (isSuccess && !isLoading) {
-      navigate(`/specificstudy/${data.groupId}`);
+      navigate(`/specificstudy/${data.groupId}`, { replace: true });
     }
   }, [isSuccess, isLoading, data, navigate]);
 
