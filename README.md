@@ -1,32 +1,33 @@
 <h1 align="center"> ☕📍오늘 스터디카페는 여기로 Pin 하자!📌📖</h1>
 <br>
 <p align='center'>
-  <img width='70%' src=''>
+  <img width='70%' src='https://user-images.githubusercontent.com/100892492/172284953-1e994f7f-655f-42cb-babd-29d6ca932fdd.png'>
 </p>
 <p align='center'>
-  <img src='https://img.shields.io/badge/React-v17.0.2-blue?logo=React'/>
-  <img src='https://img.shields.io/badge/ReactRouter-v5.2.1-pink?logo=React Router'/>
-  <img src='https://img.shields.io/badge/StyledComponents-v^5.1.0-violet?logo=styled-components'/>
-  <img src='https://img.shields.io/badge/Redux-v4.1.2-764ABC?logo=Redux'/>
-  <img src='https://img.shields.io/badge/Axios-v0.26.0-pink?'/>
+  <img src='https://img.shields.io/badge/React-v18.1.0-blue?logo=React'/>
+   <img src='https://img.shields.io/badge/ReactRouter-v6.3.0-pink?logo=React Router'/>
+  <img src='https://img.shields.io/badge/TypeScript-v4.4.2-blue?logo=TypeScript'/>
+   <img src='https://img.shields.io/badge/RTK-v1.8.1-blueviolet?logo=Redux'/>
+  <img src='https://img.shields.io/badge/StyledComponents-v^5.3.5-violet?logo=styled-components'/>
   <br>
-  <img src='https://img.shields.io/badge/CloudFront-red?'/>
-  <img src="https://img.shields.io/badge/Route53-E68B49">
   <img src="https://img.shields.io/badge/AWS S3-569A31">
+  <img src="https://img.shields.io/badge/Route53-E68B49">
+  <img src='https://img.shields.io/badge/CloudFront-red?'/>
+  
+  
 </p>
 <br>
 
 
-## 📍 바로가기
-- 사이트 바로가기 : https://denground.com
-- 프론트엔드 GitHub Repository : https://github.com/choi-sus/dangdang_FE
-- 백엔드 GitHub Respository : https://github.com/spirit-B/dangdang_BE
-- 프로젝트 발표 영상 : https://youtu.be/0JcDixFHq-c
+## 🔭 둘러보기
+- Capin link: https://capin.shop
+- Front-End GitHub Repository : https://github.com/Hyung-Keun/CaPin_FE
+- Back-End GitHub Respository : https://github.com/woong7361/hanghae99_final
+- Project Presentation Video : youtube
 - <details>
-  <summary> 프로젝트 시연 영상</summary>
+  <summary> Project Demo Video </summary>
   <br>
-  
-  https://user-images.githubusercontent.com/97425636/162681642-9d3d3816-a727-4a9c-8cea-e5751234fb88.mp4
+  <img width="80%" src="https://user-images.githubusercontent.com/100892492/172291863-178ef4ff-3263-422d-bf95-d7f878505653.gif"/>
   
 </details>
 
